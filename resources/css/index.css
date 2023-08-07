@@ -1,0 +1,67 @@
+body {
+    font-family: sans-serif;
+    color: gray;
+    background-color: #f7f8fc;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: blue; */
+    padding: 8px 24px;
+}
+
+header div img {
+    height : 40px;
+    width : 40px;
+    border-radius: 9999px;
+}
+
+.navLogRegContainer {
+    padding : 16px 24px;
+    /* background-color: yellow; */
+    display : flex;
+    align-items: center;
+}
+
+.navLogRegContainer div{
+    padding : 16px 24px;
+}
+
+.link {
+    font-weight: 600;
+    color: rgb(75 85 99);
+    margin-left: 16px;
+}
+
+.link:hover {
+    --tw-text-opacity: 1;
+    color: rgb(221, 224, 231);
+}
+.link:focus {
+    outline-style: solid;
+    outline-width: 2px;
+    border-radius: 2px;
+    outline-color: #ef4444;
+}
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* background-color: blue; */
+}
+
+.mainContainer {
+    display : flex;
+    max-width: 1000px;
+    /* background-color: yellow; */
+}
+.leftCol {
+    max-width: 280px;
+    margin-right: 20px;
+    background-color: yellow;
+}
+.rightCol {
+    max-width: 700px;
+}

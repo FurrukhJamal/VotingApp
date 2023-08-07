@@ -1,0 +1,45 @@
+.navbar {
+    width : 100%;
+    display : flex;
+    justify-content: space-around;
+}
+
+.navLeftContainer {
+    width : 50%;
+    /* background-color: blue; */
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.navLink {
+    border-bottom: 4px solid rgb(186, 176, 176);
+    padding : 12px;
+    color: rgb(186, 176, 176);
+    transition: border-color 1s ease, color 1s ease-in ;
+    
+}
+
+.navLink:hover {
+    border-color: #2879bd;
+    color: rgb(82, 79, 79);
+}
+
+
+.navLinkActive {
+    border-bottom: 4px solid #328af1;
+}
+
+.navRightContainer{
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* blue = #328af1
+    blue-hover = #2879bd
+    yellow = ffc73c
+    red = #ec454f
+    green = #1aab8b
+    purple = #8b60ed */

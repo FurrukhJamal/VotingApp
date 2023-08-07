@@ -1,0 +1,18 @@
+.Filtercontainer {
+    width : 100%;
+    display: flex;
+    justify-content: space-around;
+    /* background-color: blue; */
+    margin-top: 2%;  
+}
+.filterButtons {
+    display: flex;
+    width: 45%;
+    /* background-color: yellow; */
+    justify-content: space-between;
+
+}
+.searchBox {
+    width : 50%;
+    /* background-color: red; */
+}
