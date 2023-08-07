@@ -82,8 +82,7 @@ function Filters() {
             <img src= {searchIcon} alt="search icon" />
           </div>
         </div>
-        
-        
+                
     </div>
   )
 }

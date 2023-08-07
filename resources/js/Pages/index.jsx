@@ -61,7 +61,25 @@ function index({auth,}) {
                 <div className='rightCol'>
                     <NavigationBar/>
                     <Filters></Filters>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate dolores quidem praesentium odit aspernatur aliquid natus cumque impedit officiis rerum maiores, fugit incidunt sed, ullam labore, iusto consequuntur ex culpa? Consectetur impedit provident tempora nihil pariatur officiis, illum itaque voluptas est aspernatur quidem maiores distinctio iure hic architecto modi? Incidunt veniam tempore sapiente explicabo ab quod dignissimos, consequatur consequuntur quisquam, alias totam adipisci ipsa quasi aliquam illo, distinctio consectetur voluptates ea molestiae odio fugit asperiores nemo. Exercitationem ipsam velit possimus dolor totam! Vel perspiciatis quasi aliquam obcaecati. Laudantium et repudiandae similique eum consequatur consequuntur ad tempora, assumenda ab consectetur rem aut ipsum odit, corrupti accusamus facilis amet deserunt dolores. Praesentium vitae, quaerat incidunt consequatur obcaecati, earum non laudantium quidem dicta labore totam, id cupiditate perferendis. In ipsam iusto iste eveniet laudantium dolorem enim velit aut est placeat itaque tempora doloribus, quas qui perspiciatis tempore sequi consectetur odio fugit. Quasi quod ea fugiat mollitia sequi, beatae, deserunt id vero quidem earum nisi harum? Officiis nulla deserunt delectus omnis. Perferendis similique omnis ex? Perferendis dolore cupiditate architecto ea aperiam eveniet voluptatem facilis, odit est sint esse eius omnis facere accusamus nesciunt ipsum veritatis eos obcaecati praesentium tenetur optio minus? Aliquid, fuga porro?
+                    
+                    {/* ideas container */}
+                    <div className = "space-y-4 my-4">
+                        <div className = "bg-white rounded-xl flex">
+                            <div className = "border-r border-gray-100 px-5 py-8">
+                                <div className='text-center'>
+                                    <div className='font-semibold text-2xl'>
+                                        12
+                                    </div>
+                                    <div className = "text-gray-500">
+                                        Votes
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {/* end of ideas container */}
                 </div>
             </div>
         </div>
@@ -71,3 +89,22 @@ function index({auth,}) {
 }
 
 export default index
+
+{/* ideas container */}
+{/* <div className = "space-y-4 my-4">
+<div className = "bg-white rounded-xl flex">
+    <div className = "border-r border-gray-100 px-5 py-8">
+        <div className='text-center'>
+            <div className='font-semibold text-2xl'>
+                12
+            </div>
+            <div className = "text-gray-500">
+                Votes
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+</div> */}
+{/* end of ideas container */}
