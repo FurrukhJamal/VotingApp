@@ -58,9 +58,9 @@ header div img {
     /* background-color: yellow; */
 }
 .leftCol {
-    max-width: 280px;
+    width: 280px;
     margin-right: 20px;
-    background-color: yellow;
+    /* background-color: yellow; */
 }
 .rightCol {
     width: 700px;
