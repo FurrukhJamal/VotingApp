@@ -15,14 +15,18 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
-            boxShadow : {
-                card : '4px 4px 15px 0 rgba(36, 37, 38, 0.08)',
-                dialogue : '3px 4px 15px 0 rgba(36, 37, 38, 0.22)'
+            boxShadow: {
+                card: '4px 4px 15px 0 rgba(36, 37, 38, 0.08)',
+                dialogue: '3px 4px 15px 0 rgba(36, 37, 38, 0.22)'
             },
 
-            colors : {
-                myyellow : "#ffc73c",
-                myBlue : "#2879bd"
+            colors: {
+                myyellow: "#ffc73c",
+                myBlue: "#2879bd"
+            },
+
+            spacing: {
+                22: "5.5rem"      // 22 divided by 4
             }
         },
     },

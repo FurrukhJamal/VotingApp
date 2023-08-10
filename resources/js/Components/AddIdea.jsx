@@ -6,22 +6,22 @@ import Dropdown from './Dropdown';
 import PrimaryButton from './PrimaryButton';
 
 function AddIdea() {
-  const{post, setData, data, errors, processing, reset} = useForm({
-    idea : "",
-    category : "",
-    description : ""
-  })
-  
-  function submit(event){
-    event.preventDefault()
-    console.log("idea submitted")
-  }
-  
-  return (
-        <div className = {styles.container}>
+    const { post, setData, data, errors, processing, reset } = useForm({
+        idea: "",
+        category: "",
+        description: ""
+    })
+
+    function submit(event) {
+        event.preventDefault()
+        console.log("idea submitted")
+    }
+
+    return (
+        <div className={styles.container}>
             <div className="text-center px-6 py-2 pt-6">
-                <h3 className = "font-semibold text-base">Add an idea</h3>
-                <p className = "text-xs mt-4">Let us know what you like</p>
+                <h3 className="font-semibold text-base">Add an idea</h3>
+                <p className="text-xs mt-4">Let us know what you like</p>
 
                 <form onSubmit={submit}>
                     <TextInput
@@ -33,7 +33,7 @@ function AddIdea() {
                         onChange={(e) => setData('idea', e.target.value)}
                     />
                     <div className="mt-4 w-full flex">
-                        <Dropdown className='w-full'>
+                        <Dropdown className='w-full bg-blue-200'>
                             <Dropdown.Trigger>
                                 <span className="inline-flex rounded-xl w-full">
                                     <button
@@ -58,8 +58,8 @@ function AddIdea() {
                                 </span>
                             </Dropdown.Trigger>
                             <Dropdown.Content>
-                                <Dropdown.Link onClick = {()=>console.log("clicked")} className = "text-center" as="button" href={route('profile.edit')}>Category 1</Dropdown.Link>
-                                <Dropdown.Link className = "text-center" href={route('logout')} as="button">
+                                <Dropdown.Link onClick={() => console.log("clicked")} className="text-center" as="button" href={route('profile.edit')}>Category 1</Dropdown.Link>
+                                <Dropdown.Link className="text-center" href={route('logout')} as="button">
                                     Category 2
                                 </Dropdown.Link>
                             </Dropdown.Content>
@@ -67,33 +67,33 @@ function AddIdea() {
 
                     </div>
 
-                    {/* Text Area */}    
+                    {/* Text Area */}
                     <div className="mt-4 items-center flex w-full rounded-xl ">
-                        <textarea placeholder = "Describe your idea" className = "bg-gray-200 w-full resize-none border-none rounded-xl" rows = '4'>
+                        <textarea placeholder="Describe your idea" className="bg-gray-200 w-full resize-none border-none rounded-xl" rows='4'>
 
                         </textarea>
                     </div>
 
                     {/* buttons */}
                     <div className="flex items-center justify-bwtween space-x-3 mt-4">
-                        <button type = "button" className = "flex border border-gray-200 hover:border-gray-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-gray-200">
-                            <svg className = "text-gray-500 w-4 transform -rotate-45" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+                        <button type="button" className="flex border border-gray-200 hover:border-gray-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-gray-200">
+                            <svg className="w-6 h-6 text-gray-500  transform -rotate-45" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
                             </svg>
 
-                            <span className = "ml-1">Attach</span>
+                            <span className="ml-1">Attach</span>
                         </button>
 
-                        <PrimaryButton type = "submit" className = "flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-200">
+                        <PrimaryButton type="submit" className="flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-200">
                             Submit
                         </PrimaryButton>
                     </div>
-                    
+
 
                 </form>
             </div>
         </div>
-  )
+    )
 }
 
 export default AddIdea

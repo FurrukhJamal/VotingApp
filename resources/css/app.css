@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* verticale line to the left of the comments */
+.commentLineClass::before {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 5px;
+    content: "";
+    width: 3px;
+    height: 100%;
+    background-color: black;
+    opacity: 0.17;
+}
+
+/* for horizontal line at comments */
+.commentContainer::before {
+    position: relative;
+    display: block;
+    top: 57px;
+    left: -81px;
+    content: "";
+    width: 80px;
+    height: 3px;
+    background-color: black;
+    opacity: 0.17;
+}
+
+.commentContainer:last-child::after {
+    position: absolute;
+    display: block;
+    top: 60px;
+    left: -83px;
+    content: "";
+    width: 6px;
+    height: 100%;
+    background-color: #f7f8fc;
+    opacity: 1;
+}
+
+.is-admin::before {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    border: 7px solid white;
+    box-shadow: 4px 4px 15px rgba(36, 37, 38, 0.08);
+    left: -96px;
+    background-color: blue;
+    opacity: 1;
+}

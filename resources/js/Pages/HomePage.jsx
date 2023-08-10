@@ -1,9 +1,12 @@
 import React from 'react'
 import Home from '@/Layouts/Home'
+import "../../css/index.css"
 
-function HomePage() {
+
+function HomePage({ auth }) {
+  console.log("auth is :", auth)
   return (
-    <Home/>
+    <Home {...auth} />
   )
 }
 

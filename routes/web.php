@@ -25,9 +25,11 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get("/", function (){
-    return Inertia::render("HomePage",[]);
+Route::get("/", function () {
+    return Inertia::render("HomePage", []);
 })->name("home");
+
+Route::inertia("idea", "IdeaPage", []);
 
 
 Route::get('/dashboard', function () {
@@ -40,4 +42,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
