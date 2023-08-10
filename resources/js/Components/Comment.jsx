@@ -6,7 +6,7 @@ import PrimaryButton from './PrimaryButton'
 function Comment({ admin = false }) {
     return (
 
-        <div className="w-full bg-white rounded-xl flex">
+        <div className={`w-full bg-white ${admin ? "border-2 border-blue-200" : ""} rounded-xl flex`}>
 
             <div className="flex flex-1 px-4 py-6">
                 <div className="flex-none">

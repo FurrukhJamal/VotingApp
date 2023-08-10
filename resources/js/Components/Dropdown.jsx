@@ -4,7 +4,7 @@ import { Transition } from '@headlessui/react';
 
 const DropDownContext = createContext();
 
-const Dropdown = ({ children, className = "" }) => {
+const Dropdown = ({ children, className = "", }) => {
     const [open, setOpen] = useState(false);
 
     const toggleOpen = () => {
@@ -30,8 +30,8 @@ const Trigger = ({ children }) => {
     );
 };
 
-const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white', children }) => {
-    console.log("width : ", width)
+const Content = ({ hasLinks = true, align = 'right', width = '48', contentClasses = 'py-1 bg-white', children }) => {
+    console.log("hasLinks : ", hasLinks)
     const { open, setOpen } = useContext(DropDownContext);
 
     let alignmentClasses = 'origin-top';
@@ -41,6 +41,7 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
     } else if (align === 'right') {
         alignmentClasses = 'origin-top-right right-0';
     }
+
 
     let widthClasses = '';
 
@@ -65,7 +66,13 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
             >
                 <div
                     className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => {
+                        console.log("radio clicked")
+                        console.log("hasLink in anonymous F : ", hasLinks)
+                        if (hasLinks) {
+                            setOpen(false)
+                        }
+                    }}
                 >
                     <div className={`rounded-md ring-1 ring-black ring-opacity-5 ` + contentClasses}>{children}</div>
                 </div>
