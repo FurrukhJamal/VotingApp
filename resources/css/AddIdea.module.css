@@ -1,9 +1,11 @@
 .container {
-    width : 100%;
-    display : flex;
+    width: 100%;
+    display: flex;
     justify-content: center;
     margin-top: 64px;
-    border : none;
+    border: none;
     border-radius: 12px;
     background-color: white;
+    position: sticky;
+    top: 38%;
 }

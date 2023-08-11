@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,11 +26,15 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get("/", function () {
-    return Inertia::render("HomePage", []);
-})->name("home");
+// Route::get("/", function () {
+//     return Inertia::render("HomePage", []);
+// })->name("home");
 
-Route::inertia("idea", "IdeaPage", []);
+Route::get("/", [IdeaController::class, "index"])->name("idea.index");
+
+// Route::inertia("idea", "IdeaPage", []);
+
+Route::get("ideas/{idea:slug}", [IdeaController::class, "show"])->name("idea.show");
 
 
 Route::get('/dashboard', function () {

@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from '@inertiajs/react'
 import ApplicationLogo from './ApplicationLogo'
+import "../../css/index.css"
 
 function MainNav(user) {
     console.log("user in MainNav : ", user)
     return (
         <header>
-            <Link href={route("home")}>
+            <Link href={route("idea.index")}>
                 <ApplicationLogo />
             </Link>
             <div className="navLogRegContainer">

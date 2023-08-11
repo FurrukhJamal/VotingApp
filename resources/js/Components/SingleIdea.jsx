@@ -2,8 +2,13 @@ import React from 'react'
 import PrimaryButton from './PrimaryButton'
 import Dropdown from './Dropdown'
 import { Link } from '@inertiajs/react'
+import dayjs from 'dayjs'
+import relativeTime from "dayjs/plugin/relativeTime";
 
-function SingleIdea() {
+dayjs.extend(relativeTime)
+
+function SingleIdea(idea) {
+    console.log("in singleIdea component", idea)
     return (
         <div className="space-y-4 my-4">
             <div className="bg-white rounded-xl flex">
@@ -21,17 +26,17 @@ function SingleIdea() {
 
                     <div className="mx-4 w-full">
                         <Link href="#" className="hover:underline">
-                            <h1 className='text-xl font-semibold'>A random title </h1>
+                            <h1 className='text-xl font-semibold'>{idea.title}</h1>
                         </Link>
                         <div className='text-gray-600 mt-3'>
-                            <p>sfjsdlfkjl Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci qui ratione totam iure, id unde molestias nulla, quod, perspiciatis eaque sequi enim iste voluptate labore magnam officiis? Debitis, unde sint? sdlkfsdfkjsdlfk dflskdjfldkjf sdlkfjsldfkl </p>
+                            <p>{idea.description}</p>
                         </div>
 
                         <div className="flex mt-6 items-center justify-between">
                             <div className="flex items-center text-gray-400 text-xs font-semibold space-x-2">
-                                <div className="font-bold text-gray-800">Jon Doe</div>
+                                <div className="font-bold text-gray-800">{idea.user.name}</div>
                                 <div>&bull;</div>
-                                <div>10 hours ago</div>
+                                <div>{dayjs(idea.created_at).fromNow()}</div>
                                 <div>&bull;</div>
                                 <div>Category 1</div>
                                 <div>&bull;</div>

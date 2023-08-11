@@ -11,7 +11,8 @@ import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
 
-function IdeaPage() {
+function IdeaPage({ idea }) {
+    console.log("A single idea in IdeaPage: ", idea)
     return (
         <>
 
@@ -29,7 +30,7 @@ function IdeaPage() {
                         Go Back
                     </Link>
                 </div>
-                <SingleIdea></SingleIdea>
+                <SingleIdea {...idea}></SingleIdea>
                 {/* Buttons */}
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">

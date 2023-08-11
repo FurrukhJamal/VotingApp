@@ -10,23 +10,25 @@ header {
     justify-content: space-between;
     /* background-color: blue; */
     padding: 8px 24px;
+
 }
 
 header div img {
-    height : 40px;
-    width : 40px;
+    height: 40px;
+    width: 40px;
     border-radius: 9999px;
 }
 
 .navLogRegContainer {
-    padding : 16px 24px;
+    padding: 16px 24px;
     /* background-color: yellow; */
-    display : flex;
+    display: flex;
     align-items: center;
+
 }
 
-.navLogRegContainer div{
-    padding : 16px 24px;
+.navLogRegContainer div {
+    padding: 16px 24px;
 }
 
 .link {
@@ -39,12 +41,14 @@ header div img {
     --tw-text-opacity: 1;
     color: rgb(221, 224, 231);
 }
+
 .link:focus {
     outline-style: solid;
     outline-width: 2px;
     border-radius: 2px;
     outline-color: #ef4444;
 }
+
 .row {
     width: 100%;
     display: flex;
@@ -53,15 +57,17 @@ header div img {
 }
 
 .mainContainer {
-    display : flex;
+    display: flex;
     max-width: 1000px;
     /* background-color: yellow; */
 }
+
 .leftCol {
     width: 280px;
     margin-right: 20px;
     /* background-color: yellow; */
 }
+
 .rightCol {
     width: 700px;
 }

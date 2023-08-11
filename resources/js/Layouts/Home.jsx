@@ -7,14 +7,14 @@ import Filters from '@/Components/Filters'
 import Ideas from '@/Components/Ideas'
 import MainLayOut from './MainLayOut'
 
-function Home({ user }) {
-  console.log("user in Home:", user)
+function Home({ user, ideas }) {
+  console.log("ideas in Home:", ideas)
   return (
     <>
       <MainLayOut>
         <NavigationBar />
         <Filters></Filters>
-        <Ideas></Ideas>
+        <Ideas ideas={ideas} />
       </MainLayOut>
     </>
 

@@ -3,10 +3,10 @@ import Home from '@/Layouts/Home'
 import "../../css/index.css"
 
 
-function HomePage({ auth }) {
-  console.log("auth is :", auth)
+function HomePage({ auth, ideas }) {
+  console.log("ideas are: ", ideas)
   return (
-    <Home {...auth} />
+    <Home {...auth} ideas={ideas} />
   )
 }
 
