@@ -15,7 +15,7 @@ class IdeaController extends Controller
     public function index()
     {
         return Inertia::render("HomePage", [
-            "ideas" => Idea::all(),
+            "ideas" => Idea::simplePaginate(10),
         ]);
     }
 

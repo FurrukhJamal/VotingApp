@@ -9,10 +9,11 @@ dayjs.extend(relativeTime)
 
 function Ideas({ ideas }) {
     console.log("ideas in ideas component:", ideas)
+    console.log("ideas.links in ideas component", ideas.links)
     return (
         <>
             {
-                ideas.map((idea, index) => {
+                ideas.data.map((idea, index) => {
                     return (
                         /* start of idea container */
                         <div key={index} className="space-y-4 my-4">

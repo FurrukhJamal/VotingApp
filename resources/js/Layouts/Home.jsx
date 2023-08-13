@@ -6,6 +6,7 @@ import NavigationBar from '@/Components/NavigationBar'
 import Filters from '@/Components/Filters'
 import Ideas from '@/Components/Ideas'
 import MainLayOut from './MainLayOut'
+import Pagination from '@/Components/Pagination'
 
 function Home({ user, ideas }) {
   console.log("ideas in Home:", ideas)
@@ -15,6 +16,7 @@ function Home({ user, ideas }) {
         <NavigationBar />
         <Filters></Filters>
         <Ideas ideas={ideas} />
+        <Pagination {...ideas} />
       </MainLayOut>
     </>
 
