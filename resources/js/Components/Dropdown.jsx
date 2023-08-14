@@ -4,7 +4,7 @@ import { Transition } from '@headlessui/react';
 
 const DropDownContext = createContext();
 
-const Dropdown = ({ children, className = "", }) => {
+const Dropdown = ({ children, className = "", onClick = () => { } }) => {
     const [open, setOpen] = useState(false);
 
     const toggleOpen = () => {
@@ -13,7 +13,7 @@ const Dropdown = ({ children, className = "", }) => {
 
     return (
         <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
-            <div className={`relative ${className}`}>{children}</div>
+            <div onClick={onClick} className={`relative ${className}`}>{children}</div>
         </DropDownContext.Provider>
     );
 };

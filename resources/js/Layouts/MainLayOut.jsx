@@ -7,6 +7,7 @@ import Filters from '@/Components/Filters'
 import Ideas from '@/Components/Ideas'
 
 export default function MainLayOut({ user, children }) {
+    console.log("user in MainLayOut", user)
     return (
         <>
             <MainNav {...user} />

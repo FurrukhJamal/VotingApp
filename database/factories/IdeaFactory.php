@@ -21,7 +21,7 @@ class IdeaFactory extends Factory
             "user_id" => User::factory(),
             "title" => fake()->words(4, true),
             "description" => fake()->paragraph(5, true),
-            "slug" => fake()->slug(),
+            // "slug" => fake()->slug(),
         ];
     }
 }

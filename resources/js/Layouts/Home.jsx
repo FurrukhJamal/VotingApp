@@ -10,9 +10,10 @@ import Pagination from '@/Components/Pagination'
 
 function Home({ user, ideas }) {
   console.log("ideas in Home:", ideas)
+  console.log("user in Home.jsx", user)
   return (
     <>
-      <MainLayOut>
+      <MainLayOut user={user}>
         <NavigationBar />
         <Filters></Filters>
         <Ideas ideas={ideas} />

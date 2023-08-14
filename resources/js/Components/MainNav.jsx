@@ -12,7 +12,7 @@ function MainNav(user) {
             </Link>
             <div className="navLogRegContainer">
                 <div>
-                    {user ? (
+                    {user.id ? (
                         <Link
                             href={route('logout')}
                             method="post"

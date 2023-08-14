@@ -1,6 +1,6 @@
 import React from 'react'
 import PrimaryButton from './PrimaryButton'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import Dropdown from './Dropdown'
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -10,13 +10,26 @@ dayjs.extend(relativeTime)
 function Ideas({ ideas }) {
     console.log("ideas in ideas component:", ideas)
     console.log("ideas.links in ideas component", ideas.links)
+
+    function handleIdeaClick(idea) {
+        console.log("the idea clicked is :", idea)
+        router.get(route("idea.show", idea))
+    }
+
+    function stopPropagation(e) {
+        console.log("stop propagation clicked")
+        e.stopPropagation()
+    }
+
     return (
         <>
             {
                 ideas.data.map((idea, index) => {
                     return (
                         /* start of idea container */
-                        <div key={index} className="space-y-4 my-4">
+                        <div key={index} onClick={() => handleIdeaClick(idea)} className="space-y-4 my-4">
+                            {/* <Link href={route("idea.show", idea)}> */}
+
                             <div className="bg-white cursor-pointer hover:shadow-card transition duration-150 ease-in rounded-xl flex">
                                 <div className="border-r border-gray-100 px-5 py-8">
                                     <div className='text-center'>
@@ -34,10 +47,10 @@ function Ideas({ ideas }) {
 
                                 <div className="flex px-2 py-6">
                                     <div className="flex-none">
-                                        <Link className="flex-none" href={route("profile.edit")}>
+                                        <Link onClick={stopPropagation} className="flex-none" href={route("profile.edit")}>
 
                                             <img
-                                                src="https://source.unsplash.com/200x200/?face&crop=face&v=1"
+                                                src={`https://www.gravatar.com/avatar/${idea.user.emailhash}`}
                                                 alt="avatar"
                                                 className='w-14 h-14 rounded-xl' />
                                         </Link>
@@ -65,7 +78,7 @@ function Ideas({ ideas }) {
                                                 <div className="flex justify-center bg-gray-200 text-xxs items-center font-bold uppercase rounded-full w-28 h-7 text-center py-2 px-4">
                                                     Open
                                                 </div>
-                                                <Dropdown>
+                                                <Dropdown onClick={stopPropagation}>
                                                     <Dropdown.Trigger>
                                                         <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
                                                     </Dropdown.Trigger>
@@ -81,6 +94,7 @@ function Ideas({ ideas }) {
                                 </div>
 
                             </div>
+                            {/* </Link> */}
                         </div>
                         /* end of ideas container */
                     )

@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        "emailhash",
     ];
 
     /**
@@ -46,5 +47,10 @@ class User extends Authenticatable
     public function ideas()
     {
         return $this->hasMany(Idea::class);
+    }
+
+    public function getAvatarAttribute()
+    {
+        return "https://gravatar.com/avatar/" . md5($this->email);
     }
 }
