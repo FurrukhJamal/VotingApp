@@ -49,8 +49,20 @@ class User extends Authenticatable
         return $this->hasMany(Idea::class);
     }
 
-    public function getAvatarAttribute()
+    public function getAvatar()  //getAvatarAttribute if you want to access it like user->getAvatar
     {
-        return "https://gravatar.com/avatar/" . md5($this->email);
+        // $randomint = rand(1, 36);
+        $firstChar = $this->email[0];
+        if (is_numeric($firstChar)) {
+            $avatarNumber = ord($firstChar) - 21;
+        } else {
+            $avatarNumber = ord($firstChar) - 96;
+        }
+
+        // $avatarNumber = 47; for testing
+
+        return "https://gravatar.com/avatar/" . md5($this->email)
+            . "?s=200"
+            . "&d=https://i1.wp.com/s3.amazonaws.com/laracasts/images/forum/avatars/default-avatar-{$avatarNumber}.png";
     }
 }

@@ -50,7 +50,7 @@ function Ideas({ ideas }) {
                                         <Link onClick={stopPropagation} className="flex-none" href={route("profile.edit")}>
 
                                             <img
-                                                src={`https://www.gravatar.com/avatar/${idea.user.emailhash}`}
+                                                src={idea.profileLink}
                                                 alt="avatar"
                                                 className='w-14 h-14 rounded-xl' />
                                         </Link>
@@ -68,7 +68,7 @@ function Ideas({ ideas }) {
                                             <div className="flex items-center text-gray-400 text-xs font-semibold space-x-2">
                                                 <div>{dayjs(idea.created_at).fromNow()}</div>
                                                 <div>&bull;</div>
-                                                <div>Category 1</div>
+                                                <div>{idea.category.name}</div>
                                                 <div>&bull;</div>
                                                 <div className="text-gray-900">3 comments</div>
                                                 <div>&bull;</div>

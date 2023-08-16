@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Idea;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -23,14 +24,20 @@ class ShowIdeasTest extends TestCase
     /** @test */
     public function list_of_ideas_shows_on_main_page()
     {
+        // adding Tests for category addition
+        $categoryOne = Category::factory()->create(['name' => "Category one"]);
+        $categoryTwo = Category::factory()->create(['name' => "Category two"]);
+
         $ideaOne = Idea::factory()->create([
             "title" => "first title",
+            "category_id" => $categoryOne->name,
             "description" => "description of title"
         ]);
 
         $ideaTwo = Idea::factory()->create([
             "title" => "Second title",
-            "description" => "description of idea"
+            "description" => "description of idea",
+            "category_id" => $categoryTwo->name,
         ]);
 
         $response = $this->get(route("idea.index"));
@@ -39,14 +46,22 @@ class ShowIdeasTest extends TestCase
         $response->assertSee($ideaOne->description);
         $response->assertSee($ideaTwo->title);
         $response->assertSee($ideaTwo->description);
+
+
+        // adding Tests for category addition
+        $response->assertSee($categoryOne->name);
+        $response->assertSee($categoryTwo->name);
     }
 
     /** @test */
     public function single_ideas_shows_on_idea_page()
     {
+        $categoryOne = Category::factory()->create(['name' => "Category one"]);
+
         $ideaOne = Idea::factory()->create([
             "title" => "first title",
-            "description" => "description of title"
+            "description" => "description of title",
+            "category_id" => $categoryOne->name,
         ]);
 
 
@@ -54,6 +69,7 @@ class ShowIdeasTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee($ideaOne->title);
         $response->assertSee($ideaOne->description);
+        $response->assertSee($categoryOne->name);
     }
 
     /** @test */

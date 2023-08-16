@@ -18,7 +18,7 @@ function SingleIdea(idea) {
                         <Link className="flex-none" href={route("profile.edit")}>
 
                             <img
-                                src="https://source.unsplash.com/200x200/?face&crop=face&v=1"
+                                src={idea.profileLink}
                                 alt="avatar"
                                 className='w-14 h-14 rounded-xl' />
                         </Link>
@@ -38,7 +38,7 @@ function SingleIdea(idea) {
                                 <div>&bull;</div>
                                 <div>{dayjs(idea.created_at).fromNow()}</div>
                                 <div>&bull;</div>
-                                <div>Category 1</div>
+                                <div>{idea.category.name}</div>
                                 <div>&bull;</div>
                                 <div className="text-gray-900">3 comments</div>
                                 <div>&bull;</div>

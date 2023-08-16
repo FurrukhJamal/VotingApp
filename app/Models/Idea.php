@@ -19,7 +19,7 @@ class Idea extends Model
 
     protected $fillable = ["slug", "description", "title", "user_id"];
 
-    protected $with = ["user"];
+    protected $with = ["user", "category"];
 
     public function user()
     {
@@ -39,5 +39,10 @@ class Idea extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

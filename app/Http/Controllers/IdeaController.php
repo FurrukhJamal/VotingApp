@@ -14,9 +14,17 @@ class IdeaController extends Controller
      */
     public function index()
     {
+        $ideas = Idea::simplePaginate(10);   //for eagerload you can add with("user", "category") before simplePagination
+        // dd($ideas->items()[0]);
+
+        foreach ($ideas->items() as $item) {
+            $item["profileLink"] = $item->user->getAvatar();
+        }
+
+        // dd($ideas->items());
 
         return Inertia::render("HomePage", [
-            "ideas" => Idea::simplePaginate(10),
+            "ideas" => $ideas,
         ]);
     }
 
@@ -41,6 +49,8 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea)
     {
+        $idea["profileLink"] = $idea->user->getAvatar();
+
         return Inertia::render("IdeaPage", [
             "idea" => $idea
         ]);
