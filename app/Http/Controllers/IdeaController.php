@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Idea;
 use App\Http\Requests\StoreIdeaRequest;
+
 use App\Http\Requests\UpdateIdeaRequest;
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class IdeaController extends Controller
@@ -14,8 +17,8 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $ideas = Idea::simplePaginate(10);   //for eagerload you can add with("user", "category") before simplePagination
-        // dd($ideas->items()[0]);
+        $ideas = Idea::latest("id")->simplePaginate(10);   //for eagerload you can add with("user", "category") before simplePagination
+        // dd($ideas);
 
         foreach ($ideas->items() as $item) {
             $item["profileLink"] = $item->user->getAvatar();
@@ -32,9 +35,9 @@ class IdeaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -42,7 +45,7 @@ class IdeaController extends Controller
      */
     public function store(StoreIdeaRequest $request)
     {
-        //
+        dd($request->user());
     }
 
     /**

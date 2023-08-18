@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, Fragment } from 'react';
+import { useState, createContext, useContext, Fragment, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
@@ -20,6 +20,10 @@ const Dropdown = ({ children, className = "", onClick = () => { } }) => {
 
 const Trigger = ({ children }) => {
     const { open, setOpen, toggleOpen } = useContext(DropDownContext);
+    //to close to dropDown list if its used as a dropdown and selection doesnt take to any links
+    useEffect(() => {
+        setOpen(false)
+    }, [children])
 
     return (
         <>
@@ -81,7 +85,7 @@ const Content = ({ hasLinks = true, align = 'right', width = '48', contentClasse
     );
 };
 
-const DropdownLink = ({ className = '', children, ...props }) => {
+const DropdownLink = ({ asUnLinkedButton = false, className = '', children, ...props }) => {
     return (
         <Link
             {...props}

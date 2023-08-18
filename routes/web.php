@@ -31,6 +31,7 @@ use Inertia\Inertia;
 // })->name("home");
 
 Route::get("/", [IdeaController::class, "index"])->name("idea.index");
+Route::post("/test", [IdeaController::class, "store"])->middleware("auth")->name("idea.store");
 
 // Route::inertia("idea", "IdeaPage", []);
 
