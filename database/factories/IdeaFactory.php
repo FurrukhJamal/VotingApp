@@ -23,6 +23,7 @@ class IdeaFactory extends Factory
             "description" => fake()->paragraph(5, true),
             // "slug" => fake()->slug(),
             "category_id" => fake()->numberBetween(1, 4),
+            "status_id" => fake()->numberBetween(1, 5),
         ];
     }
 }

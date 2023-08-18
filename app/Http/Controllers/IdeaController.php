@@ -19,6 +19,7 @@ class IdeaController extends Controller
 
         foreach ($ideas->items() as $item) {
             $item["profileLink"] = $item->user->getAvatar();
+            $item["statusClass"] = $item->getStatusClass();
         }
 
         // dd($ideas->items());

@@ -45,8 +45,8 @@ function SingleIdea(idea) {
                             </div>
 
                             <div className="flex items-center space-x-2">
-                                <div className="flex justify-center bg-gray-200 text-xxs items-center font-bold uppercase rounded-full w-28 h-7 text-center py-2 px-4">
-                                    Open
+                                <div className="flex justify-center bg-gray-200 text-xxs items-center font-bold uppercase rounded-full h-7 text-center py-2 px-4">
+                                    {idea.status.name}
                                 </div>
                                 <Dropdown>
                                     <Dropdown.Trigger>
