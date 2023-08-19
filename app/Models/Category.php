@@ -11,6 +11,7 @@ class Category extends Model
 
     protected $fillable = ["name"];
 
+
     public function ideas()
     {
         return $this->hasMany(Idea::class);

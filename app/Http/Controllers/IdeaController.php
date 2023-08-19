@@ -6,6 +6,7 @@ use App\Models\Idea;
 use App\Http\Requests\StoreIdeaRequest;
 
 use App\Http\Requests\UpdateIdeaRequest;
+use App\Models\Category;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -29,6 +30,7 @@ class IdeaController extends Controller
 
         return Inertia::render("HomePage", [
             "ideas" => $ideas,
+            "categories" => Category::all(),
         ]);
     }
 
@@ -45,7 +47,20 @@ class IdeaController extends Controller
      */
     public function store(StoreIdeaRequest $request)
     {
-        dd($request->user());
+        // dd($request["category"]);
+        $validated = $request->validate([
+            "title" => "required",
+            "category" => "required",
+            "description" => "required"
+        ]);
+        $cat = Category::where("name", $request["category"])->first();
+
+        $request->user()->ideas()->create([
+            ...$validated,
+            "status_id" => 1,
+            "category_id" => $cat->id,
+        ]);
+        $this->index();
     }
 
     /**

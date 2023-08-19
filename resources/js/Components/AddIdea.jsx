@@ -6,12 +6,10 @@ import Dropdown from './Dropdown';
 import PrimaryButton from './PrimaryButton';
 import { AppContext } from '@/Pages/HomePage';
 
-function AddIdea({ user }) {
+function AddIdea({ user, categories }) {
     console.log("user in ADDIDEA component : ", user)
-    const { auth } = useContext(AppContext)
-    console.log("auth in ADDIDEA:", auth)
     const { post, setData, data, errors, processing, reset } = useForm({
-        idea: "",
+        title: "",
         category: "",
         description: ""
     })
@@ -26,7 +24,7 @@ function AddIdea({ user }) {
     function submit(event) {
         event.preventDefault()
         // event.stopPropagation()
-        post("/test")
+        post(route("idea.store"), { onSuccess: () => reset() })
     }
 
     return (
@@ -38,12 +36,14 @@ function AddIdea({ user }) {
                 <form onSubmit={submit}>
                     <TextInput
                         type="text"
-                        name="idea"
+                        name="title"
                         value={data.idea}
                         className="mt-1 block w-full rounded-xl bg-gray-200"
                         placeholder="Add an Idea"
-                        onChange={(e) => setData('idea', e.target.value)}
+                        onChange={(e) => setData('title', e.target.value)}
                     />
+                    {errors.title && (<div className="flex text-xs text-center text-red-500 mt-1 ml-1">{errors.title}</div>)}
+
                     <div className="mt-4 w-full flex">
                         <Dropdown className='w-full bg-blue-200'>
                             <Dropdown.Trigger>
@@ -70,25 +70,23 @@ function AddIdea({ user }) {
                                 </span>
                             </Dropdown.Trigger>
                             <Dropdown.Content>
-                                <Dropdown.Link
-                                    onClick={handleCategorySelection}
-                                    className="text-center"
-                                    as="button"
-                                    href={route('profile.edit')}>
-                                    Category 1
-                                </Dropdown.Link>
-
-                                <Dropdown.Link
-                                    onClick={handleCategorySelection}
-                                    className="text-center"
-                                    href={route('logout')}
-                                    as="button">
-                                    Category 2
-                                </Dropdown.Link>
+                                {
+                                    categories.map((category) => (
+                                        <Dropdown.Link key={category.id}
+                                            onClick={handleCategorySelection}
+                                            className="text-center"
+                                            as="button"
+                                            href={route('profile.edit')}>
+                                            {category.name}
+                                        </Dropdown.Link>
+                                    ))
+                                }
                             </Dropdown.Content>
                         </Dropdown>
 
                     </div>
+
+                    {errors.category && (<div className="flex text-center text-xs text-red-500 mt-1 ml-1">{errors.category}</div>)}
 
                     {/* Text Area */}
                     <div className="mt-4 items-center flex w-full rounded-xl ">
@@ -101,6 +99,7 @@ function AddIdea({ user }) {
 
                         </textarea>
                     </div>
+                    {errors.description && (<div className="flex text-center text-xs text-red-500 mt-1 ml-1">{errors.description}</div>)}
 
                     {/* buttons */}
                     <div className="flex items-center justify-bwtween space-x-3 mt-4">

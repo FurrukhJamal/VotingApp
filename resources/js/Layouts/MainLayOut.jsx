@@ -6,42 +6,46 @@ import NavigationBar from '@/Components/NavigationBar'
 import Filters from '@/Components/Filters'
 import Ideas from '@/Components/Ideas'
 import LoginButtonToAddIdea from '@/Components/LoginButtonToAddIdea'
+import Authenticated from './AuthenticatedLayout'
 
-export default function MainLayOut({ user, children }) {
+export default function MainLayOut({ user, categories, children }) {
     console.log("user in MainLayOut", user)
+    console.log("categories in MainLayOut:", categories)
     return (
         <>
             <MainNav {...user} />
             {
                 user ? (
-                    <Guest>
+                    <Authenticated user={user}>
                         <div className='row'>
                             <div className='mainContainer'>
                                 <div className="leftCol">
-                                    <AddIdea user={user} />
+                                    <AddIdea categories={categories} user={user} />
                                 </div>
                                 <div className='rightCol'>
                                     {children}
                                 </div>
                             </div>
                         </div>
-                    </Guest>
+                    </Authenticated>
                 ) :
                     (
-                        <div className="min-h-screen flex flex-col items-center pt-6 sm:pt-0">
-                            <div className="w-full sm:max-m-md mt-3 px-6  shadow-md sm:rounded-lg">
-                                <div className='row'>
-                                    <div className='mainContainer'>
-                                        <div className="leftCol">
-                                            <LoginButtonToAddIdea></LoginButtonToAddIdea>
-                                        </div>
-                                        <div className='rightCol'>
-                                            {children}
+                        <Guest>
+                            <div className="min-h-screen flex flex-col items-center pt-6 sm:pt-0">
+                                <div className="w-full sm:max-m-md mt-3 px-6  shadow-md sm:rounded-lg">
+                                    <div className='row'>
+                                        <div className='mainContainer'>
+                                            <div className="leftCol">
+                                                <LoginButtonToAddIdea></LoginButtonToAddIdea>
+                                            </div>
+                                            <div className='rightCol'>
+                                                {children}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Guest>
                     )
             }
 
