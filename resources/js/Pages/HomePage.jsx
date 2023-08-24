@@ -6,14 +6,14 @@ import { Head } from '@inertiajs/react'
 export const AppContext = createContext()
 
 
-function HomePage({ auth, ideas, categories }) {
+function HomePage({ auth, ideas, categories, avatar }) {
   console.log("ideas are: ", ideas)
   console.log("auth in Homepage.jsx", auth)
   console.log("categories in HomePage: ", categories)
   return (
     <>
       <Head title="Voting App" />
-      <Home {...auth} ideas={ideas} categories={categories} />
+      <Home {...auth} ideas={ideas} categories={categories} avatar={avatar} />
     </>
   )
 }

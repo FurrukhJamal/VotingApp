@@ -8,15 +8,15 @@ import Ideas from '@/Components/Ideas'
 import LoginButtonToAddIdea from '@/Components/LoginButtonToAddIdea'
 import Authenticated from './AuthenticatedLayout'
 
-export default function MainLayOut({ user, categories, children }) {
+export default function MainLayOut({ user, categories, avatar, children }) {
     console.log("user in MainLayOut", user)
     console.log("categories in MainLayOut:", categories)
     return (
         <>
-            <MainNav {...user} />
+            <MainNav {...user} avatar={avatar} />
             {
                 user ? (
-                    <Authenticated user={user}>
+                    <Authenticated avatar={avatar} user={user}>
                         <div className='row'>
                             <div className='mainContainer'>
                                 <div className="leftCol">

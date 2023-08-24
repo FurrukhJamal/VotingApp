@@ -8,6 +8,7 @@ use App\Http\Requests\StoreIdeaRequest;
 use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Category;
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -26,11 +27,15 @@ class IdeaController extends Controller
             $item["statusClass"] = $item->getStatusClass();
         }
 
-        // dd($ideas->items());
+        $avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp";
+        if (Auth::user()) {
+            $avatar = Auth::user()->getAvatar();
+        }
 
         return Inertia::render("HomePage", [
             "ideas" => $ideas,
             "categories" => Category::all(),
+            "avatar" => $avatar
         ]);
     }
 

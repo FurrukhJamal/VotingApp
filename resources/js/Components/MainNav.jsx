@@ -6,7 +6,7 @@ import NavLink from './NavLink'
 import Dropdown from './Dropdown'
 
 
-function MainNav(user) {
+function MainNav(user, { avatar }) {
     console.log("user in MainNav : ", user)
     return (
         <header>
@@ -82,7 +82,7 @@ function MainNav(user) {
                         }
                     </div>
                     <Link href="#">
-                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp" alt="avatar" />
+                        <img src={avatar} alt="avatar" />
                     </Link>
 
                 </div>

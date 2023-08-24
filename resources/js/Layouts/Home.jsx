@@ -8,13 +8,13 @@ import Ideas from '@/Components/Ideas'
 import MainLayOut from './MainLayOut'
 import Pagination from '@/Components/Pagination'
 
-function Home({ user, ideas, categories }) {
+function Home({ user, ideas, categories, avatar }) {
   console.log("ideas in Home:", ideas)
   console.log("user in Home.jsx", user)
   console.log("categories in Home:", categories)
   return (
     <>
-      <MainLayOut user={user} categories={categories}>
+      <MainLayOut user={user} categories={categories} avatar={avatar}>
         <NavigationBar />
         <Filters></Filters>
         <Ideas ideas={ideas} />
