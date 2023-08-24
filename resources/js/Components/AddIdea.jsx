@@ -8,6 +8,7 @@ import { AppContext } from '@/Pages/HomePage';
 
 function AddIdea({ user, categories }) {
     console.log("user in ADDIDEA component : ", user)
+    console.log("categoreis in ADDIDEA component : ", categories)
     const { post, setData, data, errors, processing, reset } = useForm({
         title: "",
         category: "",
@@ -17,7 +18,7 @@ function AddIdea({ user, categories }) {
 
     function handleCategorySelection(e) {
         e.preventDefault()
-        // console.log("clicked Value: ", e.target.textContent)
+        console.log("clicked Value: ", e.target.textContent)
         setData("category", e.target.textContent)
     }
 
@@ -91,7 +92,7 @@ function AddIdea({ user, categories }) {
                     {/* Text Area */}
                     <div className="mt-4 items-center flex w-full rounded-xl ">
                         <textarea
-                            placeholder="Describe your idea"
+                            placeholder="Describe Your Idea"
                             className="bg-gray-200 w-full resize-none border-none rounded-xl"
                             rows='4'
                             onChange={(e) => setData("description", e.target.value)}
