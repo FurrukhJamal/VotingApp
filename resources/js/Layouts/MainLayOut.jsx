@@ -20,7 +20,7 @@ export default function MainLayOut({ user, categories, avatar, children }) {
                         <div className='row'>
                             <div className='mainContainer'>
                                 <div className="leftCol">
-                                    <AddIdea categories={categories} user={user} />
+                                    <AddIdea user={user} categories={categories} />
                                 </div>
                                 <div className='rightCol'>
                                     {children}

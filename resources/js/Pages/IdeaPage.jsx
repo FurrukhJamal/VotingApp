@@ -11,12 +11,14 @@ import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
 
-function IdeaPage({ idea }) {
+function IdeaPage({ auth, idea, categories }) {
     console.log("A single idea in IdeaPage: ", idea)
+    console.log("auth in single idea page: ", auth)
+    console.log("categories in single Page: ", categories)
     return (
         <>
 
-            <MainLayOut>
+            <MainLayOut user={auth.user} categories={categories}>
                 <NavigationBar></NavigationBar>
                 <div className="mt-3 hover:underline items-center flex">
 

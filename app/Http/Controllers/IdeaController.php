@@ -66,7 +66,7 @@ class IdeaController extends Controller
             "category_id" => $cat->id,
         ]);
         session()->flash("message", "Idea Added");
-        $this->index();
+        return redirect(route("idea.index"));
     }
 
     /**
@@ -77,7 +77,8 @@ class IdeaController extends Controller
         $idea["profileLink"] = $idea->user->getAvatar();
 
         return Inertia::render("IdeaPage", [
-            "idea" => $idea
+            "idea" => $idea,
+            "categories" => Category::all(),
         ]);
     }
 
