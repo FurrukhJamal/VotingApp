@@ -65,6 +65,7 @@ class IdeaController extends Controller
             "status_id" => 1,
             "category_id" => $cat->id,
         ]);
+        session()->flash("message", "Idea Added");
         $this->index();
     }
 

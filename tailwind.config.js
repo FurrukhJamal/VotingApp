@@ -26,6 +26,7 @@ export default {
                 myyellow: "#ffc73c",
                 myBlue: "#2879bd",
                 purple: colors.purple,
+                blue: colors.blue,
             },
 
             spacing: {

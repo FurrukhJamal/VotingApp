@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from "../../css/AddIdea.module.css"
-import { useForm } from '@inertiajs/react'
+import { useForm, usePage } from '@inertiajs/react'
 import TextInput from './TextInput';
 import Dropdown from './Dropdown';
 import PrimaryButton from './PrimaryButton';
@@ -9,11 +9,25 @@ import { AppContext } from '@/Pages/HomePage';
 function AddIdea({ user, categories }) {
     console.log("user in ADDIDEA component : ", user)
     console.log("categoreis in ADDIDEA component : ", categories)
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const { flash } = usePage().props
+
     const { post, setData, data, errors, processing, reset } = useForm({
         title: "",
         category: "",
         description: ""
     })
+    useEffect(() => {
+        console.log("useEffect for flash message hitting")
+        // make the success flash message disapear afer 2 secs 
+        if (flash?.message) {
+            console.log("inside if conditon")
+            setTimeout(() => {
+                setShowSuccessMessage(false)
+            }, 2000)
+
+        }
+    }, [flash])
 
 
     function handleCategorySelection(e) {
@@ -25,7 +39,12 @@ function AddIdea({ user, categories }) {
     function submit(event) {
         event.preventDefault()
         // event.stopPropagation()
-        post(route("idea.store"), { onSuccess: () => reset() })
+        post(route("idea.store"), {
+            onSuccess: () => {
+                setShowSuccessMessage(true)
+                reset()
+            }
+        })
     }
 
     return (
@@ -38,7 +57,7 @@ function AddIdea({ user, categories }) {
                     <TextInput
                         type="text"
                         name="title"
-                        value={data.idea}
+                        value={data.title}
                         className="mt-1 block w-full rounded-xl bg-gray-200"
                         placeholder="Add an Idea"
                         onChange={(e) => setData('title', e.target.value)}
@@ -112,11 +131,15 @@ function AddIdea({ user, categories }) {
                             <span className="ml-1">Attach</span>
                         </button>
 
-                        <PrimaryButton type="submit" className="flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-200">
+                        <PrimaryButton {...processing && { disabled: true }} type="submit" className="flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-200">
                             Submit
                         </PrimaryButton>
                     </div>
-
+                    {showSuccessMessage && (
+                        <div className="text-green">
+                            <p>{flash.message}</p>
+                        </div>
+                    )}
 
                 </form>
             </div>
