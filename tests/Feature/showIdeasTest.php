@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Idea;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -68,11 +69,24 @@ class ShowIdeasTest extends TestCase
     public function single_ideas_shows_on_idea_page()
     {
         $categoryOne = Category::factory()->create(['name' => "Category one"]);
+        $category2 = Category::factory()->create(["name" => "Category 2"]);
+        $category3 = Category::factory()->create(["name" => "Category 3"]);
+        $category4 = Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
+        $user = User::factory()->create();
 
         $ideaOne = Idea::factory()->create([
             "title" => "first title",
             "description" => "description of title",
-            "category_id" => $categoryOne->name,
+            "category_id" => $categoryOne->id,
+            "status_id" => $statusOpen->id,
+            "user_id" => $user->id
         ]);
 
 

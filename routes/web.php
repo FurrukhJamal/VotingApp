@@ -35,7 +35,7 @@ Route::post("/", [IdeaController::class, "store"])->middleware(["auth", "verifie
 
 // Route::inertia("idea", "IdeaPage", []);
 
-Route::get("ideas/{idea:slug}", [IdeaController::class, "show"])->middleware(["auth", "verified"])->name("idea.show");
+Route::get("ideas/{idea:slug}", [IdeaController::class, "show"])->name("idea.show");
 
 
 Route::get('/dashboard', function () {
