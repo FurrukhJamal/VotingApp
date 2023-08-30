@@ -34,7 +34,7 @@ function Ideas({ ideas }) {
                                 <div className="border-r border-gray-100 px-5 py-8">
                                     <div className='text-center'>
                                         <div className='font-semibold text-2xl'>
-                                            {idea.id}
+                                            {idea.votes_count}
                                         </div>
                                         <div className="text-gray-500">
                                             Votes

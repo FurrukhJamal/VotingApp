@@ -19,7 +19,8 @@ class Idea extends Model
 
     protected $fillable = ["category_id", "status_id", "slug", "description", "title", "user_id"];
 
-    protected $with = ["user", "category", "status"];
+    protected $with = ["user", "category", "status",];
+    protected $withCount = ["votes"];
 
     public function user()
     {
@@ -76,5 +77,10 @@ class Idea extends Model
         }
 
         return "bg-gray-200";
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
     }
 }

@@ -32,6 +32,7 @@ class IdeaController extends Controller
             $avatar = Auth::user()->getAvatar();
         }
 
+        // dd($ideas);
         return Inertia::render("HomePage", [
             "ideas" => $ideas,
             "categories" => Category::all(),

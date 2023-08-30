@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->hasMany(Idea::class);
     }
 
+    // public function votes()
+    // {
+    //     return $this->belongsToMany(Idea::class, "votes");
+    // }
+
     public function getAvatar()  //getAvatarAttribute if you want to access it like user->getAvatar
     {
         // $randomint = rand(1, 36);
