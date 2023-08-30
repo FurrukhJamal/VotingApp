@@ -18,6 +18,8 @@ class CreateIdeaTest extends TestCase
     /** @test */
     public function create_idea_form_does_not_show_when_logged_out()
     {
+        $user = User::factory()->create();
+
         Category::factory()->create(["name" => "Category 1"]);
         Category::factory()->create(["name" => "Category 2"]);
         Category::factory()->create(["name" => "Category 3"]);
@@ -29,7 +31,9 @@ class CreateIdeaTest extends TestCase
         Status::factory()->create(["name" => "Implemented"]);
         Status::factory()->create(["name" => "Closed"]);
 
-        Idea::factory()->create();
+        Idea::factory()->create([
+            "user_id" => $user->id,
+        ]);
         // $response = $this->actingAs(User::factory()->create())->get(route("idea.index"));
         $response = $this->get(route("idea.index"));
         $response->assertSuccessful();
@@ -41,6 +45,8 @@ class CreateIdeaTest extends TestCase
     /** @test */
     public function inertia_first_test()
     {
+        $user = User::factory()->create();
+
         $cat1 = Category::factory()->create(["name" => "Category 1"]);
         Category::factory()->create(["name" => "Category 2"]);
         Category::factory()->create(["name" => "Category 3"]);
@@ -53,6 +59,7 @@ class CreateIdeaTest extends TestCase
         Status::factory()->create(["name" => "Closed"]);
 
         $idea = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "First inertia test",
             "description" => "inertiaDes",
             "category_id" => $cat1->id,
@@ -60,6 +67,7 @@ class CreateIdeaTest extends TestCase
         ]);
 
         $idea2 = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "First inertia test",
             "description" => "inertiaDes",
             "category_id" => $cat1->id,

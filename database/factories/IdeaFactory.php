@@ -18,7 +18,7 @@ class IdeaFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => User::factory(),
+            "user_id" => fake()->numberBetween(1, 20),
             "title" => fake()->words(4, true),
             "description" => fake()->paragraph(5, true),
             // "slug" => fake()->slug(),

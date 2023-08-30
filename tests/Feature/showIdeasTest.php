@@ -36,15 +36,17 @@ class ShowIdeasTest extends TestCase
         Status::factory()->create(["name" => "Implemented"]);
         Status::factory()->create(["name" => "Closed"]);
 
-
+        $user = User::factory()->create();
 
         $ideaOne = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "first title",
             "category_id" => $categoryOne->id,
             "description" => "description of title"
         ]);
 
         $ideaTwo = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Second title",
             "description" => "description of idea",
             "category_id" => $categoryTwo->id,
@@ -100,6 +102,8 @@ class ShowIdeasTest extends TestCase
     /** @test */
     public function ideas_pagination_works()
     {
+        $user = User::factory()->create();
+
         Category::factory()->create(["name" => "Category 1"]);
         Category::factory()->create(["name" => "Category 2"]);
         Category::factory()->create(["name" => "Category 3"]);
@@ -111,10 +115,15 @@ class ShowIdeasTest extends TestCase
         Status::factory()->create(["name" => "Implemented"]);
         Status::factory()->create(["name" => "Closed"]);
 
-        Idea::factory(Idea::PAGINATION_COUNT + 1)->create();
+        Idea::factory(Idea::PAGINATION_COUNT + 1)->create([
+            "user_id" => $user->id
+        ]);
+
+
 
         $ideaOne = Idea::find(1);
         $ideaOne->title = "My First Idea";
+
         $ideaOne->save();
 
         $ideaLast = Idea::find(Idea::PAGINATION_COUNT + 1);
@@ -136,12 +145,16 @@ class ShowIdeasTest extends TestCase
     /** @test */
     public function idea_with_same_title_have_defferent_slug()
     {
+        $user = User::factory()->create();
+
         $ideaOne = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Same title",
             "description" => "description of title"
         ]);
 
         $ideaTwo = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Same title",
             "description" => "description of idea"
         ]);
@@ -160,6 +173,7 @@ class ShowIdeasTest extends TestCase
     /** @test */
     public function check_different_statuses_are_showing_together_with_different_classes()
     {
+        $user = User::factory()->create();
         $category1 = Category::factory()->create(["name" => "Category 1"]);
         $category2 = Category::factory()->create(["name" => "Category 2"]);
         $category3 = Category::factory()->create(["name" => "Category 3"]);
@@ -173,6 +187,7 @@ class ShowIdeasTest extends TestCase
         $statusClosed = Status::factory()->create(["name" => "Closed"]);
 
         $idea1 = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Title One",
             "description" => "description One",
             "status_id" => $statusOpen->id,
@@ -180,6 +195,7 @@ class ShowIdeasTest extends TestCase
         ]);
 
         $idea2 = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Title Two",
             "description" => "description One",
             "status_id" => $statusConsidering->id,
@@ -187,6 +203,7 @@ class ShowIdeasTest extends TestCase
         ]);
 
         $idea3 = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Title Three",
             "description" => "description One",
             "status_id" => $statusInProgress->id,
@@ -194,6 +211,7 @@ class ShowIdeasTest extends TestCase
         ]);
 
         $idea4 = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Title Four",
             "description" => "description One",
             "status_id" => $statusImplemented->id,
@@ -201,6 +219,7 @@ class ShowIdeasTest extends TestCase
         ]);
 
         $idea5 = Idea::factory()->create([
+            "user_id" => $user->id,
             "title" => "Title Five",
             "description" => "description One",
             "status_id" => $statusClosed->id,

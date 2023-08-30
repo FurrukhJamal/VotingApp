@@ -69,6 +69,7 @@ function AddIdea({ user, categories }) {
                             <Dropdown.Trigger>
                                 <span className="inline-flex rounded-xl w-full">
                                     <button
+                                        dusk="category-select-button"
                                         type="button"
                                         className="w-full justify-between flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-gray-200 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                     >
@@ -94,6 +95,7 @@ function AddIdea({ user, categories }) {
                                     categories.map((category) => (
                                         <Dropdown.Link key={category.id}
                                             onClick={handleCategorySelection}
+                                            {...(category.id === 1 ? { dusk: "category-select-item" } : {})}
                                             className="text-center"
                                             as="button"
                                             href={route('profile.edit')}>
@@ -115,7 +117,8 @@ function AddIdea({ user, categories }) {
                             className="bg-gray-200 w-full resize-none border-none rounded-xl"
                             rows='4'
                             onChange={(e) => setData("description", e.target.value)}
-                            value={data.description}>
+                            value={data.description}
+                            dusk="description">
 
                         </textarea>
                     </div>
@@ -131,7 +134,7 @@ function AddIdea({ user, categories }) {
                             <span className="ml-1">Attach</span>
                         </button>
 
-                        <PrimaryButton {...processing && { disabled: true }} type="submit" className="flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-200">
+                        <PrimaryButton name="submit" {...processing && { disabled: true }} type="submit" className="flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-200">
                             Submit
                         </PrimaryButton>
                     </div>

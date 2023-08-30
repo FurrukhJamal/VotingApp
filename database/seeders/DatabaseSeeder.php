@@ -7,6 +7,8 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Idea;
 use App\Models\Status;
+use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +24,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        User::factory()->create([
+            "name" => "Furrukh Jamal",
+            "email" => "furrukhjamalW@yahoo.com"
+        ]);
+
+        User::factory(19)->create();
+
 
         Category::factory()->create(["name" => "Category 1"]);
         Category::factory()->create(["name" => "Category 2"]);
@@ -35,6 +44,17 @@ class DatabaseSeeder extends Seeder
         Status::factory()->create(["name" => "Closed"]);
 
 
-        Idea::factory(30)->create();
+        Idea::factory(100)->create();
+
+        for ($i = 1; $i <= 20; $i++) {
+            for ($j = 1; $j <= 100; $j++) {
+                if ($j % 2 == 0) {
+                    Vote::factory()->create([
+                        "user_id" => $i,
+                        "idea_id" => $j
+                    ]);
+                }
+            }
+        }
     }
 }
