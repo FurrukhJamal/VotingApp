@@ -41,8 +41,8 @@ function IdeaPage({ auth, idea, categories }) {
                     </div>
                     {/* right side button */}
                     <div className="w-1/3 flex justify-between items-center">
-                        <PrimaryButton className="w-2/6 bg-fuchsia-200">{idea.votes_count} Votes</PrimaryButton>
-                        <PrimaryButton className=" w-2/5 rounded-2xl justify-center py-3 bg-gray-300">Vote</PrimaryButton>
+                        <PrimaryButton className={`w-2/6 ${idea.isVotedByUser && "bg-blue-600"}`}>{idea.votes_count} Votes</PrimaryButton>
+                        <PrimaryButton dusk="IdeaPageVoteButton" {...(idea.isVotedByUser && { disabled: true })} className={`${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} w-2/5 rounded-2xl justify-center py-3 bg-gray-300`}>{idea.isVotedByUser ? "Voted" : "Vote"}</PrimaryButton>
                     </div>
                     {/* end of right side buttons */}
                 </div>

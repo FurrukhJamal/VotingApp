@@ -33,14 +33,14 @@ function Ideas({ ideas }) {
                             <div className="bg-white cursor-pointer hover:shadow-card transition duration-150 ease-in rounded-xl flex">
                                 <div className="border-r border-gray-100 px-5 py-8">
                                     <div className='text-center'>
-                                        <div className='font-semibold text-2xl'>
+                                        <div className={`font-semibold text-2xl ${idea.isVotedByUser && "text-blue-600"}`}>
                                             {idea.votes_count}
                                         </div>
-                                        <div className="text-gray-500">
+                                        <div className={idea.isVotedByUser ? "text-blue-600" : "text-gray-500"} >
                                             Votes
                                         </div>
                                         <div className="mt-8">
-                                            <PrimaryButton className="w-20 bg-gray-200 font-bold text-xs uppercase">Vote</PrimaryButton>
+                                            <PrimaryButton dusk="VoteButton" {...(idea.isVotedByUser && { disabled: true })} className={`w-20 ${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} font-bold text-xs uppercase`}>{idea.isVotedByUser ? "Voted" : "Vote"}</PrimaryButton>
                                         </div>
                                     </div>
                                 </div>

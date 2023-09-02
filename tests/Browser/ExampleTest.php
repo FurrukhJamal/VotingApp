@@ -3,8 +3,10 @@
 namespace Tests\Browser;
 
 use App\Models\Category;
+use App\Models\Idea;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -99,6 +101,76 @@ class ExampleTest extends DuskTestCase
                 ->assertPathIs("/")
                 ->waitForText("a dusk idea")
                 ->waitForText("a dusk description");
+        });
+    }
+
+    /** @test */
+    public function check_button_for_voted_idea_is_disablled_by_user()
+    {
+        $categoryOne = Category::factory()->create(["name" => "Category 1"]);
+        Category::factory()->create(["name" => "Category 2"]);
+
+        Status::factory()->create(["name" => "Open"]);
+        Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
+        $user = User::factory()->create();
+
+        $idea = Idea::factory()->create([
+            "user_id" => $user->id,
+            "title" => "first title",
+            "category_id" => $categoryOne->id,
+            "description" => "description of title"
+        ]);
+
+        Vote::factory()->create([
+            "user_id" => $user->id,
+            "idea_id" => $idea->id
+        ]);
+
+        $this->browse(function (Browser $browser) use ($user, $idea) {
+            $browser->loginAs($user)
+                ->visit('/')
+                ->waitForText($idea->title)
+                ->waitForText($idea->description)
+                ->assertButtonDisabled("@VoteButton");
+        });
+    }
+
+    /** @test */
+    function vote_button_is_disabled_when_user_visits_idea_page_and_has_already_voted()
+    {
+        $categoryOne = Category::factory()->create(["name" => "Category 1"]);
+        Category::factory()->create(["name" => "Category 2"]);
+
+        Status::factory()->create(["name" => "Open"]);
+        Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
+        $user = User::factory()->create();
+
+        $idea = Idea::factory()->create([
+            "user_id" => $user->id,
+            "title" => "first title",
+            "category_id" => $categoryOne->id,
+            "description" => "description of title"
+        ]);
+
+        Vote::factory()->create([
+            "user_id" => $user->id,
+            "idea_id" => $idea->id
+        ]);
+
+        $this->browse(function (Browser $browser) use ($user, $idea) {
+            $browser->loginAs($user)
+                ->visit(route("idea.show", $idea))
+                ->waitForText($idea->title)
+                ->waitForText($idea->description)
+                ->assertButtonDisabled("@IdeaPageVoteButton");
         });
     }
 }

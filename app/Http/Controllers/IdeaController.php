@@ -25,6 +25,7 @@ class IdeaController extends Controller
         foreach ($ideas->items() as $item) {
             $item["profileLink"] = $item->user->getAvatar();
             $item["statusClass"] = $item->getStatusClass();
+            $item["isVotedByUser"] = $item->isVotedByUser(Auth::user());
         }
 
         $avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp";
@@ -76,6 +77,7 @@ class IdeaController extends Controller
     public function show(Idea $idea)
     {
         $idea["profileLink"] = $idea->user->getAvatar();
+        $idea["isVotedByUser"] = $idea->isVotedByUser($idea->user);
 
         return Inertia::render("IdeaPage", [
             "idea" => $idea,

@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
         // ]);
         User::factory()->create([
             "name" => "Furrukh Jamal",
-            "email" => "furrukhjamalW@yahoo.com"
+            "email" => "furrukhjamal@yahoo.com"
         ]);
 
-        User::factory(19)->create();
+        User::factory(9)->create();
 
 
         Category::factory()->create(["name" => "Category 1"]);
@@ -44,10 +44,10 @@ class DatabaseSeeder extends Seeder
         Status::factory()->create(["name" => "Closed"]);
 
 
-        Idea::factory(100)->create();
+        Idea::factory(50)->create();
 
-        for ($i = 1; $i <= 20; $i++) {
-            for ($j = 1; $j <= 100; $j++) {
+        for ($i = 1; $i <= 10; $i++) {
+            for ($j = 1; $j <= 50; $j++) {
                 if ($j % 2 == 0) {
                     Vote::factory()->create([
                         "user_id" => $i,

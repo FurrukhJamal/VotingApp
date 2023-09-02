@@ -17,7 +17,7 @@ class Idea extends Model
 
     const PAGINATION_COUNT = 10;
 
-    protected $fillable = ["category_id", "status_id", "slug", "description", "title", "user_id"];
+    protected $fillable = ["category_id", "status_id", "slug", "description", "title", "user_id",];
 
     protected $with = ["user", "category", "status",];
     protected $withCount = ["votes"];
@@ -67,9 +67,9 @@ class Idea extends Model
         if ($this->status->name === "Open") {
             return "bg-gray-200";
         } else if ($this->status->name === "Considering") {
-            return "bg-purple-200 text-blue";
+            return "bg-myBlue text-white";
         } else if ($this->status->name === "In Progress") {
-            return "bg-yellow text-white";
+            return "bg-sky-600 text-white";
         } else if ($this->status->name === "Implemented") {
             return "bg-green text-white";
         } else if ($this->status->name === "Closed") {
@@ -82,5 +82,13 @@ class Idea extends Model
     public function votes()
     {
         return $this->hasMany(Vote::class);
+    }
+
+    public function isVotedByUser(?User $user) // ? to make the argument optional 
+    {
+        if (!$user) {
+            return false;
+        }
+        return Vote::where("user_id", $user->id)->where("idea_id", $this->id)->exists();
     }
 }
