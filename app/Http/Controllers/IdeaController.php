@@ -23,6 +23,7 @@ class IdeaController extends Controller
         // dd($ideas);
 
         foreach ($ideas->items() as $item) {
+            // dd($item);
             $item["profileLink"] = $item->user->getAvatar();
             $item["statusClass"] = $item->getStatusClass();
             $item["isVotedByUser"] = $item->isVotedByUser(Auth::user());
@@ -36,8 +37,10 @@ class IdeaController extends Controller
         // dd($ideas);
         return Inertia::render("HomePage", [
             "ideas" => $ideas,
-            "categories" => Category::all(),
-            "avatar" => $avatar
+            "categories" => fn () => Category::all(),   //for partial reloads
+            "avatar" => function () use ($avatar) {    //for partial reloads
+                return $avatar;
+            }
         ]);
     }
 
@@ -77,7 +80,7 @@ class IdeaController extends Controller
     public function show(Idea $idea)
     {
         $idea["profileLink"] = $idea->user->getAvatar();
-        $idea["isVotedByUser"] = $idea->isVotedByUser($idea->user);
+        $idea["isVotedByUser"] = $idea->isVotedByUser(Auth::user());
 
         return Inertia::render("IdeaPage", [
             "idea" => $idea,

@@ -173,4 +173,33 @@ class ExampleTest extends DuskTestCase
                 ->assertButtonDisabled("@IdeaPageVoteButton");
         });
     }
+
+    /** @test */
+    // function guest_if_clicks_vote_he_is_taken_to_login_page()
+    // {
+    //     $categoryOne = Category::factory()->create(["name" => "Category 1"]);
+    //     Category::factory()->create(["name" => "Category 2"]);
+
+    //     Status::factory()->create(["name" => "Open"]);
+    //     Status::factory()->create(["name" => "Considering"]);
+    //     Status::factory()->create(["name" => "In Progress"]);
+    //     Status::factory()->create(["name" => "Implemented"]);
+    //     Status::factory()->create(["name" => "Closed"]);
+
+    //     $user = User::factory()->create();
+
+    //     $idea = Idea::factory()->create([
+    //         "user_id" => $user->id,
+    //         "title" => "first title",
+    //         "category_id" => $categoryOne->id,
+    //         "description" => "description of title"
+    //     ]);
+
+    //     $this->browse(function (Browser $browser) {
+    //         $browser->visit('/')
+    //             ->click("@VoteButton")
+    //             ->waitForLocation(route("login"))
+    //             ->assertPathIs(route("login"));
+    //     });
+    // }
 }

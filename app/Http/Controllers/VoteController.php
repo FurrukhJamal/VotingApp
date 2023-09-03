@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Vote;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class VoteController extends Controller
 {
@@ -29,7 +32,16 @@ class VoteController extends Controller
      */
     public function store(StoreVoteRequest $request)
     {
-        //
+        // dd($request["user_id"]);
+        //since its a fetch call I have to do the authorization manually
+
+        $vote = Vote::create($request->json()->all());
+
+        if ($vote) {
+            return ["success" => "idea added"];
+        }
+
+        return ["error" => "vote could not be added"];
     }
 
     /**

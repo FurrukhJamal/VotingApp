@@ -11,7 +11,9 @@ class StoreVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        //return false;
+        // dd($this->user());
+        return true;
     }
 
     /**

@@ -17,7 +17,7 @@ function Home({ user, ideas, categories, avatar }) {
       <MainLayOut user={user} categories={categories} avatar={avatar}>
         <NavigationBar />
         <Filters></Filters>
-        <Ideas ideas={ideas} />
+        <Ideas ideas={ideas} user={user} />
         <Pagination {...ideas} />
       </MainLayOut>
     </>

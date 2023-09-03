@@ -1,7 +1,7 @@
 import React from 'react'
 import "../../css/index.css"
 import MainLayOut from '@/Layouts/MainLayOut'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import NavigationBar from '@/Components/NavigationBar'
 import SingleIdea from '@/Components/SingleIdea'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -15,6 +15,36 @@ function IdeaPage({ auth, idea, categories }) {
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
     console.log("categories in single Page: ", categories)
+
+    async function handleVoteSubmit(e, idea) {
+        console.log("vote button clicked")
+        if (!auth.user) {
+            router.get(route("login"))
+        }
+        else {
+            console.log("route for home: ", window.location.origin)
+            let path = window.location.origin + "/api"
+            let response = await fetch(`${path}/vote`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+
+                },
+                body: JSON.stringify({
+                    "user_id": auth.user.id,
+                    "idea_id": idea.id,
+                })
+            })
+
+            let result = await response.json()
+            console.log(result)
+            if (result.success) {
+                router.reload()
+            }
+        }
+    }
+
     return (
         <>
 
@@ -41,8 +71,8 @@ function IdeaPage({ auth, idea, categories }) {
                     </div>
                     {/* right side button */}
                     <div className="w-1/3 flex justify-between items-center">
-                        <PrimaryButton className={`w-2/6 ${idea.isVotedByUser && "bg-blue-600"}`}>{idea.votes_count} Votes</PrimaryButton>
-                        <PrimaryButton dusk="IdeaPageVoteButton" {...(idea.isVotedByUser && { disabled: true })} className={`${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} w-2/5 rounded-2xl justify-center py-3 bg-gray-300`}>{idea.isVotedByUser ? "Voted" : "Vote"}</PrimaryButton>
+                        <div className={`w-2/6 flex justify-center p-2 ${idea.isVotedByUser && "bg-blue-600 text-white"}`}>{idea.votes_count} Votes</div>
+                        <PrimaryButton onClick={(e) => handleVoteSubmit(e, idea)} dusk="IdeaPageVoteButton" {...(idea.isVotedByUser && { disabled: true })} className={`${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} w-2/5 rounded-2xl justify-center py-3 bg-gray-300`}>{idea.isVotedByUser ? "Voted" : "Vote"}</PrimaryButton>
                     </div>
                     {/* end of right side buttons */}
                 </div>
@@ -59,7 +89,7 @@ function IdeaPage({ auth, idea, categories }) {
                 </div>
 
                 {/* end of comments */}
-            </MainLayOut>
+            </MainLayOut >
         </>
     )
 }

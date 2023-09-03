@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
-function Ideas({ ideas }) {
+function Ideas({ ideas, user }) {
     console.log("ideas in ideas component:", ideas)
     console.log("ideas.links in ideas component", ideas.links)
 
@@ -19,6 +19,41 @@ function Ideas({ ideas }) {
     function stopPropagation(e) {
         console.log("stop propagation clicked")
         e.stopPropagation()
+    }
+
+    async function handleSubmitVote(e, idea) {
+        e.stopPropagation()
+        console.log("vote button clicked")
+        if (!user) {
+            router.get(route("login"))
+        }
+        else {
+            console.log("Voted for idea: ", idea)
+            // let response = router.post(route("vote.store"), {
+            //     "user_id": idea.user.id,
+            //     "idea_id": idea.id
+            // })
+
+            let response = await fetch("api/vote", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+
+                },
+                body: JSON.stringify({
+                    "user_id": user.id,
+                    "idea_id": idea.id,
+                    // "user": idea.user
+                })
+            })
+
+            let result = await response.json()
+            console.log(result)
+            if (result.success) {
+                router.reload({ only: ["ideas"] })
+            }
+        }
     }
 
     return (
@@ -40,7 +75,13 @@ function Ideas({ ideas }) {
                                             Votes
                                         </div>
                                         <div className="mt-8">
-                                            <PrimaryButton dusk="VoteButton" {...(idea.isVotedByUser && { disabled: true })} className={`w-20 ${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} font-bold text-xs uppercase`}>{idea.isVotedByUser ? "Voted" : "Vote"}</PrimaryButton>
+                                            <PrimaryButton
+                                                onClick={(e) => handleSubmitVote(e, idea)}
+                                                dusk="VoteButton"
+                                                {...(idea.isVotedByUser && { disabled: true })}
+                                                className={`w-20 ${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} font-bold text-xs uppercase`}>
+                                                {idea.isVotedByUser ? "Voted" : "Vote"}
+                                            </PrimaryButton>
                                         </div>
                                     </div>
                                 </div>
