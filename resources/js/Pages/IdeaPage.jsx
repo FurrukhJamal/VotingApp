@@ -11,7 +11,7 @@ import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
 
-function IdeaPage({ auth, idea, categories }) {
+function IdeaPage({ auth, idea, categories, avatar }) {
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
     console.log("categories in single Page: ", categories)
@@ -48,7 +48,7 @@ function IdeaPage({ auth, idea, categories }) {
     return (
         <>
 
-            <MainLayOut user={auth.user} categories={categories}>
+            <MainLayOut avatar={avatar} user={auth.user} categories={categories}>
                 <NavigationBar></NavigationBar>
                 <div className="mt-3 hover:underline items-center flex">
 
@@ -72,7 +72,13 @@ function IdeaPage({ auth, idea, categories }) {
                     {/* right side button */}
                     <div className="w-1/3 flex justify-between items-center">
                         <div className={`w-2/6 flex justify-center p-2 ${idea.isVotedByUser && "bg-blue-600 text-white"}`}>{idea.votes_count} Votes</div>
-                        <PrimaryButton onClick={(e) => handleVoteSubmit(e, idea)} dusk="IdeaPageVoteButton" {...(idea.isVotedByUser && { disabled: true })} className={`${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} w-2/5 rounded-2xl justify-center py-3 bg-gray-300`}>{idea.isVotedByUser ? "Voted" : "Vote"}</PrimaryButton>
+                        <PrimaryButton
+                            onClick={(e) => handleVoteSubmit(e, idea)}
+                            dusk="IdeaPageVoteButton"
+                            {...(idea.isVotedByUser && { disabled: true })}
+                            className={`${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} w-2/5 rounded-2xl justify-center py-3 bg-gray-300`}>
+                            {idea.isVotedByUser ? "Voted" : "Vote"}
+                        </PrimaryButton>
                     </div>
                     {/* end of right side buttons */}
                 </div>

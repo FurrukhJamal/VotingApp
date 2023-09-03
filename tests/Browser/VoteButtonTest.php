@@ -116,10 +116,8 @@ class VoteButtonTest extends DuskTestCase
                 ->assertSee("0")
                 ->assertSee("Votes")
                 ->press("@IdeaPageVoteButton")
-                ->waitForReload(function (Browser $browser) {
-                    $browser->waitForText("1")
-                        ->waitForText("Votes");
-                });
+                ->waitForText("1")
+                ->waitForText("Votes");
         });
     }
 

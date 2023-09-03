@@ -6,8 +6,9 @@ import NavLink from './NavLink'
 import Dropdown from './Dropdown'
 
 
-function MainNav(user, { avatar }) {
-    console.log("user in MainNav : ", user)
+function MainNav(props) {
+    console.log("user in MainNav : ", props.user)
+    console.log("avatar is, :", props.avatar)
     return (
         <header>
             <Link href={route("idea.index")}>
@@ -22,7 +23,7 @@ function MainNav(user, { avatar }) {
                 </div>
                 <div className="navLogRegContainer">
                     <div className=" flex justify-end">
-                        {user.id ? (
+                        {props.user?.id ? (
 
                             <div className=" text-gray-500 flex justify-end">
                                 <Dropdown >
@@ -32,7 +33,7 @@ function MainNav(user, { avatar }) {
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2  text-sm leading-4 font-medium rounded-md text-gray-500 bg-gray-50 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {user.name}
+                                                {props.user.name}
 
                                                 <svg
                                                     className="ml-2 -mr-0.5 h-4 w-4"
@@ -82,7 +83,7 @@ function MainNav(user, { avatar }) {
                         }
                     </div>
                     <Link href="#">
-                        <img src={avatar} alt="avatar" />
+                        <img src={props.avatar} alt="avatar" />
                     </Link>
 
                 </div>

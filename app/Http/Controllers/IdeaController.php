@@ -29,7 +29,7 @@ class IdeaController extends Controller
             $item["isVotedByUser"] = $item->isVotedByUser(Auth::user());
         }
 
-        $avatar = "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp";
+        $avatar = "https://www.gravatar.com/avatar?d=mp";
         if (Auth::user()) {
             $avatar = Auth::user()->getAvatar();
         }
@@ -82,9 +82,15 @@ class IdeaController extends Controller
         $idea["profileLink"] = $idea->user->getAvatar();
         $idea["isVotedByUser"] = $idea->isVotedByUser(Auth::user());
 
+        $avatar = "https://www.gravatar.com/avatar?d=mp";
+        if (Auth::user()) {
+            $avatar = Auth::user()->getAvatar();
+        }
+
         return Inertia::render("IdeaPage", [
             "idea" => $idea,
             "categories" => Category::all(),
+            "avatar" => $avatar,
         ]);
     }
 

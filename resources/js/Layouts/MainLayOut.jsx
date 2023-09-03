@@ -11,9 +11,10 @@ import Authenticated from './AuthenticatedLayout'
 export default function MainLayOut({ user, categories, avatar, children }) {
     console.log("user in MainLayOut", user)
     console.log("categories in MainLayOut:", categories)
+    console.log("avatar in MainLayOut:", avatar)
     return (
         <>
-            <MainNav {...user} avatar={avatar} />
+            <MainNav user={user} avatar={avatar} />
             {
                 user ? (
                     <Authenticated avatar={avatar} user={user}>
