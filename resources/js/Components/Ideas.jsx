@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PrimaryButton from './PrimaryButton'
 import { Link, router } from '@inertiajs/react'
 import Dropdown from './Dropdown'
@@ -10,6 +10,7 @@ dayjs.extend(relativeTime)
 function Ideas({ ideas, user }) {
     console.log("ideas in ideas component:", ideas)
     console.log("ideas.links in ideas component", ideas.links)
+
 
     function handleIdeaClick(idea) {
         console.log("the idea clicked is :", idea)
@@ -29,30 +30,57 @@ function Ideas({ ideas, user }) {
         }
         else {
             console.log("Voted for idea: ", idea)
-            // let response = router.post(route("vote.store"), {
-            //     "user_id": idea.user.id,
-            //     "idea_id": idea.id
-            // })
+            if (idea.isVotedByUser) {
+                //remove vote
+                let response = await fetch("api/deletevote", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
 
-            let response = await fetch("api/vote", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-
-                },
-                body: JSON.stringify({
-                    "user_id": user.id,
-                    "idea_id": idea.id,
-                    // "user": idea.user
+                    },
+                    body: JSON.stringify({
+                        "user_id": user.id,
+                        "idea_id": idea.id,
+                        // "user": idea.user
+                    })
                 })
-            })
 
-            let result = await response.json()
-            console.log(result)
-            if (result.success) {
-                router.reload({ only: ["ideas"] })
+                let result = await response.json()
+                console.log(result)
+                if (result.success) {
+                    router.reload({ only: ["ideas"] })
+                }
+                else if (result.error) {
+                    router.reload()
+                }
             }
+            else {
+                //add a vote
+                let response = await fetch("api/vote", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+
+                    },
+                    body: JSON.stringify({
+                        "user_id": user.id,
+                        "idea_id": idea.id,
+                        // "user": idea.user
+                    })
+                })
+
+                let result = await response.json()
+                console.log(result)
+                if (result.success) {
+                    router.reload({ only: ["ideas"] })
+                }
+                else if (result.error) {
+                    router.reload()
+                }
+            }
+
         }
     }
 
@@ -68,7 +96,7 @@ function Ideas({ ideas, user }) {
                             <div className="bg-white cursor-pointer hover:shadow-card transition duration-150 ease-in rounded-xl flex">
                                 <div className="border-r border-gray-100 px-5 py-8">
                                     <div className='text-center'>
-                                        <div className={`font-semibold text-2xl ${idea.isVotedByUser && "text-blue-600"}`}>
+                                        <div dusk="votesCount" className={`font-semibold text-2xl ${idea.isVotedByUser && "text-blue-600"}`}>
                                             {idea.votes_count}
                                         </div>
                                         <div className={idea.isVotedByUser ? "text-blue-600" : "text-gray-500"} >
@@ -78,8 +106,8 @@ function Ideas({ ideas, user }) {
                                             <PrimaryButton
                                                 onClick={(e) => handleSubmitVote(e, idea)}
                                                 dusk="VoteButton"
-                                                {...(idea.isVotedByUser && { disabled: true })}
-                                                className={`w-20 ${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} font-bold text-xs uppercase`}>
+
+                                                className={`w-20 ${idea.isVotedByUser ? "bg-blue-400 focus:bg-blue-400" : "bg-gray-800"} font-bold text-xs uppercase`}>
                                                 {idea.isVotedByUser ? "Voted" : "Vote"}
                                             </PrimaryButton>
                                         </div>
@@ -98,7 +126,7 @@ function Ideas({ ideas, user }) {
                                     </div>
 
                                     <div className="mx-4">
-                                        <Link href={`/ideas/${idea.slug}`} className="hover:underline">
+                                        <Link dusk="IdeaTitle" href={`/ideas/${idea.slug}`} className="hover:underline">
                                             <h1 className='text-xl font-semibold'>{idea.title}</h1>
                                         </Link>
                                         <div className='text-gray-600 mt-3 line-clamp-3'>

@@ -118,8 +118,8 @@ function AddIdea({ user, categories }) {
                             rows='4'
                             onChange={(e) => setData("description", e.target.value)}
                             value={data.description}
-                            dusk="description">
-
+                            dusk="description"
+                            name="description">
                         </textarea>
                     </div>
                     {errors.description && (<div className="flex text-center text-xs text-red-500 mt-1 ml-1">{errors.description}</div>)}
@@ -134,7 +134,11 @@ function AddIdea({ user, categories }) {
                             <span className="ml-1">Attach</span>
                         </button>
 
-                        <PrimaryButton name="submit" {...processing && { disabled: true }} type="submit" className="flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-200">
+                        <PrimaryButton
+                            name="submit"
+                            {...processing && { disabled: true }}
+                            type="submit"
+                            className="flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center h-11 justify-center w-1/2 text-xs bg-blue-600">
                             Submit
                         </PrimaryButton>
                     </div>

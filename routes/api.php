@@ -25,3 +25,6 @@ Route::post("/vote", [VoteController::class, "store"])->middleware(["api"])->nam
 //     // dd($request);
 //     return ["ss" => $request->json()->all()];
 // })->name("vote.store");
+
+//deleteing a vote
+Route::post("/deletevote", [VoteController::class, "destroy"])->middleware(["api"])->name("vote.destroy");

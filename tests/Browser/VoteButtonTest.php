@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Idea;
 use App\Models\Status;
 use App\Models\User;
+use Doctrine\DBAL\Schema\Index;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
 use Laravel\Dusk\Browser;
@@ -117,6 +118,9 @@ class VoteButtonTest extends DuskTestCase
                 ->assertSee("Votes")
                 ->press("@IdeaPageVoteButton")
                 ->waitForText("1")
+                ->waitForText("Votes")
+                ->press("@IdeaPageVoteButton")
+                ->waitForText("0")
                 ->waitForText("Votes");
         });
     }
@@ -149,7 +153,57 @@ class VoteButtonTest extends DuskTestCase
                 ->assertSee("0")
                 ->click("@VoteButton")
                 ->assertSee("1")
-                ->assertSee("Votes");
+                ->assertSee("Votes")
+                ->press("@VoteButton")
+                ->waitForText("0")
+                ->waitForText("Votes");
+        });
+    }
+
+    // /** @test */
+    public function test_when_user_votes_on_idea_page_and_clicks_back_button_on_browser_correct_number_of_votes_show_in_index_page()
+    {
+        $categoryOne = Category::factory()->create(["name" => "Category 1"]);
+        Category::factory()->create(["name" => "Category 2"]);
+
+        Status::factory()->create(["name" => "Open"]);
+        Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
+        $user = User::factory()->create();
+
+        $idea = Idea::factory()->create([
+            "user_id" => $user->id,
+            "title" => "first title",
+            "category_id" => $categoryOne->id,
+            "description" => "description of title"
+        ]);
+
+        $this->browse(function (Browser $browser) use ($user, $idea) {
+            $browser->loginAs($user)
+                ->visit(route("idea.index"))
+
+                ->waitForText($idea->title)
+                ->waitForText($idea->description)
+                ->waitForText("Votes")
+                ->assertSeeIn("@votesCount", "0")
+                ->press("@VoteButton")
+                ->waitForTextIn("@votesCount", "1")
+                // ->waitForText("Votes")
+                ->clickLink($idea->title);
+            // // ->waitForRoute("idea.show", $idea, 30)
+            // ->waitForText("1")
+            // ->waitForText("Votes")
+            // ->screenshot("testscreen1")
+            // ->press("@IdeaPageVoteButton")
+            // ->waitForText("0")
+            // ->waitForText("Votes")
+            // ->back()
+            // ->assertPathIs("/")
+            // // ->waitForLocation(route("idea.index"), 20)
+            // ->waitForText("0");
         });
     }
 }

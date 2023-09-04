@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vote;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -34,14 +35,15 @@ class VoteController extends Controller
     {
         // dd($request["user_id"]);
         //since its a fetch call I have to do the authorization manually
+        try {
+            $vote = Vote::create($request->json()->all());
 
-        $vote = Vote::create($request->json()->all());
-
-        if ($vote) {
-            return ["success" => "idea added"];
+            if ($vote) {
+                return ["success" => "idea added"];
+            }
+        } catch (Exception $e) {
+            return ["error" => "vote could not be added"];
         }
-
-        return ["error" => "vote could not be added"];
     }
 
     /**
@@ -71,8 +73,19 @@ class VoteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vote $vote)
+    public function destroy(Request $request)
     {
-        //
+        $data = $request->json()->all();
+
+        $vote = Vote::where("user_id", $data["user_id"])
+            ->where("idea_id", $data["idea_id"])
+            ->first();
+
+        if ($vote) {
+            $vote->delete();
+            return ["success" => "Vote was deleted"];
+        }
+
+        return ["error" => "could not delete a vote"];
     }
 }

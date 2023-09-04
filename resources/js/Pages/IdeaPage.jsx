@@ -18,30 +18,66 @@ function IdeaPage({ auth, idea, categories, avatar }) {
 
     async function handleVoteSubmit(e, idea) {
         console.log("vote button clicked")
+        console.log("when vote clicked in single idea page, idea object is:", idea)
         if (!auth.user) {
             router.get(route("login"))
         }
         else {
-            console.log("route for home: ", window.location.origin)
-            let path = window.location.origin + "/api"
-            let response = await fetch(`${path}/vote`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
+            if (idea.isVotedByUser) {
+                //remove the vote
+                let path = window.location.origin + "/api"
+                let response = await fetch(`${path}/deletevote`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
 
-                },
-                body: JSON.stringify({
-                    "user_id": auth.user.id,
-                    "idea_id": idea.id,
+                    },
+                    body: JSON.stringify({
+                        "user_id": auth.user.id,
+                        "idea_id": idea.id,
+                    })
                 })
-            })
 
-            let result = await response.json()
-            console.log(result)
-            if (result.success) {
-                router.reload()
+                let result = await response.json()
+                console.log(result)
+                if (result.success) {
+                    router.reload()
+                }
+                else if (result.error) {
+                    router.reload()
+                }
+
             }
+            else {
+                //add the vote
+                console.log("route for home: ", window.location.origin)
+                let path = window.location.origin + "/api"
+                let response = await fetch(`${path}/vote`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+
+                    },
+                    body: JSON.stringify({
+                        "user_id": auth.user.id,
+                        "idea_id": idea.id,
+                    })
+                })
+
+                let result = await response.json()
+                console.log(result)
+                if (result.success) {
+                    router.reload()
+                }
+                else if (result.error) {
+                    router.reload()
+                }
+
+            }
+
+
         }
     }
 
@@ -52,7 +88,7 @@ function IdeaPage({ auth, idea, categories, avatar }) {
                 <NavigationBar></NavigationBar>
                 <div className="mt-3 hover:underline items-center flex">
 
-                    <Link className="flex" href="/" as="button" >
+                    <Link className="flex" href="/" >
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -71,12 +107,12 @@ function IdeaPage({ auth, idea, categories, avatar }) {
                     </div>
                     {/* right side button */}
                     <div className="w-1/3 flex justify-between items-center">
-                        <div className={`w-2/6 flex justify-center p-2 ${idea.isVotedByUser && "bg-blue-600 text-white"}`}>{idea.votes_count} Votes</div>
+                        <div className={`w-3/6 flex justify-center p-2 ${idea.isVotedByUser && "bg-blue-600 text-white"}`}>{idea.votes_count} Votes</div>
                         <PrimaryButton
                             onClick={(e) => handleVoteSubmit(e, idea)}
                             dusk="IdeaPageVoteButton"
-                            {...(idea.isVotedByUser && { disabled: true })}
-                            className={`${idea.isVotedByUser && "bg-blue-600 text-blue-600 hover:bg-blue-600"} w-2/5 rounded-2xl justify-center py-3 bg-gray-300`}>
+
+                            className={`${idea.isVotedByUser ? " bg-blue-600" : "bg-gray-800"} w-2/5 rounded-2xl justify-center py-3 bg-gray-300`}>
                             {idea.isVotedByUser ? "Voted" : "Vote"}
                         </PrimaryButton>
                     </div>
