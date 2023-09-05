@@ -7,7 +7,7 @@ export const AppContext = createContext()
 
 
 function HomePage({ auth, ideas, categories, avatar }) {
-  // console.log("ideas are: ", ideas)
+  console.log("ideas are: ", ideas)
   // console.log("auth in Homepage.jsx", auth)
   // console.log("categories in HomePage: ", categories)
   // console.log("avatar in HomePage: ", avatar)

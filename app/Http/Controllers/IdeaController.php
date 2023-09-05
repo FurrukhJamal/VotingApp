@@ -7,6 +7,7 @@ use App\Http\Requests\StoreIdeaRequest;
 
 use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Category;
+use App\Models\Status;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -116,5 +117,66 @@ class IdeaController extends Controller
     public function destroy(Idea $idea)
     {
         //
+    }
+    /** Functions for Status Filters */
+    public function statusFilterOpen()
+    {
+        //get status id for Open
+        $status = Status::where("name", "Open")->first();
+        $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+        return $this->returnFilteredIdeas($ideas);
+    }
+
+    public function statusFilterConsidering()
+    {
+        $status = Status::where("name", "Considering")->first();
+        $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+        return $this->returnFilteredIdeas($ideas);
+    }
+
+    public function statusFilterInProgress()
+    {
+        $status = Status::where("name", "In Progress")->first();
+        $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+        return $this->returnFilteredIdeas($ideas);
+    }
+
+
+    public function statusFilterImplemented()
+    {
+        $status = Status::where("name", "Implemented")->first();
+        $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+        return $this->returnFilteredIdeas($ideas);
+    }
+
+    public function statusFilterClosed()
+    {
+        $status = Status::where("name", "Closed")->first();
+        $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+        return $this->returnFilteredIdeas($ideas);
+    }
+    /** End of Functions for Status Filters */
+
+    protected function returnFilteredIdeas($ideas)
+    {
+        foreach ($ideas->items() as $item) {
+            // dd($item);
+            $item["profileLink"] = $item->user->getAvatar();
+            $item["statusClass"] = $item->getStatusClass();
+            $item["isVotedByUser"] = $item->isVotedByUser(Auth::user());
+        }
+
+        $avatar = "https://www.gravatar.com/avatar?d=mp";
+        if (Auth::user()) {
+            $avatar = Auth::user()->getAvatar();
+        }
+
+        return Inertia::render("HomePage", [
+            "ideas" => $ideas,
+            "categories" => fn () => Category::all(),   //for partial reloads
+            "avatar" => function () use ($avatar) {    //for partial reloads
+                return $avatar;
+            }
+        ]);
     }
 }

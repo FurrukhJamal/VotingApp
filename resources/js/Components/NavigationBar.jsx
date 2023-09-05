@@ -12,18 +12,22 @@ function NavigationBar({ auth, }) {
                     All Ideas
                 </NavLink>
 
-                <NavLink className={route().current("considering") ? 'navLinkActive' : 'navLink'}>
+                <NavLink href={route("status.open")} active={route().current("status.open")} className={route().current("status.open") ? 'navLinkActive' : 'navLink'}>
+                    Open
+                </NavLink>
+
+                <NavLink href={route("status.considering")} active={route().current("status.considering")} className={route().current("status.considering") ? 'navLinkActive' : 'navLink'}>
                     Considering
                 </NavLink>
-                <NavLink className={route().current("inprogress") ? 'navLinkActive' : 'navLink'}>
+                <NavLink href={route("status.inProgress")} active={route().current("status.inProgress")} className={route().current("status.inProgress") ? 'navLinkActive' : 'navLink'}>
                     In Progress
                 </NavLink>
             </div>
             <div className="navRightContainer">
-                <NavLink className="navLink">
+                <NavLink href={route("status.implemented")} active={route().current("status.implemented")} className={route().current("status.implemented") ? 'navLinkActive' : 'navLink'}>
                     Implemented
                 </NavLink>
-                <NavLink className="navLink">
+                <NavLink href={route("status.closed")} active={route().current("status.closed")} className={route().current("status.closed") ? 'navLinkActive' : 'navLink'}>
                     Closed
                 </NavLink>
             </div>
