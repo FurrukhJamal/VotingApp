@@ -103,4 +103,47 @@ class ExampleTest extends DuskTestCase
                 ->waitForText("a dusk description");
         });
     }
+
+    /** @test */
+    public function go_back_link_taking_to_correct_page()
+    {
+        $cat = Category::factory()->create(["name" => "Category 1"]);
+        Category::factory()->create(["name" => "Category 2"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        $statusConsidering = Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
+        $user = User::factory()->create();
+
+        $idea1 = Idea::factory()->create([
+            "title" => "First Title",
+            "user_id" => $user->id,
+            "category_id" => $cat->id,
+            "status_id" => $statusConsidering->id
+        ]);
+
+        $idea2 = Idea::factory()->create([
+            "status_id" => $statusOpen->id,
+            "user_id" => $user->id,
+            "category_id" => $cat->id,
+        ]);
+
+        $this->browse(function (Browser $browser) use ($idea1) {
+            $browser->visit(route("idea.index"))
+                ->waitFor("@statusFilterConsidering")
+                ->click("@statusFilterConsidering")
+                ->waitForText($idea1->title, 30)
+                ->screenshot("consideringLink")
+                ->clickLink($idea1->title)
+                ->waitFor("@goBackLink", 30)
+                ->clickLink("Go Back")
+                ->waitForText($idea1->title)
+                ->screenshot("screenback")
+                ->waitForLocation(route("status.considering"), 30)
+                ->assertPathIs("/statusfilter/considering");
+        });
+    }
 }

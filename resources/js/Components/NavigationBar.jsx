@@ -16,7 +16,7 @@ function NavigationBar({ auth, }) {
                     Open
                 </NavLink>
 
-                <NavLink href={route("status.considering")} active={route().current("status.considering")} className={route().current("status.considering") ? 'navLinkActive' : 'navLink'}>
+                <NavLink dusk="statusFilterConsidering" href={route("status.considering")} active={route().current("status.considering")} className={route().current("status.considering") ? 'navLinkActive' : 'navLink'}>
                     Considering
                 </NavLink>
                 <NavLink href={route("status.inProgress")} active={route().current("status.inProgress")} className={route().current("status.inProgress") ? 'navLinkActive' : 'navLink'}>

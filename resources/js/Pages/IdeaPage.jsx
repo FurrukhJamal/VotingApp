@@ -81,6 +81,13 @@ function IdeaPage({ auth, idea, categories, avatar }) {
         }
     }
 
+
+    function goBack(e) {
+        e.preventDefault()
+        //go to the exact filter selected page, not just the idea.index route
+        window.history.back()
+    }
+
     return (
         <>
 
@@ -88,7 +95,7 @@ function IdeaPage({ auth, idea, categories, avatar }) {
                 <NavigationBar></NavigationBar>
                 <div className="mt-3 hover:underline items-center flex">
 
-                    <Link className="flex" href="/" >
+                    <Link dusk="goBackLink" className="flex" onClick={(e) => goBack(e)} href="/" >
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />

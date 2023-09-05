@@ -32,7 +32,8 @@ function Ideas({ ideas, user }) {
             console.log("Voted for idea: ", idea)
             if (idea.isVotedByUser) {
                 //remove vote
-                let response = await fetch("api/deletevote", {
+                let path = window.location.origin + "/api"
+                let response = await fetch(`${path}/deletevote`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -57,7 +58,8 @@ function Ideas({ ideas, user }) {
             }
             else {
                 //add a vote
-                let response = await fetch("api/vote", {
+                let path = window.location.origin + "/api"
+                let response = await fetch(`${path}/vote`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
