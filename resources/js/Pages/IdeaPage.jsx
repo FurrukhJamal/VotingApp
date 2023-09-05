@@ -107,7 +107,7 @@ function IdeaPage({ auth, idea, categories, avatar }) {
                     </div>
                     {/* right side button */}
                     <div className="w-1/3 flex justify-between items-center">
-                        <div className={`w-3/6 flex justify-center p-2 ${idea.isVotedByUser && "bg-blue-600 text-white"}`}>{idea.votes_count} Votes</div>
+                        <div dusk="ideaPageVoteCount" className={`w-3/6 flex justify-center p-2 ${idea.isVotedByUser && "bg-blue-600 text-white"}`}>{idea.votes_count} Votes</div>
                         <PrimaryButton
                             onClick={(e) => handleVoteSubmit(e, idea)}
                             dusk="IdeaPageVoteButton"

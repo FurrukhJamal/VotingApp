@@ -192,7 +192,16 @@ class VoteButtonTest extends DuskTestCase
                 ->press("@VoteButton")
                 ->waitForTextIn("@votesCount", "1")
                 // ->waitForText("Votes")
-                ->clickLink($idea->title);
+                ->clickLink($idea->title)
+                ->waitFor('@IdeaPageVoteButton', 30)
+                ->press("@IdeaPageVoteButton")
+                ->waitForText("0 Votes")
+                ->back()
+                ->waitFor("@VoteButton")
+                ->assertSeeIn("@votesCount", "1")
+                ->press("@VoteButton")
+                ->waitForTextIn("@votesCount", "0");
+
             // // ->waitForRoute("idea.show", $idea, 30)
             // ->waitForText("1")
             // ->waitForText("Votes")
