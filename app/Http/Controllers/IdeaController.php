@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Status;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -35,13 +36,14 @@ class IdeaController extends Controller
             $avatar = Auth::user()->getAvatar();
         }
 
-        // dd($ideas);
+        // dd(Status::getStatusCounts());
         return Inertia::render("HomePage", [
             "ideas" => $ideas,
             "categories" => fn () => Category::all(),   //for partial reloads
             "avatar" => function () use ($avatar) {    //for partial reloads
                 return $avatar;
-            }
+            },
+            "statusCounts" => fn () => Status::getStatusCounts(),
         ]);
     }
 
@@ -118,6 +120,30 @@ class IdeaController extends Controller
     {
         //
     }
+
+    // public function getStatusCounts()
+    // {
+    //     // return Idea::query()->selectRaw("count(*) as all_counts")
+    //     //     ->selectRaw("count(CASE WHEN `status_id` = 1 THEN 1 END) as statusOpen")
+    //     //     ->selectRaw("count(CASE WHEN `status_id` = 2 THEN 1 END) as statusConsidering")
+    //     //     ->selectRaw("count(CASE WHEN `status_id` = 3 THEN 1 END) as statusInProgress")
+    //     //     ->selectRaw("count(CASE WHEN `status_id` = 4 THEN 1 END) as statusImplemented")
+    //     //     ->selectRaw("count(CASE WHEN `status_id` = 5 THEN 1 END) as statusClosed")
+    //     //     ->first()
+    //     //     ->toArray();
+
+    //     $counters = Idea::select(
+    //         DB::raw('count(*) as all_counts'),
+    //         DB::raw('count(CASE WHEN status_id = 1 THEN 1 END) as statusOpen'),
+    //         DB::raw('count(CASE WHEN status_id = 2 THEN 1 END) as statusConsidering'),
+    //         DB::raw('count(CASE WHEN status_id = 3 THEN 1 END) as statusInProgress'),
+    //         DB::raw('count(CASE WHEN status_id = 4 THEN 1 END) as statusImplemented'),
+    //         DB::raw('count(CASE WHEN status_id = 5 THEN 1 END) as statusClosed')
+    //     )->first()->toArray();
+
+    //     return $counters;
+    // }
+
     /** Functions for Status Filters */
     public function statusFilterOpen()
     {
@@ -176,7 +202,8 @@ class IdeaController extends Controller
             "categories" => fn () => Category::all(),   //for partial reloads
             "avatar" => function () use ($avatar) {    //for partial reloads
                 return $avatar;
-            }
+            },
+            "statusCounts" => fn () => Status::getStatusCounts(),
         ]);
     }
 }

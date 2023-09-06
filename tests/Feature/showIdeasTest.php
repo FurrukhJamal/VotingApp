@@ -171,7 +171,7 @@ class ShowIdeasTest extends TestCase
     }
 
     /** @test */
-    public function check_different_statuses_are_showing_together_with_different_classes()
+    public function check_different_statuses_are_showing_in_the_correct_order()
     {
         $user = User::factory()->create();
         $category1 = Category::factory()->create(["name" => "Category 1"]);

@@ -11,7 +11,7 @@ import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
 
-function IdeaPage({ auth, idea, categories, avatar }) {
+function IdeaPage({ auth, idea, categories, avatar, statusCounts }) {
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
     console.log("categories in single Page: ", categories)
@@ -92,7 +92,7 @@ function IdeaPage({ auth, idea, categories, avatar }) {
         <>
 
             <MainLayOut avatar={avatar} user={auth.user} categories={categories}>
-                <NavigationBar></NavigationBar>
+                <NavigationBar statusCounts={statusCounts}></NavigationBar>
                 <div className="mt-3 hover:underline items-center flex">
 
                     <Link dusk="goBackLink" className="flex" onClick={(e) => goBack(e)} href="/" >

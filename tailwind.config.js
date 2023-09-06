@@ -28,6 +28,8 @@ export default {
                 myBlue: "#2879bd",
                 purple: colors.purple,
                 blue: colors.blue,
+                sky: colors.sky,
+                green: colors.green
             },
 
             spacing: {
