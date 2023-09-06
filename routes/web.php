@@ -40,7 +40,7 @@ Route::get("ideas/{idea:slug}", [IdeaController::class, "show"])->name("idea.sho
 
 /* status filter links */
 Route::get("/statusfilter/all", [IdeaController::class, "index"])->name("status.all");
-Route::get("/statusfilter/open", [IdeaController::class, "statusFilterOpen"])->name("status.open");
+Route::get("/statusfilter/open/{category?}", [IdeaController::class, "statusFilterOpen"])->name("status.open");
 Route::get("/statusfilter/considering", [IdeaController::class, "statusFilterConsidering"])->name("status.considering");
 Route::get("/statusfilter/inprogress", [IdeaController::class, "statusFilterInProgress"])->name("status.inProgress");
 Route::get("/statusfilter/implemented", [IdeaController::class, "statusFilterImplemented"])->name("status.implemented");

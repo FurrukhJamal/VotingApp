@@ -160,32 +160,67 @@ class IdeaController extends Controller
         return $this->returnFilteredIdeas($ideas);
     }
 
-    public function statusFilterConsidering()
+    public function statusFilterConsidering(HttpRequest $request)
     {
         $status = Status::where("name", "Considering")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+        //if category is selected
+        if ($request["category"]) {
+            $ideas = Idea::latest("id")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        }
+
         return $this->returnFilteredIdeas($ideas);
     }
 
-    public function statusFilterInProgress()
+    public function statusFilterInProgress(HttpRequest $request)
     {
         $status = Status::where("name", "In Progress")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+
+        //if category is selected
+        if ($request["category"]) {
+            $ideas = Idea::latest("id")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        }
+
         return $this->returnFilteredIdeas($ideas);
     }
 
 
-    public function statusFilterImplemented()
+    public function statusFilterImplemented(HttpRequest $request)
     {
         $status = Status::where("name", "Implemented")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+
+        //if category is selected
+        if ($request["category"]) {
+            $ideas = Idea::latest("id")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        }
+
         return $this->returnFilteredIdeas($ideas);
     }
 
-    public function statusFilterClosed()
+    public function statusFilterClosed(HttpRequest $request)
     {
         $status = Status::where("name", "Closed")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
+
+        //if category is selected
+        if ($request["category"]) {
+            $ideas = Idea::latest("id")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        }
+
         return $this->returnFilteredIdeas($ideas);
     }
     /** End of Functions for Status Filters */
