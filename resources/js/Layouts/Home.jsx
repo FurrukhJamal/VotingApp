@@ -22,7 +22,7 @@ function Home({ user, ideas, categories, avatar, statusCounts }) {
         <NavigationBar statusCounts={statusCounts} />
         <Filters categories={categories} />
         <Ideas ideas={ideas} user={user} />
-        <Pagination {...ideas} />
+        <Pagination ideas={ideas} />
       </MainLayOut>
     </>
 

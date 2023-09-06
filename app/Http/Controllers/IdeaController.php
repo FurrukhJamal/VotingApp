@@ -19,10 +19,17 @@ class IdeaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(HttpRequest $request)
     {
         $ideas = Idea::latest("id")->simplePaginate(10);   //for eagerload you can add with("user", "category") before simplePagination
         // dd($ideas);
+
+        //if category is selected
+        if ($request["category"]) {
+            $ideas = Idea::latest("id")
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        }
 
         foreach ($ideas->items() as $item) {
             // dd($item);
@@ -122,28 +129,6 @@ class IdeaController extends Controller
         //
     }
 
-    // public function getStatusCounts()
-    // {
-    //     // return Idea::query()->selectRaw("count(*) as all_counts")
-    //     //     ->selectRaw("count(CASE WHEN `status_id` = 1 THEN 1 END) as statusOpen")
-    //     //     ->selectRaw("count(CASE WHEN `status_id` = 2 THEN 1 END) as statusConsidering")
-    //     //     ->selectRaw("count(CASE WHEN `status_id` = 3 THEN 1 END) as statusInProgress")
-    //     //     ->selectRaw("count(CASE WHEN `status_id` = 4 THEN 1 END) as statusImplemented")
-    //     //     ->selectRaw("count(CASE WHEN `status_id` = 5 THEN 1 END) as statusClosed")
-    //     //     ->first()
-    //     //     ->toArray();
-
-    //     $counters = Idea::select(
-    //         DB::raw('count(*) as all_counts'),
-    //         DB::raw('count(CASE WHEN status_id = 1 THEN 1 END) as statusOpen'),
-    //         DB::raw('count(CASE WHEN status_id = 2 THEN 1 END) as statusConsidering'),
-    //         DB::raw('count(CASE WHEN status_id = 3 THEN 1 END) as statusInProgress'),
-    //         DB::raw('count(CASE WHEN status_id = 4 THEN 1 END) as statusImplemented'),
-    //         DB::raw('count(CASE WHEN status_id = 5 THEN 1 END) as statusClosed')
-    //     )->first()->toArray();
-
-    //     return $counters;
-    // }
 
     /** Functions for Status Filters */
     public function statusFilterOpen(HttpRequest $request)

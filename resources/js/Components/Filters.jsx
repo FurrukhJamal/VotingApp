@@ -8,9 +8,9 @@ import { router } from '@inertiajs/react'
 function Filters({ categories }) {
 
   function handleCategorySelect(e, category) {
-    // console.log("category selected text: ", e.target.textContent)
+    console.log("category selected current route is: ", route().current())
     e.preventDefault()
-    router.get(route("status.open", { "category": category.id }))
+    router.get(route(route().current(), { "category": category.id }))
   }
 
 
