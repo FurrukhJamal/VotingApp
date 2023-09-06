@@ -3,8 +3,16 @@ import "../../css/filters.css"
 import Dropdown from './Dropdown'
 import TextInput from "./TextInput"
 import searchIcon from "../../images/search-interface-symbol.png"
+import { router } from '@inertiajs/react'
 
-function Filters() {
+function Filters({ categories }) {
+
+  function handleCategorySelect(e, category) {
+    // console.log("category selected text: ", e.target.textContent)
+    e.preventDefault()
+    router.get(route("status.open", { "category": category.id }))
+  }
+
 
   return (
     <div className='Filtercontainer'>
@@ -34,6 +42,17 @@ function Filters() {
             </span>
           </Dropdown.Trigger>
           <Dropdown.Content>
+            {categories.map((category) => (
+              <Dropdown.Link
+                key={category.id}
+                className="text-center"
+                href={route('idea.index')}
+                method="post"
+                as="button"
+                onClick={(e) => handleCategorySelect(e, category)}>
+                {category.name}
+              </Dropdown.Link>
+            ))}
             <Dropdown.Link className="text-center" href={route('profile.edit')}>Category 1</Dropdown.Link>
             <Dropdown.Link href={route('logout')} method="post" as="button">
               Category 2

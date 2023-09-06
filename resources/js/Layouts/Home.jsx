@@ -20,7 +20,7 @@ function Home({ user, ideas, categories, avatar, statusCounts }) {
     <>
       <MainLayOut user={user} categories={categories} avatar={avatar}>
         <NavigationBar statusCounts={statusCounts} />
-        <Filters></Filters>
+        <Filters categories={categories} />
         <Ideas ideas={ideas} user={user} />
         <Pagination {...ideas} />
       </MainLayOut>
