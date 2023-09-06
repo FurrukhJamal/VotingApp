@@ -94,6 +94,7 @@ class IdeaController extends Controller
             "idea" => $idea,
             "categories" => Category::all(),
             "avatar" => $avatar,
+            "statusCounts" => fn () => Status::getStatusCounts(),
         ]);
     }
 

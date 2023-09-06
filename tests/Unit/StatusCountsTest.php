@@ -98,5 +98,18 @@ class StatusCountsTest extends TestCase
                     ->where("statusCounts.statusConsidering", 1)
                     ->etc();
             });
+
+        $this->get(route("idea.show", $idea1))
+            ->assertInertia(function (Assert $page) {
+                $page->component("IdeaPage")
+                    ->has("statusCounts", 6)
+                    ->where("statusCounts.all_counts", 6)
+                    ->where("statusCounts.statusOpen", 1)
+                    ->where("statusCounts.statusClosed", 2)
+                    ->where("statusCounts.statusInProgress", 1)
+                    ->where("statusCounts.statusImplemented", 1)
+                    ->where("statusCounts.statusConsidering", 1)
+                    ->etc();
+            });
     }
 }
