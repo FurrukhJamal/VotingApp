@@ -18,9 +18,10 @@ function Filters({ categories }) {
     <div className='Filtercontainer'>
       <div className="filterButtons">
         <Dropdown>
-          <Dropdown.Trigger>
+          <Dropdown.Trigger >
             <span className="inline-flex rounded-xl">
               <button
+                dusk="categoriesButton"
                 type="button"
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
               >
@@ -44,6 +45,7 @@ function Filters({ categories }) {
           <Dropdown.Content>
             {categories.map((category) => (
               <Dropdown.Link
+                {...(category.id == 1 ? { dusk: "Category1Button" } : null)}
                 key={category.id}
                 className="text-center"
                 href={route('idea.index')}
@@ -53,10 +55,7 @@ function Filters({ categories }) {
                 {category.name}
               </Dropdown.Link>
             ))}
-            <Dropdown.Link className="text-center" href={route('profile.edit')}>Category 1</Dropdown.Link>
-            <Dropdown.Link href={route('logout')} method="post" as="button">
-              Category 2
-            </Dropdown.Link>
+
           </Dropdown.Content>
         </Dropdown>
 

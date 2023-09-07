@@ -12,7 +12,7 @@ function NavigationBar({ auth, statusCounts }) {
                     All Ideas ({statusCounts.all_counts})
                 </NavLink>
 
-                <NavLink href={route("status.open")} active={route().current("status.open")} className={route().current("status.open") ? 'navLinkActive' : 'navLink'}>
+                <NavLink dusk="statusFilterOpen" href={route("status.open")} active={route().current("status.open")} className={route().current("status.open") ? 'navLinkActive' : 'navLink'}>
                     Open ({statusCounts.statusOpen})
                 </NavLink>
 

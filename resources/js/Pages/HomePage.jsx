@@ -11,6 +11,10 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
   // console.log("auth in Homepage.jsx", auth)
   // console.log("categories in HomePage: ", categories)
   // console.log("avatar in HomePage: ", avatar)
+  useEffect(() => {
+    console.log("window.location.origin: ", window.location.origin)
+    console.log("window.location.search", window.location.search)
+  })
 
   return (
     <>

@@ -10,7 +10,7 @@ dayjs.extend(relativeTime)
 function Ideas({ ideas, user }) {
     console.log("ideas in ideas component:", ideas)
     console.log("ideas.links in ideas component", ideas.links)
-
+    const data = ideas.data
 
     function handleIdeaClick(idea) {
         console.log("the idea clicked is :", idea)
@@ -89,10 +89,11 @@ function Ideas({ ideas, user }) {
     return (
         <>
             {
-                ideas.data.map((idea, index) => {
+
+                ideas.data.map((idea, index, data) => {
                     return (
                         /* start of idea container */
-                        <div key={index} onClick={() => handleIdeaClick(idea)} className="space-y-4 my-4">
+                        <div {...(index == 0 ? { dusk: "ideaOnTopOfPage" } : "")} key={index} onClick={() => handleIdeaClick(idea)} className="space-y-4 my-4">
                             {/* <Link href={route("idea.show", idea)}> */}
 
                             <div className="bg-white cursor-pointer hover:shadow-card transition duration-150 ease-in rounded-xl flex">
@@ -129,10 +130,10 @@ function Ideas({ ideas, user }) {
 
                                     <div className="mx-4">
                                         <Link dusk="IdeaTitle" href={`/ideas/${idea.slug}`} className="hover:underline">
-                                            <h1 className='text-xl font-semibold'>{idea.title}</h1>
+                                            <h1 {...(index == 0 ? { dusk: "titleOnTopOfPage" } : "")} className='text-xl font-semibold'>{idea.title}</h1>
                                         </Link>
                                         <div className='text-gray-600 mt-3 line-clamp-3'>
-                                            <p>{idea.description}</p>
+                                            <p {...(index == 0 ? { dusk: "descriptionOnTopOfPage" } : "")}>{idea.description}</p>
                                         </div>
 
                                         <div className="flex mt-6 items-center justify-between">
