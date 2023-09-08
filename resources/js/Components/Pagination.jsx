@@ -29,8 +29,7 @@ function Pagination({ prev_page_url, next_page_url }) {
 
             if (next_page_url) {
                 let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")) // getting just "=2" or "=1" part 
-                console.log("in Pagination pageParam: ", pageNumber)
-                console.log("baePath:", basePath)
+
                 //making the link as "localhost/?category=1&page=1"
                 setcustomNextPageUrl(basePath + "&page=" + pageNumber.slice(1))
             }

@@ -1,27 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../../css/filters.css"
 import Dropdown from './Dropdown'
 import TextInput from "./TextInput"
 import searchIcon from "../../images/search-interface-symbol.png"
 import { router } from '@inertiajs/react'
+import { AppContext } from '@/Pages/HomePage'
 
 function Filters({ categories }) {
-  const [selectedCategory, setSelectedCategory] = useState("")
-
-  useEffect(() => {
-    let searchParam = window.location.search
-    if (searchParam.match(/\?category=[0-9]/)) {
-      let categoryId = searchParam.slice(searchParam.lastIndexOf("=")).slice(1)
-      console.log("category_id in useEffect of Filters:", categoryId)
-      let categorySelected = categories.filter((category) => category.id == categoryId)
-      console.log("selected category is:", categorySelected)
-      setSelectedCategory(categorySelected.name)
-    }
-  }, [])
-
+  const { selectedCategory } = useContext(AppContext)
 
   function handleCategorySelect(e, category) {
-    console.log("category selected current route is: ", route().current())
     e.preventDefault()
     router.get(route(route().current(), { "category": category.id }))
   }
