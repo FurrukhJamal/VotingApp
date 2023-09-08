@@ -66,13 +66,13 @@ function Pagination({ prev_page_url, next_page_url }) {
                 </Link>
 
                 <Link
-                    dusk="paginationNextButton"
+
                     className={`w-40 ml-2 py-3 px-4 ${isLastPage ? "bg-gray-50 border-2 border-green-400" : "bg-gray-200 hover:bg-gray-400 border-green-400"}  transition transition-duration-150 ease-in  flex justify-center items-center rounded-xl`}
                     as="button" href={ifPathHasParam ? customNextPageUrl : next_page_url}
                     disabled={isLastPage}
                 >
                     <span className="inline-flex items-center">
-                        <p className="capitalize text-center text-lg">Next</p>
+                        <p dusk="paginationNextButton" className="capitalize text-center text-lg">Next</p>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                         </svg>

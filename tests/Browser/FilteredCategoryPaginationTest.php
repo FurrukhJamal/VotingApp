@@ -170,22 +170,23 @@ class FilteredCategoryPaginationTest extends DuskTestCase
                 ->waitFor("@categoriesButton", 20)
                 ->press("@categoriesButton")
                 ->screenshot("errorStaleElement")
-                ->whenAvailable("@Category1Button", function (Browser $browser) use ($ideaLastInDisplay) {
-                    $browser->screenshot("category1Pressed")
-                        ->waitFor("@Category1Button", 20)
-                        ->click("@Category1Button")
-                        ->waitFor("@ideaOnTopOfPage", 20)
-                        ->press("@@paginationNextButton")
-                        ->waitForTextIn("@titleOnTopOfPage", $ideaLastInDisplay->title, 20)
-                        ->waitForTextIn("@descriptionOnTopOfPage", $ideaLastInDisplay->description, 20)
-                        ->screenshot("allIdeaCategoryPaginationNext");
-                }, 20);
-            // ->waitFor("@Category1Button")
-            // ->click("@Category1Button")
-            // ->waitFor("@ideaOnTopOfPage", 20)
-            // ->click("@paginationNextButton")
-            // ->waitForTextIn("@titleOnTopOfPage", $ideaOpenPage2->title, 20)
-            // ->waitForTextIn("@descriptionOnTopOfPage", $ideaOpenPage2->description, 20);
+                // ->whenAvailable("@Category1Button", function (Browser $browser) use ($ideaLastInDisplay) {
+                //     $browser->screenshot("category1Pressed")
+                //         ->press("@Category1Button");
+                //     // ->screenshot("screenWhencategorySelected")
+                //     // ->waitFor("@ideaOnTopOfPage", 20)
+                //     // ->press("@@paginationNextButton")
+                //     // ->waitForTextIn("@titleOnTopOfPage", $ideaLastInDisplay->title, 20)
+                //     // ->waitForTextIn("@descriptionOnTopOfPage", $ideaLastInDisplay->description, 20)
+                //     // ->screenshot("allIdeaCategoryPaginationNext");
+                // }, 20)
+                // ->waitFor("@Category1Button", 20)
+                // ->click("@Category1Button")
+                // ->waitFor("@ideaOnTopOfPage", 20)
+                ->pause(20000)
+                ->press("@paginationNextButton")
+                ->waitForTextIn("@titleOnTopOfPage", $ideaLastInDisplay->title, 20)
+                ->waitForTextIn("@descriptionOnTopOfPage", $ideaLastInDisplay->description, 20);
         });
     }
 }

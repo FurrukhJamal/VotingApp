@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "../../css/filters.css"
 import Dropdown from './Dropdown'
 import TextInput from "./TextInput"
@@ -6,6 +6,19 @@ import searchIcon from "../../images/search-interface-symbol.png"
 import { router } from '@inertiajs/react'
 
 function Filters({ categories }) {
+  const [selectedCategory, setSelectedCategory] = useState("")
+
+  useEffect(() => {
+    let searchParam = window.location.search
+    if (searchParam.match(/\?category=[0-9]/)) {
+      let categoryId = searchParam.slice(searchParam.lastIndexOf("=")).slice(1)
+      console.log("category_id in useEffect of Filters:", categoryId)
+      let categorySelected = categories.filter((category) => category.id == categoryId)
+      console.log("selected category is:", categorySelected)
+      setSelectedCategory(categorySelected.name)
+    }
+  }, [])
+
 
   function handleCategorySelect(e, category) {
     console.log("category selected current route is: ", route().current())
@@ -19,13 +32,13 @@ function Filters({ categories }) {
       <div className="filterButtons">
         <Dropdown>
           <Dropdown.Trigger >
-            <span className="inline-flex rounded-xl">
+            <span className="inline-flex rounded-xl bg-red-500">
               <button
                 dusk="categoriesButton"
                 type="button"
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                className="inline-flex items-center w-44 justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
               >
-                Category
+                {selectedCategory ? selectedCategory : "Category"}
 
                 <svg
                   className="ml-2 -mr-0.5 h-4 w-4"
