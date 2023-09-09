@@ -29,6 +29,11 @@ class IdeaController extends Controller
             $ideas = Idea::latest("id")
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
+        } else if ($request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("category_id", $request["category"])
+
+                ->simplePaginate(10)->toArray();
         }
 
         foreach ($ideas->items() as $item) {
