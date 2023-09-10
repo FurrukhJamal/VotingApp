@@ -30,10 +30,9 @@ class IdeaController extends Controller
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
         } else if ($request["otherfilters"] == "topvoted") {
+            //case when other filters are selected from all ideas page
             $ideas = Idea::orderBy("votes_count", "desc")
-                ->where("category_id", $request["category"])
-
-                ->simplePaginate(10)->toArray();
+                ->simplePaginate(10);
         }
 
         foreach ($ideas->items() as $item) {

@@ -16,6 +16,7 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
 
   useEffect(() => {
     let searchParam = window.location.search
+    console.log("window.location.search : ", window.location.search)
     //if a get parameter named category is there in the url
     if (searchParam.match(/\?category=[0-9]/)) {
 
