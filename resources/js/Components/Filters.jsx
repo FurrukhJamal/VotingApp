@@ -3,15 +3,30 @@ import "../../css/filters.css"
 import Dropdown from './Dropdown'
 import TextInput from "./TextInput"
 import searchIcon from "../../images/search-interface-symbol.png"
-import { router } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 import { AppContext } from '@/Pages/HomePage'
 
 function Filters({ categories }) {
   const { selectedCategory } = useContext(AppContext)
+  const { fullUrl, queryParams } = usePage().props
 
   function handleCategorySelect(e, category) {
     e.preventDefault()
     router.get(route(route().current(), { "category": category.id }))
+  }
+
+  function handleTopVoted(e) {
+    e.preventDefault()
+    console.log("fullUrl", fullUrl)
+    console.log("queryParams: ", queryParams)
+    if (queryParams?.category) {
+      let path = fullUrl + `?category=${queryParams.category}` + "&otherfilters=topvoted"
+      router.get(path)
+    }
+    else {
+      let path = fullUrl + "?otherfilters=topvoted"
+      router.get(path)
+    }
   }
 
 
@@ -86,8 +101,13 @@ function Filters({ categories }) {
             </span>
           </Dropdown.Trigger>
           <Dropdown.Content>
-            <Dropdown.Link className="text-center" href={route('profile.edit')}>Category 1</Dropdown.Link>
-            <Dropdown.Link href={route('logout')} method="post" as="button">
+            <Dropdown.Link
+              className="text-center"
+              href={route('idea.index')}
+              onClick={(e) => handleTopVoted(e)}>
+              Top Voted
+            </Dropdown.Link>
+            <Dropdown.Link className="text-center" href={route('idea.index')} as="button">
               Category 2
             </Dropdown.Link>
           </Dropdown.Content>

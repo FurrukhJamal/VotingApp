@@ -44,10 +44,10 @@ class DatabaseSeeder extends Seeder
         Status::factory()->create(["name" => "Closed"]);
 
 
-        Idea::factory(50)->create();
+        Idea::factory(100)->create();
 
         for ($i = 1; $i <= 10; $i++) {
-            for ($j = 1; $j <= 50; $j++) {
+            for ($j = 1; $j <= 100; $j++) {
                 if ($j % 2 == 0) {
                     Vote::factory()->create([
                         "user_id" => $i,

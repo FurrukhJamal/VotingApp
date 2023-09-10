@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
 
 
@@ -11,6 +11,9 @@ function Pagination({ prev_page_url, next_page_url }) {
     const [customNextPageUrl, setcustomNextPageUrl] = useState("")
     const [customPreviousPageUrl, setcustomPreviousPageUrl] = useState("")
 
+    //for when Top Votes and other categories are selected from Other Filters
+    const { fullUrl, queryParams } = usePage().props
+
     useEffect(() => {
         if (prev_page_url) {
             setisFirstPage(false)
@@ -22,26 +25,42 @@ function Pagination({ prev_page_url, next_page_url }) {
         // to fix pagination for when categories are selected from all ideas status
         let searchQueryParam = window.location.search
 
+        // let getParams = new URLSearchParams(searchQueryParam)
+
         //if a category param is there then this means user is filtering based on categories from all statuses
-        if (searchQueryParam.match(/\?category=[1-9]/)) {
+        // if (searchQueryParam.match(/\?category=[1-9]/)) {
+        //     setPathHasParam(true)
+        //     let basePath = window.location.origin + searchQueryParam.slice(0, 11)  //slicing to get only ?category=1 part and skip if there is also a page like "?category=1&page=2"
+
+        //     if (next_page_url) {
+        //         let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")) // getting just "=2" or "=1" part 
+
+        //         //making the link as "localhost/?category=1&page=1"
+        //         setcustomNextPageUrl(basePath + "&page=" + pageNumber.slice(1))
+        //     }
+
+        //     if (prev_page_url) {
+        //         // getting just "=2" or "=1" part 
+        //         let prevPageParam = prev_page_url.slice(prev_page_url.lastIndexOf("="))
+        //         //making the link as "localhost/?category=1&page=1"
+        //         setcustomPreviousPageUrl(basePath + "&page=" + prevPageParam.slice(1))
+        //     }
+
+
+        // }
+        if (queryParams?.otherfilters || queryParams?.category) {
+            console.log("OTHER FILTERS present", queryParams.otherfilters, "category : ", queryParams.category)
             setPathHasParam(true)
-            let basePath = window.location.origin + searchQueryParam.slice(0, 11)  //slicing to get only ?category=1 part and skip if there is also a page like "?category=1&page=2"
-
             if (next_page_url) {
-                let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")) // getting just "=2" or "=1" part 
-
-                //making the link as "localhost/?category=1&page=1"
-                setcustomNextPageUrl(basePath + "&page=" + pageNumber.slice(1))
+                let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")).slice(1)
+                setcustomNextPageUrl(fullUrl + `?otherfilters=${queryParams.otherfilters}${queryParams.category ? `&category=${queryParams.category}` : ``}&page=${pageNumber}`)
             }
-
             if (prev_page_url) {
                 // getting just "=2" or "=1" part 
-                let prevPageParam = prev_page_url.slice(prev_page_url.lastIndexOf("="))
+                let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
                 //making the link as "localhost/?category=1&page=1"
-                setcustomPreviousPageUrl(basePath + "&page=" + prevPageParam.slice(1))
+                setcustomPreviousPageUrl(fullUrl + `?otherfilters=${queryParams.otherfilters}&page=${pageNumber}`)
             }
-
-
         }
     }, [])
 

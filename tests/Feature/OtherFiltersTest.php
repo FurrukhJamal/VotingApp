@@ -105,18 +105,23 @@ class OtherFiltersTest extends TestCase
 
         $idea = Idea::factory()->create([
             "user_id" => $user->id,
-            "title" => "Idea with 9 votes",
+            "title" => "Idea with 1 votes",
             "description" => "This should be on top of page 2",
             "category_id" => $cat1->id,
             "status_id" => $statusOpen->id
         ]);
 
+        Vote::factory()->create([
+            "user_id" => $user->id,
+            "idea_id" => $idea->id
+        ]);
+
         $ideas = Idea::factory(10)->create();
-        foreach ($users as $user) {
-            foreach ($ideas as $idea) {
+        foreach ($users as $voter) {
+            foreach ($ideas as $Idea) {
                 Vote::factory()->create([
-                    "user_id" => $user->id,
-                    "idea_id" => $idea->id
+                    "user_id" => $voter->id,
+                    "idea_id" => $Idea->id
                 ]);
             }
         }
@@ -131,10 +136,170 @@ class OtherFiltersTest extends TestCase
 
 
         $this->get("/?otherfilters=topvoted&page=2")
-            ->asssertInertia(function (Assert $page) {
+            ->assertInertia(function (Assert $page) use ($ideaZeroVote, $idea) {
                 $page->component("HomePage")
-                    ->has("ideas", function (Assert $page) {
+                    ->has("ideas", function (Assert $page) use ($ideaZeroVote, $idea) {
                         $page->has("data", 2)
+                            ->has("data.0", function (Assert $page) use ($idea) {
+                                $page->where("title", $idea->title)
+                                    ->where("description", $idea->description)
+                                    ->etc();
+                            })
+                            ->has("data.1", function (Assert $page) use ($ideaZeroVote) {
+                                $page->where("title", $ideaZeroVote->title)
+                                    ->etc();
+                            })
+                            ->etc();
+                    })
+                    ->etc();
+            });
+    }
+
+    /** @test */
+    public function top_voted_idea_along_with_filtered_category_displaying_correctly_for_all_idea_status()
+    {
+        $users = User::factory(10)->create();
+        $user1 = $users->get(1);
+
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
+        $ideaWithMaxVotes = Idea::factory()->create([
+            "title" => "Idea with Max Votes",
+            "description" => "This idea will not appear in the reurned data",
+            "category_id" => $cat1->id,
+            "user_id" => $user1->id
+        ]);
+
+        foreach ($users as $user) {
+            Vote::factory()->create([
+                "user_id" => $user->id,
+                "idea_id" => $ideaWithMaxVotes->id
+            ]);
+        }
+
+        $ideaOfCat2WithMaxVotes = Idea::factory()->create([
+            "title" => "Idea with Max Votes of Category 2",
+            "description" => "This idea will appear on top in the reurned data",
+            "category_id" => $cat2->id,
+            "user_id" => $user1->id
+        ]);
+
+        $counter = 0;
+        foreach ($users as $user) {
+            Vote::factory()->create([
+                "user_id" => $user->id,
+                "idea_id" => $ideaOfCat2WithMaxVotes->id
+            ]);
+
+            $counter++;
+            if ($counter == 4) {
+                //4 votes
+                break;
+            }
+        }
+
+        $ideaOfCat2With3Votes = Idea::factory()->create([
+            "title" => "Idea with second Highest Votes of Category 2",
+            "description" => "This idea will appear in 2nd position in the reurned data",
+            "category_id" => $cat2->id,
+            "user_id" => $user1->id
+        ]);
+
+        $counter = 0;
+        foreach ($users as $user) {
+            Vote::factory()->create([
+                "user_id" => $user->id,
+                "idea_id" => $ideaOfCat2With3Votes->id
+            ]);
+
+            $counter++;
+            if ($counter == 3) {
+                //3 votes
+                break;
+            }
+        }
+
+
+        $this->get("/?otherfilters=topvoted&category=2")
+            ->assertInertia(function (Assert $page) use ($ideaOfCat2WithMaxVotes, $ideaOfCat2With3Votes) {
+                $page->component("HomePage")
+                    ->has("ideas", function (Assert $page) use ($ideaOfCat2WithMaxVotes, $ideaOfCat2With3Votes) {
+                        $page->has("data", 2)
+                            ->has("data.0", function (Assert $page) use ($ideaOfCat2WithMaxVotes) {
+                                $page->where("title", $ideaOfCat2WithMaxVotes->title)
+                                    ->where("description", $ideaOfCat2WithMaxVotes->description)
+                                    ->etc();
+                            })
+                            ->has("data.1", function (Assert $page) use ($ideaOfCat2With3Votes) {
+                                $page->where("title", $ideaOfCat2With3Votes->title)
+                                    ->etc();
+                            })
+                            ->etc();
+                    })
+                    ->etc();
+            });
+    }
+
+
+    /** @test */
+    public function top_voted_in_all_status_ideas_with_category_filtered_pagination_correctly()
+    {
+        $users = User::factory(10)->create();
+        $user1 = $users->get(1);
+
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
+        $ideas = Idea::factory(10)->create([
+            "category_id" => $cat2->id
+        ]);
+
+        foreach ($users as $user) {
+            foreach ($ideas as $idea) {
+                Vote::factory()->create([
+                    "user_id" => $user->id,
+                    "idea_id" => $idea->id
+                ]);
+            }
+        }
+
+        //creating 10 more ideas
+        Idea::factory(10)->create([
+            "category_id" => $cat1->id
+        ]);
+
+        $ideaForSecondPage = Idea::factory()->create([
+            "title" => "This will be on top of second page",
+            "category_id" => $cat2->id
+        ]);
+
+        $this->get("/?otherfilters=topvoted&category=2&page=2")
+            ->assertInertia(function (Assert $page) use ($ideaForSecondPage) {
+                $page->component("HomePage")
+                    ->has("ideas", function (Assert $page) use ($ideaForSecondPage) {
+                        $page->has("data", 1)
+                            ->has("data.0", function (Assert $page) use ($ideaForSecondPage) {
+                                $page->where("title", $ideaForSecondPage->title)
+                                    ->where("description", $ideaForSecondPage->description)
+                                    ->etc();
+                            })
                             ->etc();
                     })
                     ->etc();

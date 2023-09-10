@@ -22,15 +22,19 @@ class IdeaController extends Controller
     public function index(HttpRequest $request)
     {
         $ideas = Idea::latest("id")->simplePaginate(10);   //for eagerload you can add with("user", "category") before simplePagination
-        // dd($ideas);
+        // dd($request->query());
 
         //if category is selected
-        if ($request["category"]) {
+        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["category"]) {
             $ideas = Idea::latest("id")
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
         } else if ($request["otherfilters"] == "topvoted") {
-            //case when other filters are selected from all ideas page
+            //case when other filters for top voted is selected just from all ideas page
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->simplePaginate(10);
         }
@@ -151,6 +155,7 @@ class IdeaController extends Controller
 
     public function statusFilterConsidering(HttpRequest $request)
     {
+        // dd($request->query());
         $status = Status::where("name", "Considering")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
         //if category is selected
