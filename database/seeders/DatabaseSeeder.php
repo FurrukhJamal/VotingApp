@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         Status::factory()->create(["name" => "Closed"]);
 
 
-        Idea::factory(100)->create();
+        Idea::factory(160)->create();
 
         for ($i = 1; $i <= 10; $i++) {
             for ($j = 1; $j <= 100; $j++) {

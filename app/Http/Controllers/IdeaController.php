@@ -141,13 +141,24 @@ class IdeaController extends Controller
     /** Functions for Status Filters */
     public function statusFilterOpen(HttpRequest $request)
     {
+        // dd($request["otherfilters"]);
         //get status id for Open
         $status = Status::where("name", "Open")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
-        if ($request["category"]) {
+        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+            // dd($ideas);
+        } else if ($request["category"]) {
             $ideas = Idea::latest("id")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
                 ->simplePaginate(10);
         }
         return $this->returnFilteredIdeas($ideas);

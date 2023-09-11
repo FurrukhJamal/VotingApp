@@ -48,7 +48,7 @@ function Pagination({ prev_page_url, next_page_url }) {
 
 
         // }
-        if (queryParams?.otherfilters || queryParams?.category) {
+        if (queryParams?.otherfilters && queryParams?.category) {
             console.log("OTHER FILTERS present", queryParams.otherfilters, "category : ", queryParams.category)
             setPathHasParam(true)
             if (next_page_url) {
@@ -60,6 +60,33 @@ function Pagination({ prev_page_url, next_page_url }) {
                 let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
                 //making the link as "localhost/?category=1&page=1"
                 setcustomPreviousPageUrl(fullUrl + `?otherfilters=${queryParams.otherfilters}&page=${pageNumber}`)
+            }
+        }
+
+        else if (queryParams?.otherfilters || queryParams?.category) {
+            console.log("OTHER FILTERS present", queryParams.otherfilters, "category : ", queryParams.category)
+            setPathHasParam(true)
+            if (next_page_url) {
+                let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")).slice(1)
+                if (queryParams.category) {
+                    setcustomNextPageUrl(fullUrl + `${queryParams.category ? `?category=${queryParams.category}` : ``}&page=${pageNumber}`)
+                }
+                else {
+                    setcustomNextPageUrl(fullUrl + `${queryParams.otherfilters == "topvoted" ? `?otherfilters=${queryParams.otherfilters}` : ``}&page=${pageNumber}`)
+                }
+
+            }
+            if (prev_page_url) {
+                // getting just "=2" or "=1" part 
+                let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
+                //making the link as "localhost/?category=1&page=1"
+                // setcustomPreviousPageUrl(fullUrl + `?otherfilters=${queryParams.otherfilters}&page=${pageNumber}`)
+                if (queryParams.category) {
+                    setcustomPreviousPageUrl(fullUrl + `${queryParams.category ? `?category=${queryParams.category}` : ``}&page=${pageNumber}`)
+                }
+                else {
+                    setcustomPreviousPageUrl(fullUrl + `${queryParams.otherfilters == "topvoted" ? `?otherfilters=${queryParams.otherfilters}` : ``}&page=${pageNumber}`)
+                }
             }
         }
     }, [])

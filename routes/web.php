@@ -40,11 +40,15 @@ Route::get("ideas/{idea:slug}", [IdeaController::class, "show"])->name("idea.sho
 
 /* status filter links */
 Route::get("/statusfilter/all", [IdeaController::class, "index"])->name("status.all");
-Route::get("/statusfilter/open/{category?}", [IdeaController::class, "statusFilterOpen"])->name("status.open");
+// Route::get("/statusfilter/open/{category?}", [IdeaController::class, "statusFilterOpen"])->name("status.open");
 Route::get("/statusfilter/considering/{category?}", [IdeaController::class, "statusFilterConsidering"])->name("status.considering");
 Route::get("/statusfilter/inprogress/{category?}", [IdeaController::class, "statusFilterInProgress"])->name("status.inProgress");
 Route::get("/statusfilter/implemented/{category?}", [IdeaController::class, "statusFilterImplemented"])->name("status.implemented");
 Route::get("/statusfilter/closed/{category?}", [IdeaController::class, "statusFilterClosed"])->name("status.closed");
+Route::get("/statusfilter/open/{filter?}", [IdeaController::class, "statusFilterOpen"])
+    ->where(["filter" => "category|otherfilters"])
+    ->name("status.open");
+
 /* END status filter links */
 
 
