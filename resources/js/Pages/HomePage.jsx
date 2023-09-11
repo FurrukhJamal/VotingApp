@@ -9,6 +9,7 @@ export const AppContext = createContext()
 function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
   const [selectedCategory, setSelectedCategory] = useState("")
   const { queryParams } = usePage().props
+  const [topVotedSelected, setTopVotedSelected] = useState(false)
 
   console.log("ideas are: ", ideas)
   // console.log("auth in Homepage.jsx", auth)
@@ -38,8 +39,15 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
     }
   }, [])
 
+  //for checking if top Voted filter is selected and display accordingly
+  useEffect(() => {
+    if (queryParams?.otherfilters == "topvoted") {
+      setTopVotedSelected(true)
+    }
+  }, [])
+
   return (
-    <AppContext.Provider value={{ selectedCategory, setSelectedCategory }}>
+    <AppContext.Provider value={{ selectedCategory, setSelectedCategory, topVotedSelected }}>
       <Head title="Voting App" />
       <Home {...auth} ideas={ideas} categories={categories} avatar={avatar} statusCounts={statusCounts} />
     </AppContext.Provider>

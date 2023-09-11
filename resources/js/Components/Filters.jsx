@@ -7,7 +7,7 @@ import { router, usePage } from '@inertiajs/react'
 import { AppContext } from '@/Pages/HomePage'
 
 function Filters({ categories }) {
-  const { selectedCategory } = useContext(AppContext)
+  const { selectedCategory, topVotedSelected } = useContext(AppContext)
   const { fullUrl, queryParams } = usePage().props
 
   function handleCategorySelect(e, category) {
@@ -23,10 +23,26 @@ function Filters({ categories }) {
       let path = fullUrl + `?category=${queryParams.category}` + "&otherfilters=topvoted"
       router.get(path)
     }
+    else if (queryParams?.otherfilters == "topvoted") {
+      let path = fullUrl + "?otherfilters=topvoted"
+      router.get(path)
+    }
     else {
       let path = fullUrl + "?otherfilters=topvoted"
       router.get(path)
     }
+
+  }
+
+
+  function handleResetOtherFilters(e) {
+    e.preventDefault()
+    // console.log("fullURL in Filter", fullUrl)
+    let path = fullUrl
+    if (queryParams?.category) {
+      path += `?category=${queryParams.category}`
+    }
+    router.get(path)
   }
 
 
@@ -83,7 +99,8 @@ function Filters({ categories }) {
                 type="button"
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
               >
-                Other Filters
+                {topVotedSelected ? "Top Voted" : "Other Filters"}
+
 
                 <svg
                   className="ml-2 -mr-0.5 h-4 w-4"
@@ -108,7 +125,13 @@ function Filters({ categories }) {
               Top Voted
             </Dropdown.Link>
             <Dropdown.Link className="text-center" href={route('idea.index')} as="button">
-              Category 2
+              My Ideas
+            </Dropdown.Link>
+            <Dropdown.Link
+              className="text-center"
+              href={route('idea.index')}
+              onClick={(e) => handleResetOtherFilters(e)}>
+              All
             </Dropdown.Link>
           </Dropdown.Content>
         </Dropdown>
