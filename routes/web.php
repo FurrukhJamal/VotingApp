@@ -41,13 +41,30 @@ Route::get("ideas/{idea:slug}", [IdeaController::class, "show"])->name("idea.sho
 /* status filter links */
 Route::get("/statusfilter/all", [IdeaController::class, "index"])->name("status.all");
 // Route::get("/statusfilter/open/{category?}", [IdeaController::class, "statusFilterOpen"])->name("status.open");
-Route::get("/statusfilter/considering/{category?}", [IdeaController::class, "statusFilterConsidering"])->name("status.considering");
-Route::get("/statusfilter/inprogress/{category?}", [IdeaController::class, "statusFilterInProgress"])->name("status.inProgress");
-Route::get("/statusfilter/implemented/{category?}", [IdeaController::class, "statusFilterImplemented"])->name("status.implemented");
-Route::get("/statusfilter/closed/{category?}", [IdeaController::class, "statusFilterClosed"])->name("status.closed");
+// Route::get("/statusfilter/considering/{category?}", [IdeaController::class, "statusFilterConsidering"])->name("status.considering");
+// Route::get("/statusfilter/inprogress/{category?}", [IdeaController::class, "statusFilterInProgress"])->name("status.inProgress");
+// Route::get("/statusfilter/implemented/{category?}", [IdeaController::class, "statusFilterImplemented"])->name("status.implemented");
+// Route::get("/statusfilter/closed/{category?}", [IdeaController::class, "statusFilterClosed"])->name("status.closed");
+
 Route::get("/statusfilter/open/{filter?}", [IdeaController::class, "statusFilterOpen"])
     ->where(["filter" => "category|otherfilters"])
     ->name("status.open");
+
+Route::get("/statusfilter/considering/{filter?}", [IdeaController::class, "statusFilterConsidering"])
+    ->where(["filter" => "category|otherfilters"])
+    ->name("status.considering");
+
+Route::get("/statusfilter/inprogress/{filter?}", [IdeaController::class, "statusFilterInProgress"])
+    ->where(["filter" => "category|otherfilters"])
+    ->name("status.inProgress");
+
+Route::get("/statusfilter/implemented/{filter?}", [IdeaController::class, "statusFilterImplemented"])
+    ->where(["filter" => "category|otherfilters"])
+    ->name("status.implemented");
+
+Route::get("/statusfilter/closed/{filter?}", [IdeaController::class, "statusFilterClosed"])
+    ->where(["filter" => "category|otherfilters"])
+    ->name("status.closed");
 
 /* END status filter links */
 

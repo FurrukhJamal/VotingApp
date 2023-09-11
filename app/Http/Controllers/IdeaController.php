@@ -170,12 +170,23 @@ class IdeaController extends Controller
         $status = Status::where("name", "Considering")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
         //if category is selected
-        if ($request["category"]) {
+        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["category"]) {
             $ideas = Idea::latest("id")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
+        } else if ($request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
+                ->simplePaginate(10);
         }
+
+
 
         return $this->returnFilteredIdeas($ideas);
     }
@@ -186,10 +197,19 @@ class IdeaController extends Controller
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
 
         //if category is selected
-        if ($request["category"]) {
+        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["category"]) {
             $ideas = Idea::latest("id")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
                 ->simplePaginate(10);
         }
 
@@ -203,10 +223,19 @@ class IdeaController extends Controller
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
 
         //if category is selected
-        if ($request["category"]) {
+        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["category"]) {
             $ideas = Idea::latest("id")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
                 ->simplePaginate(10);
         }
 
@@ -219,10 +248,19 @@ class IdeaController extends Controller
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
 
         //if category is selected
-        if ($request["category"]) {
+        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["category"]) {
             $ideas = Idea::latest("id")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
+                ->simplePaginate(10);
+        } else if ($request["otherfilters"] == "topvoted") {
+            $ideas = Idea::orderBy("votes_count", "desc")
+                ->where("status_id", $status->id)
                 ->simplePaginate(10);
         }
 
