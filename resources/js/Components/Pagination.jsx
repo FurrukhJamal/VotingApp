@@ -59,7 +59,7 @@ function Pagination({ prev_page_url, next_page_url }) {
                 // getting just "=2" or "=1" part 
                 let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
                 //making the link as "localhost/?category=1&page=1"
-                setcustomPreviousPageUrl(fullUrl + `?otherfilters=${queryParams.otherfilters}&page=${pageNumber}`)
+                setcustomPreviousPageUrl(fullUrl + `?otherfilters=${queryParams.otherfilters}&category=${queryParams.category}&page=${pageNumber}`)
             }
         }
 

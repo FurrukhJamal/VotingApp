@@ -87,7 +87,7 @@ class CategoryDisplayTest extends DuskTestCase
         ]);
 
         $this->browse(function (Browser $browser) use ($category1) {
-            $browser->visit("/statusfilter/open/1?page=3")
+            $browser->visit("/statusfilter/open/?category=1&page=3")
                 ->screenshot("categorydisplayImage")
                 ->waitFor("@categoriesButton", 20)
                 ->assertSeeIn("@categoriesButton", $category1->name);
