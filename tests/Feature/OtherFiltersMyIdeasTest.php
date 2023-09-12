@@ -49,7 +49,7 @@ class OtherFiltersMyIdeasTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->get("?otherfilters=myideas")
+            ->get("?user=true")
             ->assertInertia(function (Assert $page) use ($UsersIdea) {
                 $page->component("HomePage")
                     ->has("ideas", function (Assert $page) use ($UsersIdea) {
@@ -57,9 +57,55 @@ class OtherFiltersMyIdeasTest extends TestCase
                             ->has("data.0", function (Assert $page) use ($UsersIdea) {
                                 $page->where("title", $UsersIdea->title)
                                     ->etc();
-                            });
-                    })
-                    ->etc();
+                            })
+                            ->etc();
+                    });
+            });
+    }
+
+    /** @test */
+    public function my_ideas_paginating_correctly()
+    {
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        $statusConsidering = Status::factory()->create(["name" => "Considering"]);
+        $statusInProgress = Status::factory()->create(["name" => "In Progress"]);
+        $statusImplemented = Status::factory()->create(["name" => "Implemented"]);
+        $statusClosed = Status::factory()->create(["name" => "Closed"]);
+
+        $user = User::factory()->create();
+
+        Idea::factory(10)->create(["user_id" => $user->id]);
+
+        $otherUser = User::factory()->create();
+
+        $otherIdea = Idea::factory()->create([
+            "title" => "This title will not show",
+            "user_id" => $otherUser->id
+        ]);
+
+        $pageTwoIdea = Idea::factory()->create([
+            "title" => "This idea should be the first on page 2",
+            "user_id" => $user->id
+        ]);
+
+
+        $this->actingAs($user)
+            ->get("?user=true&page=2")
+            ->assertInertia(function (Assert $page) use ($pageTwoIdea) {
+                $page->component("HomePage")
+                    ->has("ideas", function (Assert $page) use ($pageTwoIdea) {
+                        $page->has("data", 1)
+                            ->has("data.0", function (Assert $page) use ($pageTwoIdea) {
+                                $page->where("title", $pageTwoIdea->title)
+                                    ->etc();
+                            })
+                            ->etc();
+                    });
             });
     }
 }

@@ -68,6 +68,9 @@ Route::get("/statusfilter/closed/{filter?}", [IdeaController::class, "statusFilt
 
 /* END status filter links */
 
+/* Routes For My Ideas */
+Route::get("/getParam?", [IdeaController::class, "index"])->middleware("auth")->where("getParam", "user");
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

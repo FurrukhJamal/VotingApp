@@ -37,6 +37,8 @@ class IdeaController extends Controller
             //case when other filters for top voted is selected just from all ideas page
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->simplePaginate(10);
+        } else if ($request["user"] == "true") {
+            $ideas = Idea::where("user_id", Auth::user()->id)->simplePaginate(10);
         }
 
         foreach ($ideas->items() as $item) {
