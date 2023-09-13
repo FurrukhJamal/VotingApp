@@ -25,7 +25,36 @@ function Pagination({ prev_page_url, next_page_url }) {
         // to fix pagination for when categories are selected from all ideas status
         let searchQueryParam = window.location.search
 
-        if (queryParams?.otherfilters && queryParams?.category) {
+
+        if (queryParams?.category && queryParams.user) {
+            setPathHasParam(true)
+            if (next_page_url) {
+                let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")).slice(1)
+                if (queryParams.category) {
+                    setcustomNextPageUrl(fullUrl + "?user=true" + `&category=${queryParams.category}&page=${pageNumber}`)
+                }
+                else {
+                    setcustomNextPageUrl(fullUrl + `?user=true&page=${pageNumber}`)
+                }
+
+            }
+
+            if (prev_page_url) {
+                // getting just "=2" or "=1" part 
+                let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
+                //making the link as "localhost/?user=true&page=1"
+                if (queryParams.category) {
+                    setcustomPreviousPageUrl(fullUrl + "?user=true" + `&category=${queryParams.category}&page=${pageNumber}`)
+                }
+                else {
+                    setcustomPreviousPageUrl(fullUrl + `?user=true&page=${pageNumber}`)
+
+                }
+            }
+
+        }
+        //TODO form logic for page number when only user=true is used
+        else if (queryParams?.otherfilters && queryParams?.category) {
             console.log("OTHER FILTERS present", queryParams.otherfilters, "category : ", queryParams.category)
             setPathHasParam(true)
             if (next_page_url) {
@@ -66,27 +95,7 @@ function Pagination({ prev_page_url, next_page_url }) {
                 }
             }
         }
-        else if (queryParams.user) {
-            setPathHasParam(true)
-            if (next_page_url) {
-                let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")).slice(1)
-                if (queryParams.category) {
-                    setcustomNextPageUrl(fullUrl + `${queryParams.category ? `?category=${queryParams.category}` : ``}&page=${pageNumber}`)
-                }
-                else {
-                    setcustomNextPageUrl(fullUrl + `?user=true&page=${pageNumber}`)
-                }
 
-            }
-
-            if (prev_page_url) {
-                // getting just "=2" or "=1" part 
-                let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
-                //making the link as "localhost/?user=true&page=1"
-                setcustomPreviousPageUrl(fullUrl + `?user=true&page=${pageNumber}`)
-            }
-
-        }
     }, [])
 
     console.log("isFirstPage: ", isFirstPage)

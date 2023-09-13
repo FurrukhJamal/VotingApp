@@ -8,7 +8,7 @@ import { AppContext } from '@/Pages/HomePage'
 
 function Filters({ categories }) {
   const { selectedCategory, topVotedSelected } = useContext(AppContext)
-  const { fullUrl, queryParams } = usePage().props
+  const { fullUrl, queryParams, auth } = usePage().props
 
   function handleCategorySelect(e, category) {
     e.preventDefault()
@@ -34,6 +34,21 @@ function Filters({ categories }) {
 
   }
 
+  function displayUserIdeas(e) {
+    e.preventDefault()
+    let path = ""
+    if (!auth.user) {
+      router.visit(route("login"))
+    }
+    if (queryParams?.category) {
+      path = fullUrl + `?category=${queryParams.category}` + "&user=true"
+    }
+    else {
+      path = fullUrl + "?user=true"
+    }
+    router.get(path)
+  }
+
 
   function handleResetOtherFilters(e) {
     e.preventDefault()
@@ -42,6 +57,7 @@ function Filters({ categories }) {
     if (queryParams?.category) {
       path += `?category=${queryParams.category}`
     }
+
     router.get(path)
   }
 
@@ -124,7 +140,11 @@ function Filters({ categories }) {
               onClick={(e) => handleTopVoted(e)}>
               Top Voted
             </Dropdown.Link>
-            <Dropdown.Link className="text-center" href={route('idea.index')} as="button">
+            <Dropdown.Link
+              className="text-center"
+              href={route('idea.index')}
+              as="button"
+              onClick={(e) => displayUserIdeas(e)}>
               My Ideas
             </Dropdown.Link>
             <Dropdown.Link

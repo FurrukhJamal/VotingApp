@@ -25,17 +25,32 @@ class IdeaController extends Controller
         // dd($request->query());
 
         //if category is selected
-        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+        if ($request["user"] == "true") {
+            // dd("hitting");
+            $this->middleware("auth");
+            if (Auth::check()) {
+                // dd("hitting");
+                if ($request["user"] == "true" && $request["category"]) {
+                    $ideas = Idea::where("user_id", Auth::id())
+                        ->where("category_id", $request["category"])
+                        ->simplePaginate(10);
+                } else if ($request["user"] == "true" && $request["category"] && $request["otherfilters"] == "topvoted") {
+                    $ideas = Idea::orederBy("votes_count", "desc")
+                        ->where("user_id", Auth::id())
+                        ->where("category_id", $request["category"])
+                        ->simplePaginate(10);
+                } else {
+                    $ideas = Idea::where("user_id", Auth::id())->simplePaginate(10);
+                }
+            } else {
+                //user not logged in
+                return redirect(route("login"));
+            }
+        } else if ($request["category"] && $request["otherfilters"] == "topvoted") {
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
-        } else if ($request["user"] == "true" && $request["category"]) {
-            // dd(Auth::id());
-            $ideas = Idea::where("user_id", Auth::id())
-                ->where("category_id", $request["category"])
-                ->simplePaginate(10);
         } else if ($request["category"]) {
-            // dd("ctegory condition hitting");
             $ideas = Idea::latest("id")
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
@@ -43,9 +58,6 @@ class IdeaController extends Controller
             //case when other filters for top voted is selected just from all ideas page
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->simplePaginate(10);
-        } else if ($request["user"] == "true") {
-            // dd("hitting");
-            $ideas = Idea::where("user_id", Auth::id())->simplePaginate(10);
         }
 
         foreach ($ideas->items() as $item) {

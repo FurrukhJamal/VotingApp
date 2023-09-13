@@ -33,13 +33,13 @@ use Inertia\Inertia;
 
 /* Routes For My Ideas */
 
-Route::get("/", [IdeaController::class, "index"])
-    ->middleware("auth")
-    ->where([
-        "user" => "true",
-        "category" => "[0-9]+",
+// Route::get("/", [IdeaController::class, "index"])
+//     ->middleware("auth")
+//     ->where([
+//         "user" => "true",
+//         "category" => "[0-9]+",
 
-    ]);
+//     ]);
 
 
 
