@@ -31,6 +31,18 @@ use Inertia\Inertia;
 //     return Inertia::render("HomePage", []);
 // })->name("home");
 
+/* Routes For My Ideas */
+
+Route::get("/", [IdeaController::class, "index"])
+    ->middleware("auth")
+    ->where([
+        "user" => "true",
+        "category" => "[0-9]+",
+
+    ]);
+
+
+
 Route::get("/", [IdeaController::class, "index"])->name("idea.index");
 Route::post("/", [IdeaController::class, "store"])->middleware(["auth", "verified"])->name("idea.store");
 
@@ -68,8 +80,6 @@ Route::get("/statusfilter/closed/{filter?}", [IdeaController::class, "statusFilt
 
 /* END status filter links */
 
-/* Routes For My Ideas */
-Route::get("/getParam?", [IdeaController::class, "index"])->middleware("auth")->where("getParam", "user");
 
 
 Route::get('/dashboard', function () {

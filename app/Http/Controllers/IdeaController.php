@@ -29,7 +29,13 @@ class IdeaController extends Controller
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
+        } else if ($request["user"] == "true" && $request["category"]) {
+            // dd(Auth::id());
+            $ideas = Idea::where("user_id", Auth::id())
+                ->where("category_id", $request["category"])
+                ->simplePaginate(10);
         } else if ($request["category"]) {
+            // dd("ctegory condition hitting");
             $ideas = Idea::latest("id")
                 ->where("category_id", $request["category"])
                 ->simplePaginate(10);
@@ -38,7 +44,8 @@ class IdeaController extends Controller
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->simplePaginate(10);
         } else if ($request["user"] == "true") {
-            $ideas = Idea::where("user_id", Auth::user()->id)->simplePaginate(10);
+            // dd("hitting");
+            $ideas = Idea::where("user_id", Auth::id())->simplePaginate(10);
         }
 
         foreach ($ideas->items() as $item) {
