@@ -7,7 +7,7 @@ import { router, usePage } from '@inertiajs/react'
 import { AppContext } from '@/Pages/HomePage'
 
 function Filters({ categories }) {
-  const { selectedCategory, topVotedSelected } = useContext(AppContext)
+  const { selectedCategory, topVotedSelected, userIdeaSelected } = useContext(AppContext)
   const { fullUrl, queryParams, auth } = usePage().props
 
   function handleCategorySelect(e, category) {
@@ -115,7 +115,9 @@ function Filters({ categories }) {
                 type="button"
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
               >
-                {topVotedSelected ? "Top Voted" : "Other Filters"}
+                {topVotedSelected && "Top Voted"}
+                {(!userIdeaSelected && !topVotedSelected) && "Other Filters"}
+                {userIdeaSelected && "My Ideas"}
 
 
                 <svg

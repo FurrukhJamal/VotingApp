@@ -10,6 +10,7 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
   const [selectedCategory, setSelectedCategory] = useState("")
   const { queryParams } = usePage().props
   const [topVotedSelected, setTopVotedSelected] = useState(false)
+  const [userIdeaSelected, setUserIdeaSelected] = useState(false)
 
   console.log("ideas are: ", ideas)
   // console.log("auth in Homepage.jsx", auth)
@@ -44,10 +45,13 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
     if (queryParams?.otherfilters == "topvoted") {
       setTopVotedSelected(true)
     }
+    else if (queryParams?.user == "true") {
+      setUserIdeaSelected(true)
+    }
   }, [])
 
   return (
-    <AppContext.Provider value={{ selectedCategory, setSelectedCategory, topVotedSelected }}>
+    <AppContext.Provider value={{ userIdeaSelected, selectedCategory, setSelectedCategory, topVotedSelected }}>
       <Head title="Voting App" />
       <Home {...auth} ideas={ideas} categories={categories} avatar={avatar} statusCounts={statusCounts} />
     </AppContext.Provider>

@@ -51,9 +51,20 @@ function Pagination({ prev_page_url, next_page_url }) {
 
                 }
             }
-
         }
-        //TODO form logic for page number when only user=true is used
+        else if (queryParams.user) {
+            setPathHasParam(true)
+            if (next_page_url) {
+                let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")).slice(1)
+                setcustomNextPageUrl(fullUrl + "?user=true" + `&page=${pageNumber}`)
+            }
+
+            if (prev_page_url) {
+                let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
+                //making the link as "localhost/?user=true&page=1"
+                setcustomPreviousPageUrl(fullUrl + "?user=true" + `&page=${pageNumber}`)
+            }
+        }
         else if (queryParams?.otherfilters && queryParams?.category) {
             console.log("OTHER FILTERS present", queryParams.otherfilters, "category : ", queryParams.category)
             setPathHasParam(true)
