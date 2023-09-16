@@ -71,7 +71,7 @@ class Idea extends Model
         } else if ($this->status->name === "In Progress") {
             return "bg-sky-600 text-white";
         } else if ($this->status->name === "Implemented") {
-            return "bg-green text-white";
+            return "bg-green-200 text-white";
         } else if ($this->status->name === "Closed") {
             return "bg-red-500 text-white";
         }

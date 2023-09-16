@@ -166,7 +166,13 @@ class IdeaController extends Controller
         //get status id for Open
         $status = Status::where("name", "Open")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
-        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+
+        if ($request["user"] == "true") {
+            $ideas = $this->getUserBasedIdeas($request, $status);
+            if ($ideas == null) {
+                return redirect()->route("login");
+            }
+        } else if ($request["category"] && $request["otherfilters"] == "topvoted") {
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
@@ -190,8 +196,13 @@ class IdeaController extends Controller
         // dd($request->query());
         $status = Status::where("name", "Considering")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
-        //if category is selected
-        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+
+        if ($request["user"] == "true") {
+            $ideas = $this->getUserBasedIdeas($request, $status);
+            if ($ideas == null) {
+                return redirect()->route("login");
+            }
+        } else if ($request["category"] && $request["otherfilters"] == "topvoted") {
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
@@ -217,8 +228,12 @@ class IdeaController extends Controller
         $status = Status::where("name", "In Progress")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
 
-        //if category is selected
-        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+        if ($request["user"] == "true") {
+            $ideas = $this->getUserBasedIdeas($request, $status);
+            if ($ideas == null) {
+                return redirect()->route("login");
+            }
+        } else if ($request["category"] && $request["otherfilters"] == "topvoted") {
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
@@ -243,8 +258,12 @@ class IdeaController extends Controller
         $status = Status::where("name", "Implemented")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
 
-        //if category is selected
-        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+        if ($request["user"] == "true") {
+            $ideas = $this->getUserBasedIdeas($request, $status);
+            if ($ideas == null) {
+                return redirect()->route("login");
+            }
+        } else if ($request["category"] && $request["otherfilters"] == "topvoted") {
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
@@ -268,8 +287,12 @@ class IdeaController extends Controller
         $status = Status::where("name", "Closed")->first();
         $ideas = Idea::latest("id")->where("status_id", $status->id)->simplePaginate(10);
 
-        //if category is selected
-        if ($request["category"] && $request["otherfilters"] == "topvoted") {
+        if ($request["user"] == "true") {
+            $ideas = $this->getUserBasedIdeas($request, $status);
+            if ($ideas == null) {
+                return redirect()->route("login");
+            }
+        } else if ($request["category"] && $request["otherfilters"] == "topvoted") {
             $ideas = Idea::orderBy("votes_count", "desc")
                 ->where("status_id", $status->id)
                 ->where("category_id", $request["category"])
@@ -288,6 +311,37 @@ class IdeaController extends Controller
         return $this->returnFilteredIdeas($ideas);
     }
     /** End of Functions for Status Filters */
+
+
+    /** Helpers */
+    protected function getUserBasedIdeas(HttpRequest $request, Status $status)
+    {
+        // dd("hitting");
+        $this->middleware("auth");
+        if (Auth::check()) {
+            // dd("hitting");
+            if ($request["category"]) {
+                $ideas = Idea::where("user_id", Auth::id())
+                    ->where("category_id", $request["category"])
+                    ->where("status_id", $status->id)
+                    ->simplePaginate(10);
+            } else {
+                $ideas = Idea::where("user_id", Auth::id())
+                    ->where("status_id", $status->id)
+                    ->simplePaginate(10);
+            }
+            return $ideas;
+        } else {
+            //user not logged in
+            // dd("hitting");
+            return null;
+        }
+    }
+
+
+
+
+
 
     protected function returnFilteredIdeas($ideas)
     {

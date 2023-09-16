@@ -13,6 +13,11 @@ export default {
         './resources/js/**/*.jsx',
     ],
 
+    safelist: [
+        "bg-sky-600",
+        "bg-green-200",
+    ],
+
     theme: {
         extend: {
             fontFamily: {
