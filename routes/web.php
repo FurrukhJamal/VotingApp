@@ -81,6 +81,10 @@ Route::get("/statusfilter/closed/{filter?}", [IdeaController::class, "statusFilt
 /* END status filter links */
 
 
+//Search
+Route::get("/search", [IdeaController::class, "search"])->name("search");
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

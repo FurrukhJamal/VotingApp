@@ -106,6 +106,20 @@ function Pagination({ prev_page_url, next_page_url }) {
                 }
             }
         }
+        else if (queryParams?.search_query) {
+            console.log("fullURL in search:", fullUrl)
+            setPathHasParam(true)
+            if (next_page_url) {
+                let pageNumber = next_page_url.slice(next_page_url.lastIndexOf("=")).slice(1)
+                setcustomNextPageUrl(fullUrl + `?search_query=${queryParams.search_query}&page=${pageNumber}`)
+            }
+            if (prev_page_url) {
+                // getting just "=2" or "=1" part 
+                let pageNumber = prev_page_url.slice(prev_page_url.lastIndexOf("=")).slice(1)
+                //making the link as "localhost/?category=1&page=1"
+                setcustomPreviousPageUrl(fullUrl + `?search_query=${queryParams.search_query}&page=${pageNumber}`)
+            }
+        }
 
     }, [])
 

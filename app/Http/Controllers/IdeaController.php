@@ -312,6 +312,38 @@ class IdeaController extends Controller
     }
     /** End of Functions for Status Filters */
 
+    /**Search */
+    public function search(HttpRequest $request)
+    {
+        //dd($request["search_query"]);
+        $ideas = Idea::where("title", "like", "%" . $request["search_query"] . "%")->simplePaginate(10);
+        foreach ($ideas->items() as $item) {
+            // dd($item);
+            $item["profileLink"] = $item->user->getAvatar();
+            $item["statusClass"] = $item->getStatusClass();
+            $item["isVotedByUser"] = $item->isVotedByUser(Auth::user());
+        }
+
+        $avatar = "https://www.gravatar.com/avatar?d=mp";
+        if (Auth::user()) {
+            $avatar = Auth::user()->getAvatar();
+        }
+
+
+
+        return Inertia::render("HomePage", [
+            "ideas" => $ideas,
+            "categories" => fn () => Category::all(),   //for partial reloads
+            "avatar" => function () use ($avatar) {    //for partial reloads
+                return $avatar;
+            },
+            "statusCounts" => fn () => Status::getStatusCounts(),
+        ]);
+    }
+
+
+
+
 
     /** Helpers */
     protected function getUserBasedIdeas(HttpRequest $request, Status $status)

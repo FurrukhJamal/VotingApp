@@ -3,12 +3,16 @@ import "../../css/filters.css"
 import Dropdown from './Dropdown'
 import TextInput from "./TextInput"
 import searchIcon from "../../images/search-interface-symbol.png"
-import { router, usePage } from '@inertiajs/react'
+import { router, useForm, usePage } from '@inertiajs/react'
 import { AppContext } from '@/Pages/HomePage'
 
 function Filters({ categories }) {
   const { selectedCategory, topVotedSelected, userIdeaSelected } = useContext(AppContext)
   const { fullUrl, queryParams, auth } = usePage().props
+
+  const { data, setData, processing, } = useForm({
+    "search_query": ""
+  })
 
   function handleCategorySelect(e, category) {
     e.preventDefault()
@@ -59,6 +63,15 @@ function Filters({ categories }) {
     }
 
     router.get(path)
+  }
+
+
+  function handleSearchSubmit(e) {
+    e.preventDefault()
+    router.visit(route("search"), {
+      method: "get",
+      data: { "search_query": data.search_query }
+    })
   }
 
 
@@ -161,7 +174,15 @@ function Filters({ categories }) {
 
       {/* Search Box */}
       <div className="searchBox relative h-4">
-        <TextInput name="searchBox" placeholder="Search Here" className="placeholder-gray-700 w-full pl-10 border-none h-8" />
+        <form onSubmit={handleSearchSubmit}>
+          <TextInput
+            type="search"
+
+            placeholder="Search Here"
+            className="placeholder-gray-700 w-full pl-10 border-none h-8"
+            onChange={(e) => setData("search_query", e.target.value)}
+            value={data.search_query} />
+        </form>
         <div className="absolute top-2 left-2 w-5 h-6">
           <img src={searchIcon} alt="search icon" />
         </div>
