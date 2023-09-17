@@ -16,14 +16,27 @@ function Filters({ categories }) {
 
   function handleCategorySelect(e, category) {
     e.preventDefault()
-    router.get(route(route().current(), { "category": category.id }))
+    console.log("hitting", route().current())
+    if (route().current() == "search") {
+
+      router.get(route("idea.index", { "category": category.id }))
+    }
+    else {
+      router.get(route(route().current(), { "category": category.id }))
+
+    }
   }
 
   function handleTopVoted(e) {
     e.preventDefault()
     console.log("fullUrl", fullUrl)
     console.log("queryParams: ", queryParams)
-    if (queryParams?.category) {
+    if (route().current() == "search") {
+
+      router.get(route("idea.index", { "otherfilters": "topvoted" }))
+    }
+
+    else if (queryParams?.category) {
       let path = fullUrl + `?category=${queryParams.category}` + "&otherfilters=topvoted"
       router.get(path)
     }
@@ -41,16 +54,30 @@ function Filters({ categories }) {
   function displayUserIdeas(e) {
     e.preventDefault()
     let path = ""
+
     if (!auth.user) {
+      console.log("unauth hitting")
       router.visit(route("login"))
-    }
-    if (queryParams?.category) {
-      path = fullUrl + `?category=${queryParams.category}` + "&user=true"
+
     }
     else {
-      path = fullUrl + "?user=true"
+      if (route().current() == "search") {
+        router.get(route("idea.index", { "user": "true" }))
+      }
+      else {
+        if (queryParams?.category) {
+          path = fullUrl + `?category=${queryParams.category}` + "&user=true"
+        }
+        else {
+          path = fullUrl + "?user=true"
+        }
+
+        router.get(path)
+      }
+
+
     }
-    router.get(path)
+
   }
 
 
