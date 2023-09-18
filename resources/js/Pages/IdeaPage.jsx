@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useState } from 'react'
 import "../../css/index.css"
 import MainLayOut from '@/Layouts/MainLayOut'
 import { Link, router } from '@inertiajs/react'
@@ -10,6 +10,8 @@ import Comment from '@/Components/Comment'
 import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
+
+
 
 function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
     console.log("A single idea in IdeaPage: ", idea)

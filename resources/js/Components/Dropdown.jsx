@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, Fragment, useEffect } from 'react';
+import React, { useState, createContext, useContext, Fragment, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
@@ -21,8 +21,14 @@ const Dropdown = ({ children, className = "", onClick = () => { } }) => {
 const Trigger = ({ children }) => {
     const { open, setOpen, toggleOpen } = useContext(DropDownContext);
     //to close to dropDown list if its used as a dropdown and selection doesnt take to any links
+
+
     useEffect(() => {
+        //Bug fix for setStatusButton so that it does not close when a radio button is selected
+        //TODO
         setOpen(false)
+
+
     }, [children])
 
     return (
