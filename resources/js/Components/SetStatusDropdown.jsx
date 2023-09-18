@@ -1,18 +1,37 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Dropdown from './Dropdown'
 import InputLabel from './InputLabel'
 import PrimaryButton from './PrimaryButton'
 import Checkbox from './Checkbox'
-import { router } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 
-function SetStatusDropdown() {
+function SetStatusDropdown({ idea }) {
     const [radioSelectedValue, setRadioSelectedValue] = useState("")
-    const [defaultChecked, setdefaultChecked] = useState("")
+    const [defaultChecked, setdefaultChecked] = useState(idea.status.name)
+
+    /*to solve the bug of dropdown not closing when a radio button is selected
+    the Dropdown.Trigger should have the prop shouldCloseOnSelection = false*/
+    const [displayStatusDropdownFlag, setDisplayStatusDropdownFlag] = useState(false)
+
+    const { post, patch, setData, data, errors, processing, reset } = useForm({
+        status: idea.status.name,
+        ideaId: idea.id,
+    })
+
 
     function handleSubmit(e) {
         e.preventDefault()
         console.log("status changed", e.target.value)
-        router.post("/setStatus", { valueStatus: "testing" })
+
+        // router.post("/setStatus", { statusToBeUpdates: defaultChecked, ideaId: idea.id })
+        patch("/setstatus", {
+            onSuccess: () => {
+                console.log("updated")
+                //to close the set status display when status is changed
+                setDisplayStatusDropdownFlag(true)
+            }
+        }
+        )
     }
 
 
@@ -24,21 +43,45 @@ function SetStatusDropdown() {
         const selectedValue = firsrLetter.toUpperCase() + remaining.toLowerCase()
         console.log("selected radio value: ", selectedValue)
         // setRadioSelectedValue(selectedValue)
+
         if (selectedValue == "Open") {
             console.log("changing select")
-            setdefaultChecked("Open")
+            // setdefaultChecked("Open")
+            setData("status", "Open")
         }
         else if (selectedValue == "Considering") {
             console.log("changing select")
-            setdefaultChecked("Considering")
+            // setdefaultChecked("Considering")
+            setData("status", "Considering")
         }
+        else if (selectedValue == "Inprogress") {
+            // setdefaultChecked("In Progress")
+            setData("status", "In Progress")
+        }
+        else if (selectedValue == "Implemented") {
+            // setdefaultChecked("Implemented")
+            setData("status", "Implemented")
+        }
+        else if (selectedValue == "Closed") {
+            // setdefaultChecked("Closed")
+            setData("status", "Closed")
+        }
+        // setData("status", defaultChecked)
+
     }
+
+    useEffect(() => {
+        //to fix back the status dropdown from not closing when a selection is made again
+        if (displayStatusDropdownFlag) {
+            setDisplayStatusDropdownFlag(false)
+        }
+    }, [displayStatusDropdownFlag])
 
 
     return (
         <>
             <Dropdown className="w-full bg-blue-200 rounded-xl">
-                <Dropdown.Trigger>
+                <Dropdown.Trigger shouldCloseOnSelection={displayStatusDropdownFlag} >
                     <span className="inline-flex rounded-xl w-full justify-center">
                         <button
                             dusk="adminSetStatusButton"
@@ -71,7 +114,7 @@ function SetStatusDropdown() {
                                 id="open"
                                 name="statusOpen"
                                 value="OPEN"
-                                checked={defaultChecked === "Open"}
+                                checked={data.status === "Open"}
                                 onChange={handleRadioSeletion} />
                             <InputLabel className='font-semibold ml-4' htmlFor="open">Open</InputLabel>
                         </div>
@@ -82,23 +125,41 @@ function SetStatusDropdown() {
                                 id="considering"
                                 name="statusConsidering"
                                 value="CONSIDERING"
-                                checked={defaultChecked === "Considering"}
+                                checked={data.status === "Considering"}
                                 onChange={handleRadioSeletion} />
                             <InputLabel className='font-semibold ml-4' htmlFor="considering">Considering</InputLabel>
                         </div>
 
                         <div className="mt-4 ml-4 w-full flex items-center">
-                            <input type="radio" id="inProgress" name="statusInProgress" value="INPROGRESS" onChange={handleRadioSeletion} />
+                            <input
+                                type="radio"
+                                id="inProgress"
+                                name="statusInProgress"
+                                value="INPROGRESS"
+                                checked={data.status === "In Progress"}
+                                onChange={handleRadioSeletion} />
                             <InputLabel className='font-semibold ml-4' htmlFor="inProgress">In Progress</InputLabel>
                         </div>
 
                         <div className="mt-4 ml-4 w-full flex items-center">
-                            <input type="radio" id="implemented" name="statusImplemented" value="IMPLEMENTED" onChange={handleRadioSeletion} />
+                            <input
+                                type="radio"
+                                id="implemented"
+                                name="statusImplemented"
+                                value="IMPLEMENTED"
+                                checked={data.status === "Implemented"}
+                                onChange={handleRadioSeletion} />
                             <InputLabel className='font-semibold ml-4' htmlFor="implemented">Implemented</InputLabel>
                         </div>
 
                         <div className="mt-4 ml-4 w-full flex items-center">
-                            <input type="radio" id="closed" name="statusClosed" value="CLOSED" onChange={handleRadioSeletion} />
+                            <input
+                                type="radio"
+                                id="closed"
+                                name="statusClosed"
+                                value="CLOSED"
+                                checked={data.status === "Closed"}
+                                onChange={handleRadioSeletion} />
                             <InputLabel className='font-semibold ml-4' htmlFor="closed">Closed</InputLabel>
                         </div>
 
@@ -123,6 +184,10 @@ function SetStatusDropdown() {
                                 Submit
                             </PrimaryButton>
                         </div>
+                        {errors.status && (
+                            <div className="flex text-center justify-center text-red-500">
+                                {errors.status}
+                            </div>)}
                     </form>
                     <div className="my-4 mx-3 w-full flex flex-start items-center">
                         <Checkbox name="notify" id="notify" value="NOTIFY" />

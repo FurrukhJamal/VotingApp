@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateIdeaRequest extends FormRequest
 {
@@ -11,6 +12,9 @@ class UpdateIdeaRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if (Auth::user()->id === $this->user()->id) {
+            return true;
+        }
         return false;
     }
 

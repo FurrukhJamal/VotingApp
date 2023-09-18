@@ -130,6 +130,7 @@ class IdeaController extends Controller
     {
         $idea["profileLink"] = $idea->user->getAvatar();
         $idea["isVotedByUser"] = $idea->isVotedByUser(Auth::user());
+        $idea["statusClass"] = $idea->getStatusClass();
 
         $avatar = "https://www.gravatar.com/avatar?d=mp";
         $isAdmin = false;
@@ -162,9 +163,19 @@ class IdeaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateIdeaRequest $request, Idea $idea)
+    public function update(UpdateIdeaRequest $request)
     {
-        //
+        // dd($request);
+        $validated = $request->validate([
+            "status" => "required",
+        ]);
+
+        $idea = Idea::find($request["ideaId"]);
+        $newStatus = Status::where("name", $request["status"])->first();
+        // dd($newStatus);
+        $idea->update(["status_id" => $newStatus->id]);
+
+        // return redirect(route("idea.show", $idea));
     }
 
     /**

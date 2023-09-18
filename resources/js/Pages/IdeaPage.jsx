@@ -112,7 +112,7 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">
                         <ButtonWithADailogue></ButtonWithADailogue>
-                        {isAdmin && (<SetStatusDropdown />)}
+                        {isAdmin && (<SetStatusDropdown idea={idea} />)}
 
                     </div>
                     {/* right side button */}

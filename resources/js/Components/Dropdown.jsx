@@ -18,7 +18,7 @@ const Dropdown = ({ children, className = "", onClick = () => { } }) => {
     );
 };
 
-const Trigger = ({ children }) => {
+const Trigger = ({ children, shouldCloseOnSelection = true }) => {
     const { open, setOpen, toggleOpen } = useContext(DropDownContext);
     //to close to dropDown list if its used as a dropdown and selection doesnt take to any links
 
@@ -26,7 +26,10 @@ const Trigger = ({ children }) => {
     useEffect(() => {
         //Bug fix for setStatusButton so that it does not close when a radio button is selected
         //TODO
-        setOpen(false)
+        if (shouldCloseOnSelection) {
+            setOpen(false)
+        }
+
 
 
     }, [children])

@@ -88,9 +88,7 @@ Route::get("/statusfilter/closed/{filter?}", [IdeaController::class, "statusFilt
 Route::get("/search", [IdeaController::class, "search"])->name("search");
 
 
-Route::post("/setStatus", function (HttpRequest $request) {
-    dd($request);
-});
+Route::patch("/setstatus", [IdeaController::class, "update"])->middleware("auth")->name("idea.update.status");
 
 
 Route::get('/dashboard', function () {
