@@ -145,6 +145,15 @@ class ShowIdeasTest extends TestCase
     /** @test */
     public function idea_with_same_title_have_defferent_slug()
     {
+        $categoryOne = Category::factory()->create(["name" => "Category 1"]);
+        Category::factory()->create(["name" => "Category 2"]);
+
+        Status::factory()->create(["name" => "Open"]);
+        Status::factory()->create(["name" => "Considering"]);
+        Status::factory()->create(["name" => "In Progress"]);
+        Status::factory()->create(["name" => "Implemented"]);
+        Status::factory()->create(["name" => "Closed"]);
+
         $user = User::factory()->create();
 
         $ideaOne = Idea::factory()->create([
