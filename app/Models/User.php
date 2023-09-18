@@ -70,4 +70,11 @@ class User extends Authenticatable
             . "?s=200"
             . "&d=https://i1.wp.com/s3.amazonaws.com/laracasts/images/forum/avatars/default-avatar-{$avatarNumber}.png";
     }
+
+
+
+    public function isAdmin()
+    {
+        return in_array($this->email, ["furrukhjamal@yahoo.com", "fj@ex.com"]);
+    }
 }

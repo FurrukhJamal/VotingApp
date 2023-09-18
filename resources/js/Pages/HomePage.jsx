@@ -6,7 +6,7 @@ import { Head, router, usePage } from '@inertiajs/react'
 export const AppContext = createContext()
 
 
-function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
+function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
   const [selectedCategory, setSelectedCategory] = useState("")
   const { queryParams } = usePage().props
   const [topVotedSelected, setTopVotedSelected] = useState(false)
@@ -16,6 +16,7 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts }) {
   // console.log("auth in Homepage.jsx", auth)
   // console.log("categories in HomePage: ", categories)
   // console.log("avatar in HomePage: ", avatar)
+  console.log("isAdmin in HomePage.jsx", isAdmin)
 
   useEffect(() => {
     let searchParam = window.location.search

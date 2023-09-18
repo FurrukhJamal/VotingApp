@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    //     use RefreshDatabase;
+    use RefreshDatabase;
 
     //     /**
     //      * A basic unit test example.
@@ -76,4 +76,15 @@ class UserTest extends TestCase
     //         $response = Http::get($user->getAvatar());
     //         $this->assertTrue($response->successful());
     //     }
+
+    /** @test */
+    public function check_if_user_is_admin()
+    {
+        $user = User::factory()->create(["email" => "furrukhjamal@yahoo.com"]);
+
+        $otherUser = User::factory()->create();
+
+        $this->assertTrue($user->isAdmin());
+        $this->assertFalse($otherUser->isAdmin());
+    }
 }

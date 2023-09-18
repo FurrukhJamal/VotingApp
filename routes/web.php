@@ -4,8 +4,11 @@ use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+use Illuminate\Http\Request as HttpRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +87,10 @@ Route::get("/statusfilter/closed/{filter?}", [IdeaController::class, "statusFilt
 //Search
 Route::get("/search", [IdeaController::class, "search"])->name("search");
 
+
+Route::post("/setStatus", function (HttpRequest $request) {
+    dd($request);
+});
 
 
 Route::get('/dashboard', function () {

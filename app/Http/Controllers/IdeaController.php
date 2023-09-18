@@ -24,7 +24,7 @@ class IdeaController extends Controller
         $ideas = Idea::latest("id")->simplePaginate(10);   //for eagerload you can add with("user", "category") before simplePagination
         // dd($request->query());
 
-        //if category is selected
+        /** all the conditions to display ideas based on all ideas filter along with category, topVoted and user filters */
         if ($request["user"] == "true") {
             // dd("hitting");
             $this->middleware("auth");
@@ -60,6 +60,9 @@ class IdeaController extends Controller
                 ->simplePaginate(10);
         }
 
+        /**END OF all the conditions to display ideas based on all ideas filter along with category, topVoted and user filters */
+
+
         foreach ($ideas->items() as $item) {
             // dd($item);
             $item["profileLink"] = $item->user->getAvatar();
@@ -68,8 +71,12 @@ class IdeaController extends Controller
         }
 
         $avatar = "https://www.gravatar.com/avatar?d=mp";
+        $isAdmin = false;
+
         if (Auth::user()) {
             $avatar = Auth::user()->getAvatar();
+
+            $isAdmin = Auth::user()->isAdmin();
         }
 
         // dd(Status::getStatusCounts());
@@ -80,6 +87,9 @@ class IdeaController extends Controller
                 return $avatar;
             },
             "statusCounts" => fn () => Status::getStatusCounts(),
+            "isAdmin" => function () use ($isAdmin) {
+                return $isAdmin;
+            },
         ]);
     }
 
@@ -122,8 +132,12 @@ class IdeaController extends Controller
         $idea["isVotedByUser"] = $idea->isVotedByUser(Auth::user());
 
         $avatar = "https://www.gravatar.com/avatar?d=mp";
+        $isAdmin = false;
+
         if (Auth::user()) {
             $avatar = Auth::user()->getAvatar();
+
+            $isAdmin = Auth::user()->isAdmin();
         }
 
         return Inertia::render("IdeaPage", [
@@ -131,6 +145,9 @@ class IdeaController extends Controller
             "categories" => Category::all(),
             "avatar" => $avatar,
             "statusCounts" => fn () => Status::getStatusCounts(),
+            "isAdmin" => function () use ($isAdmin) {
+                return $isAdmin;
+            },
         ]);
     }
 

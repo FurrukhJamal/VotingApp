@@ -11,7 +11,7 @@ import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
 
-function IdeaPage({ auth, idea, categories, avatar, statusCounts }) {
+function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
     console.log("categories in single Page: ", categories)
@@ -110,7 +110,8 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts }) {
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">
                         <ButtonWithADailogue></ButtonWithADailogue>
-                        <SetStatusDropdown />
+                        {isAdmin && (<SetStatusDropdown />)}
+
                     </div>
                     {/* right side button */}
                     <div className="w-1/3 flex justify-between items-center">
