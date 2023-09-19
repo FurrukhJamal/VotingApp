@@ -6,11 +6,13 @@ use App\Models\Idea;
 use App\Http\Requests\StoreIdeaRequest;
 
 use App\Http\Requests\UpdateIdeaRequest;
+use App\Mail\IdeaStatusUpdatedMailable;
 use App\Models\Category;
 use App\Models\Status;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -175,6 +177,9 @@ class IdeaController extends Controller
         // dd($newStatus);
         $idea->update(["status_id" => $newStatus->id]);
 
+        if ($request["notifyAllVoters"]) {
+            $this->notifyAllVoters($idea);
+        }
         // return redirect(route("idea.show", $idea));
     }
 
@@ -374,6 +379,22 @@ class IdeaController extends Controller
 
 
     /** Helpers */
+    protected function notifyAllVoters($idea)
+    {
+        $votes = $idea->votes;
+        $users = [];
+        foreach ($votes as $vote) {
+            $users[] = ["name" => $vote->user->name, "email" => $vote->user->email];
+        }
+        // dd($users);
+        foreach ($users as $user) {
+            //send email
+            Mail::to($user["email"])
+                ->queue(new IdeaStatusUpdatedMailable($idea));
+        }
+    }
+
+
     protected function getUserBasedIdeas(HttpRequest $request, Status $status)
     {
         // dd("hitting");

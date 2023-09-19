@@ -16,6 +16,7 @@ function SetStatusDropdown({ idea }) {
     const { post, patch, setData, data, errors, processing, reset } = useForm({
         status: idea.status.name,
         ideaId: idea.id,
+        notifyAllVoters: false
     })
 
 
@@ -68,6 +69,11 @@ function SetStatusDropdown({ idea }) {
         }
         // setData("status", defaultChecked)
 
+    }
+
+
+    function handleCheckBox(e) {
+        setData("notifyAllVoters", e.target.checked)
     }
 
     useEffect(() => {
@@ -180,7 +186,7 @@ function SetStatusDropdown({ idea }) {
 
                                 <span className="ml-1">Attach</span>
                             </button>
-                            <PrimaryButton type="submit" className="mr-4 flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center justify-center w-5/12 text-xs bg-blue-200">
+                            <PrimaryButton {...processing && ({ disabled: true })} type="submit" className="mr-4 flex border border-blue-200 hover:border-blue-400 transition duration-150 ease-in rounded-xl items-center justify-center w-5/12 text-xs bg-blue-200">
                                 Submit
                             </PrimaryButton>
                         </div>
@@ -190,7 +196,11 @@ function SetStatusDropdown({ idea }) {
                             </div>)}
                     </form>
                     <div className="my-4 mx-3 w-full flex flex-start items-center">
-                        <Checkbox name="notify" id="notify" value="NOTIFY" />
+                        <Checkbox
+                            name="notify"
+                            id="notify"
+                            value={data.notifyAllVoters}
+                            onChange={handleCheckBox} />
                         <InputLabel className="ml-2" htmlFor="notify">Notify all voters</InputLabel>
                     </div>
 
