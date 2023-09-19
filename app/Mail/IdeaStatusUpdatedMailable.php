@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Idea;
+use Faker\Provider\ar_EG\Address;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -30,6 +31,8 @@ class IdeaStatusUpdatedMailable extends Mailable
     {
         return new Envelope(
             subject: 'Idea Status Updated',
+            replyTo: "fj@ex.com",
+
         );
     }
 
