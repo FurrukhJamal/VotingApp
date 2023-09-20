@@ -10,6 +10,7 @@ use App\Jobs\NotifyAllVoters;
 use App\Mail\IdeaStatusUpdatedMailable;
 use App\Models\Category;
 use App\Models\Status;
+use App\Models\Vote;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -118,11 +119,15 @@ class IdeaController extends Controller
         ]);
         $cat = Category::where("name", $request["category"])->first();
 
-        $request->user()->ideas()->create([
+        $idea = $request->user()->ideas()->create([
             ...$validated,
             "status_id" => 1,
             "category_id" => $cat->id,
         ]);
+
+        //adding one vote for the created idea by user
+        Vote::create(["user_id" => $request->user()->id, "idea_id" => $idea->id]);
+
         session()->flash("message", "Idea Added");
         return redirect(route("idea.index"));
     }
@@ -169,24 +174,36 @@ class IdeaController extends Controller
      */
     public function update(UpdateIdeaRequest $request)
     {
-        // dd($request);
-        $validated = $request->validate([
-            "status" => "required",
-        ]);
+        if ($request["ideaUpdate"]) {
+            //for when idea is edited
+            // dd($request["user"]);
+            $validated = $request->validate([
+                "title" => "required",
+                "description" => "required"
+            ]);
+            // dd($validated);
+            $idea = Idea::where("title", $validated["title"])
+                ->where("description", $validated["description"])
+                ->first();
+            dd($idea);
 
-        $idea = Idea::find($request["ideaId"]);
-        $newStatus = Status::where("name", $request["status"])->first();
-        // dd($newStatus);
-        $idea->update(["status_id" => $newStatus->id]);
+            $idea->update($validated);
+        } else {
+            // dd($request);
+            $validated = $request->validate([
+                "status" => "required",
+            ]);
 
-        if ($request["notifyAllVoters"]) {
-            // $this->notifyAllVoters($idea);
-            NotifyAllVoters::dispatch($idea);
+            $idea = Idea::find($request["ideaId"]);
+            $newStatus = Status::where("name", $request["status"])->first();
+            // dd($newStatus);
+            $idea->update(["status_id" => $newStatus->id]);
+
+            if ($request["notifyAllVoters"]) {
+                // $this->notifyAllVoters($idea);
+                NotifyAllVoters::dispatch($idea);
+            }
         }
-        // return redirect(route("idea.show", $idea));
-        // return ["success" => "status Updated"];
-        //return redirect(route("idea.show", $idea), $status = 303);
-        // return to_route(route("idea.show", $idea));
     }
 
     /**

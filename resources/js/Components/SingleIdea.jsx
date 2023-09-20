@@ -7,8 +7,14 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
-function SingleIdea(idea) {
+function SingleIdea({ idea, setEditIdeaButtonActivated }) {
     console.log("in singleIdea component", idea)
+
+    function handleIdeaEdit(e) {
+        e.preventDefault()
+        setEditIdeaButtonActivated(prev => !prev)
+    }
+
     return (
         <div className="space-y-4 my-4">
             <div className="bg-white rounded-xl flex">
@@ -53,7 +59,13 @@ function SingleIdea(idea) {
                                         <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
                                     </Dropdown.Trigger>
                                     <Dropdown.Content className="shahdow-dialogue" align="left" width="w-44">
-                                        <Link className="text-center w-full justify-center" href="" as="button">Mark as spam</Link>
+                                        <Link
+                                            className="text-center w-full justify-center"
+                                            href=""
+                                            as="button"
+                                            onClick={handleIdeaEdit}>
+                                            Edit Idea
+                                        </Link>
                                         <Link className="text-center w-full justify-center" href="" as="button">Delete Post</Link>
 
                                     </Dropdown.Content>

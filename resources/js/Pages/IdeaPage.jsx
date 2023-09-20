@@ -10,10 +10,18 @@ import Comment from '@/Components/Comment'
 import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
+import Modal from '@/Components/Modal'
+import AddIdea from '@/Components/AddIdea'
+import CustomModal from '@/Components/CustomModal'
+import TextInput from '@/Components/TextInput'
+import EditIdeaModal from '@/Components/EditIdeaModal'
 
 
 
 function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
+    const [editIdeaButtonActivated, setEditIdeaButtonActivated] = useState(false)
+
+
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
     console.log("categories in single Page: ", categories)
@@ -107,7 +115,7 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                         Go Back
                     </Link>
                 </div>
-                <SingleIdea {...idea}></SingleIdea>
+                <SingleIdea idea={idea} setEditIdeaButtonActivated={setEditIdeaButtonActivated}></SingleIdea>
                 {/* Buttons */}
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">
@@ -141,6 +149,16 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                 </div>
 
                 {/* end of comments */}
+
+                {/* Modal For Editing Idea */}
+                <EditIdeaModal
+                    editIdeaButtonActivated={editIdeaButtonActivated}
+                    setEditIdeaButtonActivated={setEditIdeaButtonActivated}
+                    idea={idea}
+                />
+                {/* {)editIdeaButtonActivated && <div onClick={(e) => console.log("clicked to close modal")} className="bg-blue-600 inset-0 z-70 fixed"></div>} */}
+
+
             </MainLayOut >
         </>
     )

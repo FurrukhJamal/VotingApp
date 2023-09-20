@@ -82,6 +82,7 @@ class CreateIdeaTest extends TestCase
                             ->has("data", 2)
                             ->has("data.0", function (Assert $page) use ($idea, $idea2) {
                                 $page->where("id", $idea2->id)
+
                                     ->etc();
                             })
                             ->has("data.1", function (Assert $page) use ($idea, $idea2) {

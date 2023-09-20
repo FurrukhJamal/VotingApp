@@ -91,6 +91,10 @@ Route::get("/search", [IdeaController::class, "search"])->name("search");
 Route::patch("/setstatus", [IdeaController::class, "update"])->middleware("auth")->name("idea.update.status");
 
 
+//Updating Idea
+Route::post("/updateidea", [IdeaController::class, "update"])->middleware(["auth"])->name("idea.update");
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
