@@ -11,6 +11,7 @@ use App\Mail\IdeaStatusUpdatedMailable;
 use App\Models\Category;
 use App\Models\Status;
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -183,6 +184,9 @@ class IdeaController extends Controller
             NotifyAllVoters::dispatch($idea);
         }
         // return redirect(route("idea.show", $idea));
+        // return ["success" => "status Updated"];
+        //return redirect(route("idea.show", $idea), $status = 303);
+        // return to_route(route("idea.show", $idea));
     }
 
     /**
