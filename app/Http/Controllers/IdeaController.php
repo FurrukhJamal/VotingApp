@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class IdeaController extends Controller
 {
@@ -141,6 +142,12 @@ class IdeaController extends Controller
         $idea["isVotedByUser"] = $idea->isVotedByUser(Auth::user());
         $idea["statusClass"] = $idea->getStatusClass();
 
+        // logic to display edit button for editing if it satisfy the edit policy
+        if ($idea["isVotedByUser"]) {
+            $user = $idea->user;
+            $idea["userCanEdit"] = $user->canUpdateIdea($idea);
+        }
+
         $avatar = "https://www.gravatar.com/avatar?d=mp";
         $isAdmin = false;
 
@@ -174,29 +181,32 @@ class IdeaController extends Controller
      */
     public function update(UpdateIdeaRequest $request)
     {
+        $idea = Idea::find($request["ideaId"]);
+
+        if (Auth::guest() || $request->user()->cannot('update', $idea)) {
+            // abort(403);
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+
         if ($request["ideaUpdate"]) {
-            //for when idea is edited
-            // dd($request["user"]);
             $validated = $request->validate([
                 "title" => "required",
                 "description" => "required"
             ]);
-            // dd($validated);
-            $idea = Idea::where("title", $validated["title"])
-                ->where("description", $validated["description"])
-                ->first();
-            dd($idea);
+            // DB::enableQueryLog();
+            // $idea = Idea::find($request["idea"]["id"]);
+            // dd(DB::getQueryLog());
 
             $idea->update($validated);
         } else {
-            // dd($request);
             $validated = $request->validate([
                 "status" => "required",
             ]);
 
-            $idea = Idea::find($request["ideaId"]);
+
             $newStatus = Status::where("name", $request["status"])->first();
-            // dd($newStatus);
+
             $idea->update(["status_id" => $newStatus->id]);
 
             if ($request["notifyAllVoters"]) {

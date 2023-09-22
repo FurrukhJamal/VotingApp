@@ -38,8 +38,9 @@ class IdeaPolicy
      */
     public function update(User $user, Idea $idea): bool
     {
-        //
-        // return $idea->user()->is($user);
+        //                                                              
+        // return $idea->user()->is($user);       
+        return ($user->id == $idea->user_id && now()->subHour() <= $idea->created_at);    //minus an hour
     }
 
     /**

@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
-function SingleIdea({ idea, setEditIdeaButtonActivated }) {
+function SingleIdea({ auth, idea, setEditIdeaButtonActivated }) {
     console.log("in singleIdea component", idea)
 
     function handleIdeaEdit(e) {
@@ -54,22 +54,29 @@ function SingleIdea({ idea, setEditIdeaButtonActivated }) {
                                 <div className={`flex justify-center ${idea.statusClass} text-xxs items-center font-bold uppercase rounded-full h-7 text-center py-2 px-4`}>
                                     {idea.status.name}
                                 </div>
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
-                                    </Dropdown.Trigger>
-                                    <Dropdown.Content className="shahdow-dialogue" align="left" width="w-44">
-                                        <Link
-                                            className="text-center w-full justify-center"
-                                            href=""
-                                            as="button"
-                                            onClick={handleIdeaEdit}>
-                                            Edit Idea
-                                        </Link>
-                                        <Link className="text-center w-full justify-center" href="" as="button">Delete Post</Link>
+                                {auth.user && (
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content className="shahdow-dialogue" align="left" width="w-44">
+                                            {idea.userCanEdit && (
+                                                <Link
+                                                    className="text-center w-full justify-center hover:bg-green-200"
+                                                    href=""
+                                                    as="button"
+                                                    onClick={handleIdeaEdit}>
+                                                    Edit Idea
+                                                </Link>
+                                            )}
 
-                                    </Dropdown.Content>
-                                </Dropdown>
+                                            <Link className="text-center w-full justify-center  hover:bg-green-200" href="" as="button">Delete Post</Link>
+
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                )}
+
+
                             </div>
                         </div>
                     </div>

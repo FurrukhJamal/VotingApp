@@ -115,7 +115,7 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                         Go Back
                     </Link>
                 </div>
-                <SingleIdea idea={idea} setEditIdeaButtonActivated={setEditIdeaButtonActivated}></SingleIdea>
+                <SingleIdea auth={auth} idea={idea} setEditIdeaButtonActivated={setEditIdeaButtonActivated}></SingleIdea>
                 {/* Buttons */}
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">

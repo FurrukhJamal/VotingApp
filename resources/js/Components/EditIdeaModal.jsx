@@ -13,13 +13,14 @@ function EditIdeaModal({ setEditIdeaButtonActivated, editIdeaButtonActivated, id
         user: idea.user,
         title: idea.title,
         description: idea.description,
-        ideaUpdate: true
+        ideaUpdate: true,
+        ideaId: idea.id
     })
 
     async function handleSubmit(e) {
         e.preventDefault()
         post("/updateidea", {
-            onSuccess: () => console.log("idea updates")
+            onSuccess: () => setEditIdeaButtonActivated(false)
         })
     }
 
@@ -27,6 +28,9 @@ function EditIdeaModal({ setEditIdeaButtonActivated, editIdeaButtonActivated, id
         <CustomModal onClose={() => setEditIdeaButtonActivated(false)} show={editIdeaButtonActivated}>
             <div className='flex w-full p-4'>
                 <form onSubmit={handleSubmit} className="w-full">
+                    <div className="p-4 flex text-center justify-center w-full">
+                        <p>You have one hour from creation of idea to edit it</p>
+                    </div>
                     <TextInput
                         type="text"
                         name="title"

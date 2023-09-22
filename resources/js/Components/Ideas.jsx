@@ -150,7 +150,7 @@ function Ideas({ ideas, user }) {
                                                     <div className={`flex justify-center ${idea.statusClass} text-xxs items-center font-bold uppercase rounded-full h-7 text-center py-2 px-4`}>
                                                         {idea.status.name}
                                                     </div>
-                                                    <Dropdown onClick={stopPropagation}>
+                                                    {/* <Dropdown onClick={stopPropagation}>
                                                         <Dropdown.Trigger>
                                                             <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
                                                         </Dropdown.Trigger>
@@ -159,7 +159,7 @@ function Ideas({ ideas, user }) {
                                                             <Link className="text-center w-full justify-center" href="" as="button">Delete Post</Link>
 
                                                         </Dropdown.Content>
-                                                    </Dropdown>
+                                                    </Dropdown> */}
                                                 </div>
                                             </div>
                                         </div>

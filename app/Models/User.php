@@ -77,4 +77,9 @@ class User extends Authenticatable
     {
         return in_array($this->email, ["furrukhjamal@yahoo.com", "fj@ex.com"]);
     }
+
+    public function canUpdateIdea(Idea $idea)
+    {
+        return $this->can("update", $idea);
+    }
 }
