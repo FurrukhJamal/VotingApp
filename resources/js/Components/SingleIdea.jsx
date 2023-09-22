@@ -55,25 +55,36 @@ function SingleIdea({ auth, idea, setEditIdeaButtonActivated }) {
                                     {idea.status.name}
                                 </div>
                                 {auth.user && (
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
-                                        </Dropdown.Trigger>
-                                        <Dropdown.Content className="shahdow-dialogue" align="left" width="w-44">
-                                            {idea.userCanEdit && (
+                                    <div dusk="ideaFunctions">
+                                        <Dropdown >
+                                            <Dropdown.Trigger>
+                                                <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
+                                            </Dropdown.Trigger>
+                                            <Dropdown.Content className="shahdow-dialogue" align="left" width="w-44">
+                                                {idea.userCanEdit && (
+                                                    <div dusk="editIdeaButton">
+                                                        <Link
+                                                            className="text-center w-full justify-center hover:bg-green-200"
+                                                            href=""
+                                                            as="button"
+                                                            onClick={handleIdeaEdit}>
+                                                            Edit Idea
+                                                        </Link>
+                                                    </div>
+
+                                                )}
+
                                                 <Link
-                                                    className="text-center w-full justify-center hover:bg-green-200"
+                                                    className="text-center w-full justify-center  hover:bg-green-200"
                                                     href=""
-                                                    as="button"
-                                                    onClick={handleIdeaEdit}>
-                                                    Edit Idea
+                                                    as="button">
+                                                    Delete Idea
                                                 </Link>
-                                            )}
 
-                                            <Link className="text-center w-full justify-center  hover:bg-green-200" href="" as="button">Delete Post</Link>
+                                            </Dropdown.Content>
+                                        </Dropdown>
+                                    </div>
 
-                                        </Dropdown.Content>
-                                    </Dropdown>
                                 )}
 
 

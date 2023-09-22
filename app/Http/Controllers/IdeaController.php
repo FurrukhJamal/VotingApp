@@ -143,7 +143,7 @@ class IdeaController extends Controller
         $idea["statusClass"] = $idea->getStatusClass();
 
         // logic to display edit button for editing if it satisfy the edit policy
-        if ($idea["isVotedByUser"]) {
+        if ($idea->user->id == Auth::id()) {
             $user = $idea->user;
             $idea["userCanEdit"] = $user->canUpdateIdea($idea);
         }
