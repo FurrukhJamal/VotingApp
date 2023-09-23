@@ -121,7 +121,8 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                     auth={auth}
                     idea={idea}
                     setEditIdeaButtonActivated={setEditIdeaButtonActivated}
-                    setDeleteIdeaActivated={setDeleteIdeaActivated} />
+                    setDeleteIdeaActivated={setDeleteIdeaActivated}
+                    isAdmin={isAdmin} />
                 {/* Buttons */}
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">
@@ -169,6 +170,7 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                     setDeleteIdeaActivated={setDeleteIdeaActivated}
                     idea={idea}
                     user={auth.user}
+
                 />
 
 

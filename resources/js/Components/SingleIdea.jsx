@@ -7,8 +7,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
-function SingleIdea({ auth, idea, setEditIdeaButtonActivated, setDeleteIdeaActivated }) {
-    console.log("in singleIdea component", idea)
+function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDeleteIdeaActivated }) {
+    console.log("Auth in singleIdea component", auth)
 
     function handleIdeaEdit(e) {
         e.preventDefault()
@@ -78,14 +78,26 @@ function SingleIdea({ auth, idea, setEditIdeaButtonActivated, setDeleteIdeaActiv
                                                     </div>
 
                                                 )}
+                                                {(idea.userCanEdit || isAdmin) ? (
+                                                    <Link
+                                                        className="text-center w-full justify-center  hover:bg-green-200"
+                                                        href=""
+                                                        as="button"
+                                                        onClick={handleDeleteIdea}>
+                                                        Delete Idea
+                                                    </Link>
+                                                ) : null}
 
                                                 <Link
                                                     className="text-center w-full justify-center  hover:bg-green-200"
                                                     href=""
                                                     as="button"
                                                     onClick={handleDeleteIdea}>
-                                                    Delete Idea
+                                                    Mark as Spam
                                                 </Link>
+
+
+
 
                                             </Dropdown.Content>
                                         </Dropdown>

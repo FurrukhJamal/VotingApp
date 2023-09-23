@@ -221,11 +221,13 @@ class IdeaController extends Controller
      */
     public function destroy(Idea $idea,)
     {
-        $user = $idea->user;
+        $user = Auth::user();
         if (Auth::check() && $user->can("delete", $idea)) {
             Vote::where("idea_id", $idea->id)->delete();
             $idea->delete();
             return redirect(route("idea.index"));
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
         }
     }
 
