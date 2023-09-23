@@ -7,12 +7,17 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
-function SingleIdea({ auth, idea, setEditIdeaButtonActivated }) {
+function SingleIdea({ auth, idea, setEditIdeaButtonActivated, setDeleteIdeaActivated }) {
     console.log("in singleIdea component", idea)
 
     function handleIdeaEdit(e) {
         e.preventDefault()
         setEditIdeaButtonActivated(prev => !prev)
+    }
+
+    function handleDeleteIdea(e) {
+        e.preventDefault()
+        setDeleteIdeaActivated(prev => !prev)
     }
 
     return (
@@ -77,7 +82,8 @@ function SingleIdea({ auth, idea, setEditIdeaButtonActivated }) {
                                                 <Link
                                                     className="text-center w-full justify-center  hover:bg-green-200"
                                                     href=""
-                                                    as="button">
+                                                    as="button"
+                                                    onClick={handleDeleteIdea}>
                                                     Delete Idea
                                                 </Link>
 

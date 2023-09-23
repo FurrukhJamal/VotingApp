@@ -15,11 +15,13 @@ import AddIdea from '@/Components/AddIdea'
 import CustomModal from '@/Components/CustomModal'
 import TextInput from '@/Components/TextInput'
 import EditIdeaModal from '@/Components/EditIdeaModal'
+import DeleteIdeaModal from '@/Components/DeleteIdeaModal'
 
 
 
 function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
     const [editIdeaButtonActivated, setEditIdeaButtonActivated] = useState(false)
+    const [deleteIdeaActivated, setDeleteIdeaActivated] = useState(false)
 
 
     console.log("A single idea in IdeaPage: ", idea)
@@ -115,7 +117,11 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                         Go Back
                     </Link>
                 </div>
-                <SingleIdea auth={auth} idea={idea} setEditIdeaButtonActivated={setEditIdeaButtonActivated}></SingleIdea>
+                <SingleIdea
+                    auth={auth}
+                    idea={idea}
+                    setEditIdeaButtonActivated={setEditIdeaButtonActivated}
+                    setDeleteIdeaActivated={setDeleteIdeaActivated} />
                 {/* Buttons */}
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">
@@ -156,7 +162,14 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                     setEditIdeaButtonActivated={setEditIdeaButtonActivated}
                     idea={idea}
                 />
-                {/* {)editIdeaButtonActivated && <div onClick={(e) => console.log("clicked to close modal")} className="bg-blue-600 inset-0 z-70 fixed"></div>} */}
+
+                {/*Modal for Deleting Idea */}
+                <DeleteIdeaModal
+                    deleteIdeaActivated={deleteIdeaActivated}
+                    setDeleteIdeaActivated={setDeleteIdeaActivated}
+                    idea={idea}
+                    user={auth.user}
+                />
 
 
             </MainLayOut >

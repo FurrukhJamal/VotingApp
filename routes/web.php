@@ -94,6 +94,8 @@ Route::patch("/setstatus", [IdeaController::class, "update"])->middleware("auth"
 //Updating Idea
 Route::post("/updateidea", [IdeaController::class, "update"])->middleware(["auth"])->name("idea.update");
 
+//Delete Idea
+Route::post("/deleteidea/{idea}", [IdeaController::class, "destroy"])->middleware("auth")->name("idea.destroy");
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -219,9 +219,14 @@ class IdeaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Idea $idea)
+    public function destroy(Idea $idea,)
     {
-        //
+        $user = $idea->user;
+        if (Auth::check() && $user->can("delete", $idea)) {
+            Vote::where("idea_id", $idea->id)->delete();
+            $idea->delete();
+            return redirect(route("idea.index"));
+        }
     }
 
 

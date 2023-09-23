@@ -34,7 +34,8 @@ export default {
                 purple: colors.purple,
                 blue: colors.blue,
                 sky: colors.sky,
-                green: colors.green
+                green: colors.green,
+                "yellow-500": "#eab308"
             },
 
             spacing: {
