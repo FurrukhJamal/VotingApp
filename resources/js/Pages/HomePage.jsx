@@ -54,7 +54,7 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
   return (
     <AppContext.Provider value={{ userIdeaSelected, selectedCategory, setSelectedCategory, topVotedSelected }}>
       <Head title="Voting App" />
-      <Home {...auth} ideas={ideas} categories={categories} avatar={avatar} statusCounts={statusCounts} />
+      <Home {...auth} ideas={ideas} categories={categories} avatar={avatar} statusCounts={statusCounts} isAdmin={isAdmin} />
     </AppContext.Provider>
   )
 }

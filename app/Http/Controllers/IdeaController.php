@@ -414,6 +414,30 @@ class IdeaController extends Controller
         ]);
     }
 
+    /** To display Spams */
+    public function getSpam()
+    {
+        $user = Auth::user();
+        if ($user->isAdmin()) {
+            $ideas = Idea::where("spam_reports", ">", 0)->simplePaginate(10);
+            return $this->returnFilteredIdeas($ideas);
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+    }
+
+    /** Vote as Spam */
+    public function voteAsSpam(HttpRequest $request)
+    {
+        // dd($request["idea"]);
+        $id = $request["idea"]["id"];
+        $idea = Idea::find($id);
+        // $idea->spam_reports++;
+        // $idea->save();
+        $updatedVote = $idea->spam_reports + 1;
+        $idea->update(["spam_reports" => $updatedVote]);
+    }
+
 
 
 

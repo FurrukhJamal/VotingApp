@@ -9,7 +9,7 @@ import MainLayOut from './MainLayOut'
 import Pagination from '@/Components/Pagination'
 import { router } from '@inertiajs/react'
 
-function Home({ user, ideas, categories, avatar, statusCounts }) {
+function Home({ isAdmin, user, ideas, categories, avatar, statusCounts }) {
   console.log("ideas in Home:", ideas)
   // console.log("user in Home.jsx", user)
   // console.log("categories in Home:", categories)
@@ -20,7 +20,7 @@ function Home({ user, ideas, categories, avatar, statusCounts }) {
     <>
       <MainLayOut user={user} categories={categories} avatar={avatar}>
         <NavigationBar statusCounts={statusCounts} />
-        <Filters categories={categories} />
+        <Filters isAdmin={isAdmin} categories={categories} />
         <Ideas ideas={ideas} user={user} />
         {ideas.data.length > 0 ? (<Pagination {...ideas} />) : null}
       </MainLayOut>

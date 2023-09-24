@@ -97,6 +97,10 @@ Route::post("/updateidea", [IdeaController::class, "update"])->middleware(["auth
 //Delete Idea
 Route::post("/deleteidea/{idea}", [IdeaController::class, "destroy"])->middleware("auth")->name("idea.destroy");
 
+//Spams
+Route::get("/getspam", [IdeaController::class, "getSpam"])->middleware("auth")->name("idea.spam");
+Route::post("/voteasspam", [IdeaController::class, "voteAsSpam"])->middleware("auth")->name("idea.voteSpam");
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -17,7 +17,7 @@ class Idea extends Model
 
     const PAGINATION_COUNT = 10;
 
-    protected $fillable = ["category_id", "status_id", "slug", "description", "title", "user_id",];
+    protected $fillable = ["spam_reports", "category_id", "status_id", "slug", "description", "title", "user_id",];
 
     protected $with = ["user", "category", "status",];
     protected $withCount = ["votes"];

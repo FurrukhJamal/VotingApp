@@ -6,7 +6,7 @@ import searchIcon from "../../images/search-interface-symbol.png"
 import { router, useForm, usePage } from '@inertiajs/react'
 import { AppContext } from '@/Pages/HomePage'
 
-function Filters({ categories }) {
+function Filters({ isAdmin, categories }) {
   const { selectedCategory, topVotedSelected, userIdeaSelected } = useContext(AppContext)
   const { fullUrl, queryParams, auth } = usePage().props
 
@@ -101,6 +101,11 @@ function Filters({ categories }) {
     })
   }
 
+  function handleSpam(e) {
+    e.preventDefault(e)
+    router.visit(route("idea.spam"))
+  }
+
 
   return (
     <div className='Filtercontainer'>
@@ -148,55 +153,69 @@ function Filters({ categories }) {
         </Dropdown>
 
         {/* second filter button */}
-        <Dropdown>
-          <Dropdown.Trigger>
-            <span className="inline-flex rounded-xl">
-              <button
-                type="button"
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-              >
-                {topVotedSelected && "Top Voted"}
-                {(!userIdeaSelected && !topVotedSelected) && "Other Filters"}
-                {userIdeaSelected && "My Ideas"}
-
-
-                <svg
-                  className="ml-2 -mr-0.5 h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+        <div dusk="otherFiltersDiv">
+          <Dropdown>
+            <Dropdown.Trigger>
+              <span className="inline-flex rounded-xl" >
+                <button
+                  type="button"
+                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </span>
-          </Dropdown.Trigger>
-          <Dropdown.Content>
-            <Dropdown.Link
-              className="text-center"
-              href={route('idea.index')}
-              onClick={(e) => handleTopVoted(e)}>
-              Top Voted
-            </Dropdown.Link>
-            <Dropdown.Link
-              className="text-center"
-              href={route('idea.index')}
-              as="button"
-              onClick={(e) => displayUserIdeas(e)}>
-              My Ideas
-            </Dropdown.Link>
-            <Dropdown.Link
-              className="text-center"
-              href={route('idea.index')}
-              onClick={(e) => handleResetOtherFilters(e)}>
-              All
-            </Dropdown.Link>
-          </Dropdown.Content>
-        </Dropdown>
+                  {topVotedSelected && "Top Voted"}
+                  {(!userIdeaSelected && !topVotedSelected) && "Other Filters"}
+                  {userIdeaSelected && "My Ideas"}
+
+
+                  <svg
+                    className="ml-2 -mr-0.5 h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </span>
+            </Dropdown.Trigger>
+            <Dropdown.Content>
+              <Dropdown.Link
+                className="text-center"
+                href={route('idea.index')}
+                onClick={(e) => handleTopVoted(e)}>
+                Top Voted
+              </Dropdown.Link>
+              <Dropdown.Link
+                className="text-center"
+                href={route('idea.index')}
+                as="button"
+                onClick={(e) => displayUserIdeas(e)}>
+                My Ideas
+              </Dropdown.Link>
+              <Dropdown.Link
+                className="text-center"
+                href={route('idea.index')}
+                onClick={(e) => handleResetOtherFilters(e)}>
+                All
+              </Dropdown.Link>
+
+              {isAdmin && (
+                <div dusk="spamFilterLink">
+                  <Dropdown.Link
+                    className="text-center"
+                    href={route('idea.index')}
+                    onClick={(e) => handleSpam(e)}>
+                    Spam
+                  </Dropdown.Link>
+                </div>
+              )}
+            </Dropdown.Content>
+          </Dropdown>
+        </div>
+
       </div>
 
       {/* Search Box */}

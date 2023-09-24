@@ -1,13 +1,14 @@
 import React from 'react'
 import PrimaryButton from './PrimaryButton'
 import Dropdown from './Dropdown'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
 function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDeleteIdeaActivated }) {
+
     console.log("Auth in singleIdea component", auth)
 
     function handleIdeaEdit(e) {
@@ -19,6 +20,19 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
         e.preventDefault()
         setDeleteIdeaActivated(prev => !prev)
     }
+
+
+    function handleVoteAsSpam(e) {
+        e.preventDefault()
+        console.log("window.location.origin:", window.location.origin)
+        let origin = window.location.origin
+        router.post(route("idea.voteSpam"), { idea }, {
+            onSuccess: () => {
+                console.log("Spam vote submitted")
+            }
+        })
+    }
+
 
     return (
         <div className="space-y-4 my-4">
@@ -92,7 +106,7 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
                                                     className="text-center w-full justify-center  hover:bg-green-200"
                                                     href=""
                                                     as="button"
-                                                    onClick={handleDeleteIdea}>
+                                                    onClick={handleVoteAsSpam}>
                                                     Mark as Spam
                                                 </Link>
 
