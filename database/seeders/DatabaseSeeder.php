@@ -46,6 +46,14 @@ class DatabaseSeeder extends Seeder
 
         Idea::factory(160)->create();
 
+        //reporting some spam ideas
+        $ideas = Idea::take(11)->get();
+        $counter = 1;
+        foreach ($ideas as $idea) {
+            $idea->update(["spam_reports" => $counter]);
+            $counter++;
+        }
+
         for ($i = 1; $i <= 10; $i++) {
             for ($j = 1; $j <= 100; $j++) {
                 if ($j % 2 == 0) {

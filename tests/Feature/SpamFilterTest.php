@@ -69,6 +69,7 @@ class SpamFilterTest extends TestCase
             "spam_reports" => 1,
         ]);
 
+        //The top most idea is the last in data iteration 
         $this->actingAs($admin)
             ->get("/getspam")
             ->assertInertia(function (Assert $page) use ($ideaSpammedMost, $ideaMiddle, $ideaLast) {
@@ -197,5 +198,119 @@ class SpamFilterTest extends TestCase
 
         $this->assertDatabaseCount("ideas", 1);
         $this->assertDatabaseHas("ideas", ["spam_reports" => 0]);
+    }
+
+    /** @test */
+    public function spam_ideas_correctly_paginating()
+    {
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        $statusConsidering = Status::factory()->create(["name" => "Considering"]);
+        $statusInProgress = Status::factory()->create(["name" => "In Progress"]);
+        $statusImplemented = Status::factory()->create(["name" => "Implemented"]);
+        $statusClosed = Status::factory()->create(["name" => "Closed"]);
+
+        $admin = User::factory()->create(["email" => "furrukhjamal@yahoo.com"]);
+
+        $user = User::factory()->create();
+
+        Idea::factory(10)->create(["spam_reports" => 10, "user_id" => $user->id]);
+
+        $idea = Idea::factory()->create([
+            "title" => "Idea should be top on spam list page 2",
+            "description" => "top most spam voted idea on page 2",
+            "user_id" => $user->id,
+            "status_id" => $statusConsidering->id,
+            "spam_reports" => 7,
+        ]);
+
+        $this->actingAs($admin)
+            ->get("/getspam?page=2")
+            ->assertInertia(function (Assert $page) use ($idea) {
+                $page->component("HomePage")
+                    ->has("ideas", function (Assert $page) use ($idea) {
+                        $page->has("data", 1)
+                            ->has("data.0", function (Assert $page) use ($idea) {
+                                $page->where("title", $idea->title)
+                                    ->etc();
+                            })
+                            ->etc();
+                    });
+            });
+    }
+
+    /** @test */
+    public function admin_can_mark_an_idea_as_not_spam()
+    {
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        $statusConsidering = Status::factory()->create(["name" => "Considering"]);
+        $statusInProgress = Status::factory()->create(["name" => "In Progress"]);
+        $statusImplemented = Status::factory()->create(["name" => "Implemented"]);
+        $statusClosed = Status::factory()->create(["name" => "Closed"]);
+
+        $admin = User::factory()->create(["email" => "furrukhjamal@yahoo.com"]);
+
+        $user = User::factory()->create();
+
+
+        $idea = Idea::factory()->create([
+            "title" => "Idea should be top on spam list page 2",
+            "description" => "top most spam voted idea on page 2",
+            "user_id" => $user->id,
+            "status_id" => $statusConsidering->id,
+            "spam_reports" => 7,
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->post("/markasnotspam", ["idea" => $idea]);
+
+        $response->assertRedirect();
+
+        $this->assertDatabaseMissing("ideas", ["spam_reports" => 7]);
+        $this->assertDatabaseHas("ideas", ["spam_reports" => 0]);
+    }
+
+    /** @test */
+    public function other_users_can_not_mark_an_idea_as_not_spam()
+    {
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        $statusConsidering = Status::factory()->create(["name" => "Considering"]);
+        $statusInProgress = Status::factory()->create(["name" => "In Progress"]);
+        $statusImplemented = Status::factory()->create(["name" => "Implemented"]);
+        $statusClosed = Status::factory()->create(["name" => "Closed"]);
+
+        $admin = User::factory()->create(["email" => "furrukhjamal@yahoo.com"]);
+
+        $user = User::factory()->create();
+
+
+        $idea = Idea::factory()->create([
+            "title" => "Idea should be top on spam list page 2",
+            "description" => "top most spam voted idea on page 2",
+            "user_id" => $user->id,
+            "status_id" => $statusConsidering->id,
+            "spam_reports" => 7,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->post("/markasnotspam", ["idea" => $idea]);
+
+        $response->assertForbidden();
+
+        $this->assertDatabaseHas("ideas", ["spam_reports" => 7]);
     }
 }

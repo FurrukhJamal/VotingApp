@@ -35,6 +35,7 @@ export default {
                 blue: colors.blue,
                 sky: colors.sky,
                 green: colors.green,
+                red: colors.red,
                 "yellow-500": "#eab308"
             },
 

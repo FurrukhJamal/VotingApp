@@ -33,6 +33,11 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
         })
     }
 
+    function handleMarkIdeaNotSpam(e) {
+        e.preventDefault()
+        router.post(route("idea.markNotAsSpam"), { idea })
+    }
+
 
     return (
         <div className="space-y-4 my-4">
@@ -54,6 +59,7 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
                             <h1 className='text-xl font-semibold'>{idea.title}</h1>
                         </Link>
                         <div className='text-gray-600 mt-3'>
+                            {isAdmin && (<div className="text-red-500 mb-2">Spam Reports : {idea.spam_reports}</div>)}
                             <p>{idea.description}</p>
                         </div>
 
@@ -77,7 +83,7 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
                                     <div dusk="ideaFunctions">
                                         <Dropdown >
                                             <Dropdown.Trigger>
-                                                <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
+                                                <PrimaryButton dusk="3dotsButton" className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
                                             </Dropdown.Trigger>
                                             <Dropdown.Content className="shahdow-dialogue" align="left" width="w-44">
                                                 {idea.userCanEdit && (
@@ -92,7 +98,7 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
                                                     </div>
 
                                                 )}
-                                                {(idea.userCanEdit || isAdmin) ? (
+                                                {((idea.user.id == auth.user.id) || isAdmin) ? (
                                                     <Link
                                                         className="text-center w-full justify-center  hover:bg-green-200"
                                                         href=""
@@ -110,7 +116,17 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
                                                     Mark as Spam
                                                 </Link>
 
-
+                                                {isAdmin && (
+                                                    <div dusk="markAsNotSpamButton">
+                                                        <Link
+                                                            className="text-center w-full justify-center  hover:bg-green-200"
+                                                            href=""
+                                                            as="button"
+                                                            onClick={handleMarkIdeaNotSpam}>
+                                                            Mark as Not Spam
+                                                        </Link>
+                                                    </div>
+                                                )}
 
 
                                             </Dropdown.Content>

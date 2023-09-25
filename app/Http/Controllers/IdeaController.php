@@ -419,7 +419,7 @@ class IdeaController extends Controller
     {
         $user = Auth::user();
         if ($user->isAdmin()) {
-            $ideas = Idea::where("spam_reports", ">", 0)->simplePaginate(10);
+            $ideas = Idea::orderBy("spam_reports", "desc")->where("spam_reports", ">", 0)->simplePaginate(10);
             return $this->returnFilteredIdeas($ideas);
         } else {
             abort(Response::HTTP_FORBIDDEN);
@@ -438,7 +438,19 @@ class IdeaController extends Controller
         $idea->update(["spam_reports" => $updatedVote]);
     }
 
-
+    /** Mark not As Spam */
+    public function markAsNotSpam(HttpRequest $request)
+    {
+        $id = $request["idea"]["id"];
+        $user = Auth::user();
+        if ($user->isAdmin()) {
+            $idea = Idea::find($id);
+            $idea->update(["spam_reports" => 0]);
+            return redirect(route("idea.spam"));
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+    }
 
 
 
@@ -498,8 +510,10 @@ class IdeaController extends Controller
         }
 
         $avatar = "https://www.gravatar.com/avatar?d=mp";
+        $isAdmin = false;
         if (Auth::user()) {
             $avatar = Auth::user()->getAvatar();
+            $isAdmin = Auth::user()->isAdmin();
         }
 
         return Inertia::render("HomePage", [
@@ -509,6 +523,9 @@ class IdeaController extends Controller
                 return $avatar;
             },
             "statusCounts" => fn () => Status::getStatusCounts(),
+            "isAdmin" => function () use ($isAdmin) {
+                return $isAdmin;
+            },
         ]);
     }
 }

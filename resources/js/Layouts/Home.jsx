@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Guest from './GuestLayout'
 import MainNav from '@/Components/MainNav'
 import AddIdea from '@/Components/AddIdea'
@@ -14,14 +14,22 @@ function Home({ isAdmin, user, ideas, categories, avatar, statusCounts }) {
   // console.log("user in Home.jsx", user)
   // console.log("categories in Home:", categories)
   // console.log("avatar in home:", avatar)
+  const [isPathGetSpam, setIsPathGetSpam] = useState(false)
 
+  useEffect(() => {
+    //to hide category and other filter when on spam section
+    if (window.location.pathname == "/getspam") {
+      setIsPathGetSpam(true)
+    }
+    console.log("window.location.pathname", window.location.pathname)
+  }, [])
 
   return (
     <>
       <MainLayOut user={user} categories={categories} avatar={avatar}>
         <NavigationBar statusCounts={statusCounts} />
-        <Filters isAdmin={isAdmin} categories={categories} />
-        <Ideas ideas={ideas} user={user} />
+        {!isPathGetSpam && (<Filters isAdmin={isAdmin} categories={categories} />)}
+        <Ideas isAdmin={isAdmin} ideas={ideas} user={user} />
         {ideas.data.length > 0 ? (<Pagination {...ideas} />) : null}
       </MainLayOut>
     </>

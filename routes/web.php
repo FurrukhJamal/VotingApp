@@ -100,6 +100,8 @@ Route::post("/deleteidea/{idea}", [IdeaController::class, "destroy"])->middlewar
 //Spams
 Route::get("/getspam", [IdeaController::class, "getSpam"])->middleware("auth")->name("idea.spam");
 Route::post("/voteasspam", [IdeaController::class, "voteAsSpam"])->middleware("auth")->name("idea.voteSpam");
+Route::post("/markasnotspam", [IdeaController::class, "markAsNotSpam"])->middleware("auth")->name("idea.markNotAsSpam");
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

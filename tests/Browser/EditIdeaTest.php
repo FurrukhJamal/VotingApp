@@ -92,7 +92,7 @@ class EditIdeaTest extends DuskTestCase
                 ->press("@ideaFunctions")
                 ->pause("5000")
                 ->assertDontSeeIn("@ideaFunctions", "Edit Idea")
-                ->assertSeeIn("@ideaFunctions", "Delete Idea");
+                ->assertSeeIn("@ideaFunctions", "Mark as Spam");
         });
     }
 

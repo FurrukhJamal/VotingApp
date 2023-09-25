@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
-function Ideas({ ideas, user }) {
+function Ideas({ isAdmin, ideas, user }) {
     console.log("ideas in ideas component:", ideas)
     console.log("ideas.links in ideas component", ideas.links)
     const data = ideas.data
@@ -133,6 +133,7 @@ function Ideas({ ideas, user }) {
                                                 <h1 {...(index == 0 ? { dusk: "titleOnTopOfPage" } : "")} className='text-xl font-semibold'>{idea.title}</h1>
                                             </Link>
                                             <div className='text-gray-600 mt-3 line-clamp-3'>
+                                                {isAdmin && (<div className="text-red-500 mb-2">Spam Reports : {idea.spam_reports}</div>)}
                                                 <p {...(index == 0 ? { dusk: "descriptionOnTopOfPage" } : "")}>{idea.description}</p>
                                             </div>
 
