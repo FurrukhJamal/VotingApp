@@ -1,7 +1,7 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import "../../css/index.css"
 import MainLayOut from '@/Layouts/MainLayOut'
-import { Link, router } from '@inertiajs/react'
+import { Link, router, usePage } from '@inertiajs/react'
 import NavigationBar from '@/Components/NavigationBar'
 import SingleIdea from '@/Components/SingleIdea'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -10,23 +10,33 @@ import Comment from '@/Components/Comment'
 import "../../css/app.css"
 import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
-import Modal from '@/Components/Modal'
+import Modal from '@/Components/Modals/Modal'
 import AddIdea from '@/Components/AddIdea'
-import CustomModal from '@/Components/CustomModal'
+import CustomModal from '@/Components/Modals/CustomModal'
 import TextInput from '@/Components/TextInput'
-import EditIdeaModal from '@/Components/EditIdeaModal'
-import DeleteIdeaModal from '@/Components/DeleteIdeaModal'
+import EditIdeaModal from '@/Components/Modals/EditIdeaModal'
+import DeleteIdeaModal from '@/Components/Modals/DeleteIdeaModal'
+import NotificationMessage from '@/Components/NotificationMessage'
 
 
 
 function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
     const [editIdeaButtonActivated, setEditIdeaButtonActivated] = useState(false)
     const [deleteIdeaActivated, setDeleteIdeaActivated] = useState(false)
-
+    const [showNotification, setShowNotification] = useState(false)
+    const { flash } = usePage().props
 
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
     console.log("categories in single Page: ", categories)
+
+    useEffect(() => {
+        if (flash?.message) {
+            setShowNotification(true)
+            //then remove the notification message after appx 2 secs
+            setTimeout(() => setShowNotification(false), 4000)
+        }
+    }, [flash])
 
     async function handleVoteSubmit(e, idea) {
         console.log("vote button clicked")
@@ -172,6 +182,14 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                     user={auth.user}
 
                 />
+
+                {/* Notification message div */}
+                {showNotification && (
+                    <NotificationMessage
+                        message={flash.message}
+                        hideNotification={() => setShowNotification(false)} />
+                )}
+
 
 
             </MainLayOut >

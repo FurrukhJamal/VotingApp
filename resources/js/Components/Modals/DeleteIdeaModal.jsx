@@ -1,6 +1,6 @@
 import React from 'react'
 import CustomModal from './CustomModal'
-import PrimaryButton from './PrimaryButton'
+import PrimaryButton from '../PrimaryButton'
 import { router, useForm } from '@inertiajs/react'
 
 function DeleteIdeaModal({ user, idea, deleteIdeaActivated, setDeleteIdeaActivated }) {

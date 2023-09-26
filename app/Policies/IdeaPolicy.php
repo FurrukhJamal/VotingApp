@@ -40,7 +40,7 @@ class IdeaPolicy
     {
         //                                                              
         // return $idea->user()->is($user);       
-        return ($user->id == $idea->user_id && now()->subHour() <= $idea->created_at);    //minus an hour
+        return (($user->id == $idea->user_id && now()->subHour() <= $idea->created_at) || $user->isAdmin());    //minus an hour
     }
 
     /**

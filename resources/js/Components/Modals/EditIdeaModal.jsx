@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CustomModal from './CustomModal'
-import TextInput from './TextInput'
-import PrimaryButton from './PrimaryButton'
+import TextInput from '../TextInput'
+import PrimaryButton from '../PrimaryButton'
 import { useForm } from '@inertiajs/react'
 
 function EditIdeaModal({ setEditIdeaButtonActivated, editIdeaButtonActivated, idea }) {

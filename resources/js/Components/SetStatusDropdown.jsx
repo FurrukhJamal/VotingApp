@@ -16,6 +16,7 @@ function SetStatusDropdown({ idea }) {
     const { post, patch, setData, data, errors, processing, reset } = useForm({
         status: idea.status.name,
         ideaId: idea.id,
+
         notifyAllVoters: false
     })
 

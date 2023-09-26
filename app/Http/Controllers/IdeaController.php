@@ -199,6 +199,7 @@ class IdeaController extends Controller
             // dd(DB::getQueryLog());
 
             $idea->update($validated);
+            session()->flash("message", "Idea Updated Successfully!");
         } else {
             $validated = $request->validate([
                 "status" => "required",
@@ -208,6 +209,7 @@ class IdeaController extends Controller
             $newStatus = Status::where("name", $request["status"])->first();
 
             $idea->update(["status_id" => $newStatus->id]);
+            session()->flash("message", "Status Updated Successfully!");
 
             if ($request["notifyAllVoters"]) {
                 // $this->notifyAllVoters($idea);
@@ -225,6 +227,7 @@ class IdeaController extends Controller
         if (Auth::check() && $user->can("delete", $idea)) {
             Vote::where("idea_id", $idea->id)->delete();
             $idea->delete();
+            session()->flash("notificationMessage", "Idea Deleted Successfully!");
             return redirect(route("idea.index"));
         } else {
             abort(Response::HTTP_FORBIDDEN);
@@ -436,6 +439,7 @@ class IdeaController extends Controller
         // $idea->save();
         $updatedVote = $idea->spam_reports + 1;
         $idea->update(["spam_reports" => $updatedVote]);
+        session()->flash("message", "Idea Marked As Spam");
     }
 
     /** Mark not As Spam */
@@ -446,6 +450,7 @@ class IdeaController extends Controller
         if ($user->isAdmin()) {
             $idea = Idea::find($id);
             $idea->update(["spam_reports" => 0]);
+            session()->flash("message", "Idea Removed From Spams");
             return redirect(route("idea.spam"));
         } else {
             abort(Response::HTTP_FORBIDDEN);

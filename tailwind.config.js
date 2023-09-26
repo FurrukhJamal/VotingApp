@@ -36,7 +36,12 @@ export default {
                 sky: colors.sky,
                 green: colors.green,
                 red: colors.red,
-                "yellow-500": "#eab308"
+                gray: colors.gray,
+                "yellow-500": "#eab308",
+                "gray-500": "#6b7280",
+                "gray-400": "#9ca3af",
+                "green-500": "#22c55e"
+
             },
 
             spacing: {
