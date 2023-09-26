@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateIdeaRequest;
 use App\Jobs\NotifyAllVoters;
 use App\Mail\IdeaStatusUpdatedMailable;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Status;
 use App\Models\Vote;
 use Illuminate\Http\Request as HttpRequest;
@@ -129,7 +130,7 @@ class IdeaController extends Controller
         //adding one vote for the created idea by user
         Vote::create(["user_id" => $request->user()->id, "idea_id" => $idea->id]);
 
-        session()->flash("message", "Idea Added");
+        session()->flash("notificationMessage", "Idea Added Successfully");
         return redirect(route("idea.index"));
     }
 
@@ -225,7 +226,10 @@ class IdeaController extends Controller
     {
         $user = Auth::user();
         if (Auth::check() && $user->can("delete", $idea)) {
+            //get Votes and Comments of the idea and delete them too
             Vote::where("idea_id", $idea->id)->delete();
+            Comment::where("idea_id", $idea->id)->delete();
+
             $idea->delete();
             session()->flash("notificationMessage", "Idea Deleted Successfully!");
             return redirect(route("idea.index"));
@@ -450,8 +454,8 @@ class IdeaController extends Controller
         if ($user->isAdmin()) {
             $idea = Idea::find($id);
             $idea->update(["spam_reports" => 0]);
-            session()->flash("message", "Idea Removed From Spams");
-            return redirect(route("idea.spam"));
+            session()->flash("message", "Spams counter Was Rest");
+            // return redirect(route("idea.spam"));
         } else {
             abort(Response::HTTP_FORBIDDEN);
         }

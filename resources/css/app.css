@@ -26,9 +26,10 @@
     height: 3px;
     background-color: black;
     opacity: 0.17;
+
 }
 
-.commentContainer:last-child::after {
+/* .commentContainer:last-child::after {
     position: absolute;
     display: block;
     top: 60px;
@@ -38,7 +39,7 @@
     height: 100%;
     background-color: #f7f8fc;
     opacity: 1;
-}
+} */
 
 .is-admin::before {
     width: 30px;

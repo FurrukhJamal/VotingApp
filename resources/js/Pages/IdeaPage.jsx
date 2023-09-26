@@ -155,12 +155,20 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                 </div>
                 {/* End of Buttons */}
 
+
                 {/* comments container */}
+                {idea?.comments.length == 0 && (<div className='font-bold mt-3 justify-center flex'>No Comments to display</div>)}
                 <div className="relative">
-                    <div className="mt-8 ml-22 space-y-6 commentLineClass" >
-                        <div className="commentContainer"><Comment></Comment></div>
-                        <div className="is-admin commentContainer"><Comment admin={true} /></div>
-                        <div className="commentContainer relative"><Comment /></div>
+                    <div className="mt-8 ml-22 space-y-6 commentLineClass mb-3" >
+                        {
+                            idea?.comments.map((comment) => {
+                                return (
+                                    <div key={comment.id} className="commentContainer"><Comment idea={idea} comment={comment} /></div>
+                                )
+                            })
+
+                        }
+
 
                     </div>
                 </div>

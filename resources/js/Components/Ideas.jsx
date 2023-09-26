@@ -143,7 +143,7 @@ function Ideas({ isAdmin, ideas, user }) {
                                                     <div>&bull;</div>
                                                     <div>{idea.category.name}</div>
                                                     <div>&bull;</div>
-                                                    <div className="text-gray-900">3 comments</div>
+                                                    <div className="text-gray-900">{idea.comments_count} comments</div>
                                                     <div>&bull;</div>
                                                 </div>
 

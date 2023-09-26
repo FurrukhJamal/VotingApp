@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Comment;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -43,6 +45,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected $appends = ["userAvatar"];
 
     public function ideas()
     {
@@ -81,5 +85,15 @@ class User extends Authenticatable
     public function canUpdateIdea(Idea $idea)
     {
         return $this->can("update", $idea);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getuserAvatarAttribute()
+    {
+        return $this->getAvatar();
     }
 }

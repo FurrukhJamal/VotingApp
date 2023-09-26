@@ -9,9 +9,7 @@ function DeleteIdeaModal({ user, idea, deleteIdeaActivated, setDeleteIdeaActivat
     })
     function handleDeleteSubmit(e) {
         e.preventDefault()
-        post(route("idea.destroy", idea), {
-            onSuccess: () => router.get(route("idea.index"))
-        })
+        post(route("idea.destroy", idea))
     }
 
     function handleCancelDelete(e) {

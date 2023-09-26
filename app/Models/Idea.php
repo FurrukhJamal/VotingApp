@@ -19,8 +19,8 @@ class Idea extends Model
 
     protected $fillable = ["spam_reports", "category_id", "status_id", "slug", "description", "title", "user_id",];
 
-    protected $with = ["user", "category", "status",];
-    protected $withCount = ["votes"];
+    protected $with = ["user", "category", "status", "comments"];
+    protected $withCount = ["votes", "comments"];
 
     public function user()
     {
@@ -90,5 +90,10 @@ class Idea extends Model
             return false;
         }
         return Vote::where("user_id", $user->id)->where("idea_id", $this->id)->exists();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

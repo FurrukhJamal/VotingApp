@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Idea;
 use App\Models\Status;
 use App\Models\User;
@@ -119,6 +120,11 @@ class DeleteIdeaTest extends TestCase
         ]);
 
         Vote::factory()->create([
+            "user_id" => $user->id,
+            "idea_id" => $idea->id,
+        ]);
+
+        Comment::factory(1)->create([
             "user_id" => $user->id,
             "idea_id" => $idea->id,
         ]);

@@ -2,21 +2,38 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import Home from '@/Layouts/Home'
 import "../../css/index.css"
 import { Head, router, usePage } from '@inertiajs/react'
+import NotificationMessage from '@/Components/NotificationMessage'
 
 export const AppContext = createContext()
 
 
 function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
   const [selectedCategory, setSelectedCategory] = useState("")
-  const { queryParams } = usePage().props
+  const { queryParams, flash } = usePage().props
   const [topVotedSelected, setTopVotedSelected] = useState(false)
   const [userIdeaSelected, setUserIdeaSelected] = useState(false)
+
+  const [showNotification, setShowNotification] = useState(false)
+
 
   console.log("ideas are: ", ideas)
   // console.log("auth in Homepage.jsx", auth)
   // console.log("categories in HomePage: ", categories)
   // console.log("avatar in HomePage: ", avatar)
   console.log("isAdmin in HomePage.jsx", isAdmin)
+
+
+  useEffect(() => {
+    if (flash?.notificationMessage) {
+      console.log("FLASH MESSAGE IS THERE IN HOME")
+      setShowNotification(true)
+      //then remove the notification message after appx 2 secs
+      setTimeout(() => {
+        console.log("SETTIMEOUT AFTER 4 SECS HITTING")
+        setShowNotification(false)
+      }, 4000)
+    }
+  }, [flash])
 
   useEffect(() => {
     let searchParam = window.location.search
@@ -51,6 +68,11 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
     }
   }, [])
 
+
+  useEffect(() => {
+    console.log("HOMEPAGE.jsx HAS RENDERED")
+  })
+
   return (
     <AppContext.Provider value={{ userIdeaSelected, selectedCategory, setSelectedCategory, topVotedSelected }}>
       <Head title="Voting App" />
@@ -61,6 +83,16 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
         avatar={avatar}
         statusCounts={statusCounts}
         isAdmin={isAdmin} />
+
+      {/* Notification message div */}
+      {showNotification && (
+        <NotificationMessage
+          message={flash.notificationMessage}
+          hideNotification={() => {
+            console.log("I SHOULD NOT SEE THIS IN HOME PAGE")
+            setShowNotification(prev => !prev)
+          }} />
+      )}
     </AppContext.Provider>
   )
 }

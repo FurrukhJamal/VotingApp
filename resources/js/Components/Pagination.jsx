@@ -14,6 +14,9 @@ function Pagination({ prev_page_url, next_page_url }) {
     //for when Top Votes and other categories are selected from Other Filters
     const { fullUrl, queryParams } = usePage().props
 
+    useEffect(() => console.log("PAGINATION.jsx IS RENDERED"))
+
+
     useEffect(() => {
         if (prev_page_url) {
             setisFirstPage(false)

@@ -273,7 +273,7 @@ class SpamFilterTest extends TestCase
         $response = $this->actingAs($admin)
             ->post("/markasnotspam", ["idea" => $idea]);
 
-        $response->assertRedirect();
+        $response->assertSuccessful();
 
         $this->assertDatabaseMissing("ideas", ["spam_reports" => 7]);
         $this->assertDatabaseHas("ideas", ["spam_reports" => 0]);
