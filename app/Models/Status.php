@@ -27,7 +27,7 @@ class Status extends Model
             DB::raw('count(CASE WHEN status_id = 5 THEN 1 END) as statusClosed')
         )
             ->first()
-            ->makeHidden(["user", "category", "status"])
+            ->makeHidden(["user", "category", "status", "comments"])
             ->toArray();
         return $counters;
     }
