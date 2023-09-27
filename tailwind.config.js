@@ -16,6 +16,7 @@ export default {
     safelist: [
         "bg-sky-600",
         "bg-green-200",
+        "bg-green-100",
     ],
 
     theme: {
@@ -41,8 +42,7 @@ export default {
                 "gray-500": "#6b7280",
                 "gray-400": "#9ca3af",
                 "gray-100": "#f3f4f6",
-                "green-500": "#22c55e"
-
+                "green-500": "#22c55e",
             },
 
             spacing: {

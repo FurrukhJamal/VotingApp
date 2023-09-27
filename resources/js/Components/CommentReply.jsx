@@ -1,13 +1,37 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PrimaryButton from './PrimaryButton'
-import { Link, useForm } from '@inertiajs/react'
+import { Link, useForm, usePage } from '@inertiajs/react'
 
 function CommentReply({ idea, user }) {
     const [togglePostComment, setTogglePostComment] = useState(false)
+    const commentSection = useRef()
+    const { flash } = usePage().props
     const { data, setData, errors, processing, post, reset } = useForm({
         "comment": "",
         "idea": idea
     })
+
+    useEffect(() => {
+        //focusing the coment text area
+        if (togglePostComment) {
+            commentSection.current.focus()
+        }
+    }, [togglePostComment])
+
+    useEffect(() => {
+        if (flash.message === "Comment Added Successfully") {
+            //if comment was added scroll to the added commment
+            let newComment = document.querySelector(".commentContainer:last-child")
+            newComment.scrollIntoView({ behavior: "smooth" })
+
+            //found what I want to add the class to by dev tools
+            newComment.firstChild.firstChild.classList.add("bg-green-100")
+            setTimeout(() => {
+                //remove the class after 6 secs
+                newComment.firstChild.firstChild.classList.remove("bg-green-100")
+            }, 6000)
+        }
+    }, [flash])
 
     function toggleCommentBox() {
         setTogglePostComment(prev => !prev)
@@ -20,7 +44,8 @@ function CommentReply({ idea, user }) {
             onSuccess: () => {
                 reset()
                 setTogglePostComment(false)
-            }
+            },
+
         })
 
     }
@@ -38,12 +63,14 @@ function CommentReply({ idea, user }) {
                 <div className="absolute bg-white w-3full h-52 px-4 py-4 mt-2 z-10 rounded-xl shadow-card">
                     <form onSubmit={handleCommentSubmit}>
                         <textarea
+                            ref={commentSection}
                             dusk="commentSection"
                             placeholder="Share your thoughts"
                             className="bg-gray-200 w-full resize-none border-none rounded-xl"
                             rows='4'
                             value={data.comment}
-                            onChange={(e) => setData("comment", e.target.value)}>
+                            onChange={(e) => setData("comment", e.target.value)}
+                        >
 
                         </textarea>
                         {errors.comment && (

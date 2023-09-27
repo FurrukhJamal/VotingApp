@@ -12,7 +12,7 @@ function Comment({ isAdmin, idea, comment }) {
 
         <div className={`w-full bg-white ${isAdmin ? "border-2 border-blue-200" : ""} rounded-xl flex`}>
 
-            <div className="flex flex-1 px-4 py-6">
+            <div className="flex flex-1 px-4 py-6 transition duration-500 ease-in">
                 <div className="flex-none">
                     <Link className="flex-none" href={route("profile.edit")}>
 
