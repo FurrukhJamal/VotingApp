@@ -8,15 +8,12 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import Dropdown from '@/Components/Dropdown'
 import Comment from '@/Components/Comment'
 import "../../css/app.css"
-import ButtonWithADailogue from '@/Components/ButtonWithADailogue'
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
-import Modal from '@/Components/Modals/Modal'
-import AddIdea from '@/Components/AddIdea'
-import CustomModal from '@/Components/Modals/CustomModal'
-import TextInput from '@/Components/TextInput'
+
 import EditIdeaModal from '@/Components/Modals/EditIdeaModal'
 import DeleteIdeaModal from '@/Components/Modals/DeleteIdeaModal'
 import NotificationMessage from '@/Components/NotificationMessage'
+import CommentReply from '@/Components/CommentReply'
 
 
 
@@ -136,7 +133,11 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                 {/* Buttons */}
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">
-                        <ButtonWithADailogue></ButtonWithADailogue>
+                        {/* Add A comment Section */}
+                        <CommentReply user={auth.user} idea={idea} />
+
+
+                        {/* Status Update Section */}
                         {isAdmin && (<SetStatusDropdown idea={idea} />)}
 
                     </div>

@@ -44,8 +44,15 @@ function Comment({ isAdmin, idea, comment }) {
 
                     <div className="flex mt-6 items-center justify-between">
                         <div className="flex items-center text-gray-400 text-xs font-semibold space-x-2">
-                            <div className={`font-bold ${isAdmin ? "text-blue-600" : "text-gray-800"}`}>Jon Doe</div>
+                            <div className={`font-bold ${isAdmin ? "text-blue-600" : "text-gray-800"}`}>{comment.user.name}</div>
                             <div>&bull;</div>
+                            {(comment.user.id == idea.user.id) && (
+                                <>
+                                    <div className="rounded-full bg-gray-100 px-3 py-1 border">OP</div>
+                                    <div>&bull;</div>
+                                </>
+                            )}
+
                             <div>{dayjs(comment.created_at).fromNow()}</div>
 
                         </div>

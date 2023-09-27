@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
@@ -102,6 +103,8 @@ Route::get("/getspam", [IdeaController::class, "getSpam"])->middleware("auth")->
 Route::post("/voteasspam", [IdeaController::class, "voteAsSpam"])->middleware("auth")->name("idea.voteSpam");
 Route::post("/markasnotspam", [IdeaController::class, "markAsNotSpam"])->middleware("auth")->name("idea.markNotAsSpam");
 
+//Comments
+Route::post("/addcomment", [CommentController::class, "store"])->middleware("auth")->name("comment.store");
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

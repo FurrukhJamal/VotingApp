@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreCommentRequest extends FormRequest
 {
@@ -11,6 +12,9 @@ class StoreCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        if ($this->user()->id == Auth::id()) {
+            return true;
+        }
         return false;
     }
 

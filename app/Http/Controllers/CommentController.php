@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use App\Models\Idea;
 
 class CommentController extends Controller
 {
@@ -30,6 +31,22 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request)
     {
         //
+        // dd($request->user());
+        $user = $request->user();
+        $validated = $request->validate([
+            "comment" => "required|min:12",
+            "idea" => "required"
+        ]);
+
+        $ideaId = $validated["idea"]["id"];
+        $idea = Idea::find($ideaId);
+        Comment::create([
+            "body" => $validated["comment"],
+            "user_id" => $user->id,
+            "idea_id" => $idea->id
+        ]);
+
+        session()->flash("message", "Comment Added Successfully");
     }
 
     /**

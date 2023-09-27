@@ -113,7 +113,7 @@ class IdeaController extends Controller
      */
     public function store(StoreIdeaRequest $request)
     {
-        // dd($request["category"]);
+        // dd($request->user());
         $validated = $request->validate([
             "title" => "required",
             "category" => "required",

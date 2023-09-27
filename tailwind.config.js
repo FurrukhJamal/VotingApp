@@ -40,6 +40,7 @@ export default {
                 "yellow-500": "#eab308",
                 "gray-500": "#6b7280",
                 "gray-400": "#9ca3af",
+                "gray-100": "#f3f4f6",
                 "green-500": "#22c55e"
 
             },
