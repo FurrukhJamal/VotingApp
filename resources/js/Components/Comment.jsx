@@ -48,7 +48,7 @@ function Comment({ isAdmin, idea, comment }) {
                             <div>&bull;</div>
                             {(comment.user.id == idea.user.id) && (
                                 <>
-                                    <div className="rounded-full bg-gray-100 px-3 py-1 border">OP</div>
+                                    <div dusk="authorsComment" className="rounded-full bg-gray-100 px-3 py-1 border">OP</div>
                                     <div>&bull;</div>
                                 </>
                             )}
