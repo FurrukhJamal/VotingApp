@@ -6,6 +6,8 @@ use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Idea;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -68,9 +70,21 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCommentRequest $request, Comment $comment)
+    public function update(UpdateCommentRequest $request)
     {
-        //
+        // dd($request["commentId"]);
+        $comment = Comment::find($request["commentId"]);
+        // dd($request["commentId"]);
+        if (Auth::guest() || $request->user()->cannot("update", $comment)) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+        $validated = $request->validate([
+            "Comment" => "required|min:4"
+        ]);
+
+        $comment->update(["body" => $validated["Comment"]]);
+        session()->flash("message", "Comment Updated!");
     }
 
     /**

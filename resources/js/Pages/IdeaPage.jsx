@@ -14,14 +14,22 @@ import EditIdeaModal from '@/Components/Modals/EditIdeaModal'
 import DeleteIdeaModal from '@/Components/Modals/DeleteIdeaModal'
 import NotificationMessage from '@/Components/NotificationMessage'
 import CommentReply from '@/Components/CommentReply'
+import EditCommentModal from '@/Components/Modals/EditCommentModal'
 
 
 
 function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
+    //for editing idea
     const [editIdeaButtonActivated, setEditIdeaButtonActivated] = useState(false)
+    //for deleting idea
     const [deleteIdeaActivated, setDeleteIdeaActivated] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
     const { flash } = usePage().props
+    //for editing comments
+    const [editCommentButtonActivated, setEditCommentButtonActivated] = useState(false)
+    const [commentToEdit, setCommentToEdit] = useState({})
+    const [commentToEditId, setCommentToEditId] = useState("")
+
 
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
@@ -164,7 +172,17 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                         {
                             idea?.comments.map((comment) => {
                                 return (
-                                    <div key={comment.id} className="commentContainer"><Comment idea={idea} comment={comment} /></div>
+                                    <div
+                                        key={comment.id}
+                                        className={`commentContainer ${comment.ifAuthorIsAdmin && "is-admin"}`}>
+                                        <Comment
+                                            idea={idea}
+                                            comment={comment}
+                                            isAdmin={isAdmin}
+                                            setEditCommentButtonActivated={setEditCommentButtonActivated}
+                                            setCommentToEdit={setCommentToEdit}
+                                            setCommentToEditId={setCommentToEditId} />
+                                    </div>
                                 )
                             })
 
@@ -191,6 +209,13 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                     user={auth.user}
 
                 />
+
+                {/* Modal for Editing Comment */}
+                <EditCommentModal
+                    editCommentButtonActivated={editCommentButtonActivated}
+                    setEditCommentButtonActivated={setEditCommentButtonActivated}
+                    comment={commentToEdit}
+                    commentId={commentToEditId} />
 
                 {/* Notification message div */}
                 {showNotification && (

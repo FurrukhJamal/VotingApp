@@ -193,4 +193,107 @@ class CommentsTest extends TestCase
 
         $response->assertInvalid(["comment"]);
     }
+
+    /** START OF EDITING COMMENTS */
+    /** @test */
+    public function guest_and_other_user_can_not_edit_a_commment()
+    {
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        $statusConsidering = Status::factory()->create(["name" => "Considering"]);
+        $statusInProgress = Status::factory()->create(["name" => "In Progress"]);
+        $statusImplemented = Status::factory()->create(["name" => "Implemented"]);
+        $statusClosed = Status::factory()->create(["name" => "Closed"]);
+
+        $admin = User::factory()->create(["email" => "furrukhjamal@yahoo.com"]);
+
+        $otherUser = User::factory()->create();
+
+        $user = User::factory()->create();
+
+        $idea = Idea::factory()->create([
+            "title" => "Idea created by user",
+            "description" => "This idea should be in db",
+            "user_id" => $user->id,
+            "status_id" => $statusConsidering->id,
+        ]);
+
+        //creating 3 comments on this idea from various users
+        Comment::factory(3)->create(["idea_id" => $idea->id]);
+
+        //creating comments by two users 
+        $comment1 = Comment::factory()->create([
+            "user_id" => $user->id,
+            "idea_id" => $idea->id
+        ]);
+
+        $response = $this->post(route("comment.update", [
+            "Comment" => "updated",
+            "commentId" => $comment1->id,
+        ]));
+
+        //would be redirected to login page
+        $response->assertRedirectToRoute("login");
+
+        //expects forbidden response
+        $response = $this->actingAs($otherUser)->post(route("comment.update", [
+            "Comment" => "updated",
+            "commentId" => $comment1->id,
+        ]));
+
+        $response->assertForbidden();
+    }
+
+    /** @test */
+    public function comment_getting_updated()
+    {
+        $cat1 = Category::factory()->create(["name" => "Category 1"]);
+        $cat2 = Category::factory()->create(["name" => "Category 2"]);
+        Category::factory()->create(["name" => "Category 3"]);
+        Category::factory()->create(["name" => "Category 4"]);
+
+        $statusOpen = Status::factory()->create(["name" => "Open"]);
+        $statusConsidering = Status::factory()->create(["name" => "Considering"]);
+        $statusInProgress = Status::factory()->create(["name" => "In Progress"]);
+        $statusImplemented = Status::factory()->create(["name" => "Implemented"]);
+        $statusClosed = Status::factory()->create(["name" => "Closed"]);
+
+        $admin = User::factory()->create(["email" => "furrukhjamal@yahoo.com"]);
+
+        $otherUser = User::factory()->create();
+
+        $user = User::factory()->create();
+
+        $idea = Idea::factory()->create([
+            "title" => "Idea created by user",
+            "description" => "This idea should be in db",
+            "user_id" => $user->id,
+            "status_id" => $statusConsidering->id,
+        ]);
+
+
+        //creating comments by two users 
+        $comment1 = Comment::factory()->create([
+            "body" => "This is a comment",
+            "user_id" => $user->id,
+            "idea_id" => $idea->id
+        ]);
+
+        $this->assertDatabaseHas("comments", ["body" => $comment1->body]);
+
+        $response = $this->actingAs($user)->post(route("comment.update", [
+            "Comment" => "comment updated",
+            "commentId" => $comment1->id,
+        ]));
+
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseMissing("comments", ["body" => $comment1->body]);
+        $this->assertDatabaseHas("comments", ["body" => "comment updated"]);
+    }
 }
