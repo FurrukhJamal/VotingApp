@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 
 dayjs.extend(relativeTime)
 
-function Comment({ setCommentToEditId, setCommentToEdit, isAdmin, idea, comment, setEditCommentButtonActivated }) {
+function Comment({ setResourceToDelete, setDeleteResourceActivated, setCommentToEditId, setCommentToEdit, isAdmin, idea, comment, setEditCommentButtonActivated }) {
 
     function handleEditCommentClicked(e) {
         e.preventDefault()
@@ -17,7 +17,13 @@ function Comment({ setCommentToEditId, setCommentToEdit, isAdmin, idea, comment,
         setCommentToEditId(comment.id)
 
         setEditCommentButtonActivated(true)
+    }
 
+    function handleDeleteComment(e) {
+        e.preventDefault()
+        setDeleteResourceActivated(prev => !prev)
+        setResourceToDelete("comment")
+        setCommentToEditId(comment.id)
     }
     return (
 
@@ -76,21 +82,26 @@ function Comment({ setCommentToEditId, setCommentToEdit, isAdmin, idea, comment,
                                             <PrimaryButton className='rounded-full h-7 bg-gray-400 transition duration-150 ease-in'>...</PrimaryButton>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content className="shahdow-dialogue" align="left" width="w-44">
-                                            <div dusk="editCommentButton">
+                                            {comment.editableByUser && (
+                                                <div dusk="editCommentButton">
+                                                    <Link
+                                                        className="text-center w-full justify-center"
+                                                        href="" as="button"
+                                                        onClick={handleEditCommentClicked}>
+                                                        Edit Comment
+                                                    </Link>
+                                                </div>
+                                            )}
+
+                                            <div dusk="deleteCommentButton">
                                                 <Link
                                                     className="text-center w-full justify-center"
-                                                    href="" as="button"
-                                                    onClick={handleEditCommentClicked}>
-                                                    Edit Comment
+                                                    href=""
+                                                    as="button"
+                                                    onClick={handleDeleteComment}>
+                                                    Delete Comment
                                                 </Link>
                                             </div>
-
-                                            <Link
-                                                className="text-center w-full justify-center"
-                                                href=""
-                                                as="button">
-                                                Delete Comment
-                                            </Link>
 
                                         </Dropdown.Content>
                                     </Dropdown>

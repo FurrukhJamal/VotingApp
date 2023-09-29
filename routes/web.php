@@ -106,7 +106,8 @@ Route::post("/markasnotspam", [IdeaController::class, "markAsNotSpam"])->middlew
 //Comments
 Route::post("/addcomment", [CommentController::class, "store"])->middleware("auth")->name("comment.store");
 Route::post("/updatecomment", [CommentController::class, "update"])->middleware("auth")->name("comment.update");
-
+//Delete Comment
+Route::post("/deletecomment/{comment}", [CommentController::class, "destroy"])->middleware("auth")->name("comment.destroy");
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

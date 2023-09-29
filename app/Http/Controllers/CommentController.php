@@ -92,6 +92,12 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $user = Auth::user();
+        if (Auth::check() && $user->can("delete", $comment)) {
+            $comment->delete();
+            session()->flash("message", "Comment Deleted!");
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
     }
 }

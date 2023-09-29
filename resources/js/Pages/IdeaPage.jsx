@@ -11,20 +11,24 @@ import "../../css/app.css"
 import SetStatusDropdown from '@/Components/SetStatusDropdown'
 
 import EditIdeaModal from '@/Components/Modals/EditIdeaModal'
-import DeleteIdeaModal from '@/Components/Modals/DeleteIdeaModal'
 import NotificationMessage from '@/Components/NotificationMessage'
 import CommentReply from '@/Components/CommentReply'
 import EditCommentModal from '@/Components/Modals/EditCommentModal'
+import DeleteResourceModal from '@/Components/Modals/DeleteResourceModal'
 
 
 
 function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
     //for editing idea
     const [editIdeaButtonActivated, setEditIdeaButtonActivated] = useState(false)
-    //for deleting idea
-    const [deleteIdeaActivated, setDeleteIdeaActivated] = useState(false)
+
+    //for deleting idea or a comment
+    const [deleteResourceActivated, setDeleteResourceActivated] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
+    const [resourceToDelete, setResourceToDelete] = useState("")
+
     const { flash } = usePage().props
+
     //for editing comments
     const [editCommentButtonActivated, setEditCommentButtonActivated] = useState(false)
     const [commentToEdit, setCommentToEdit] = useState({})
@@ -136,8 +140,9 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                     auth={auth}
                     idea={idea}
                     setEditIdeaButtonActivated={setEditIdeaButtonActivated}
-                    setDeleteIdeaActivated={setDeleteIdeaActivated}
-                    isAdmin={isAdmin} />
+                    setDeleteResourceActivated={setDeleteResourceActivated}
+                    isAdmin={isAdmin}
+                    setResourceToDelete={setResourceToDelete} />
                 {/* Buttons */}
                 <div className="items-center flex mt-3 w-full justify-between">
                     <div className="flex w-2/5">
@@ -181,7 +186,10 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                                             isAdmin={isAdmin}
                                             setEditCommentButtonActivated={setEditCommentButtonActivated}
                                             setCommentToEdit={setCommentToEdit}
-                                            setCommentToEditId={setCommentToEditId} />
+                                            setCommentToEditId={setCommentToEditId}
+                                            setDeleteResourceActivated={setDeleteResourceActivated}
+                                            setResourceToDelete={setResourceToDelete}
+                                        />
                                     </div>
                                 )
                             })
@@ -201,11 +209,12 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                     idea={idea}
                 />
 
-                {/*Modal for Deleting Idea */}
-                <DeleteIdeaModal
-                    deleteIdeaActivated={deleteIdeaActivated}
-                    setDeleteIdeaActivated={setDeleteIdeaActivated}
-                    idea={idea}
+                {/*Modal for Deleting Idea Or a Comment*/}
+                <DeleteResourceModal
+                    deleteResourceActivated={deleteResourceActivated}
+                    setDeleteResourceActivated={setDeleteResourceActivated}
+                    {...(resourceToDelete == "idea") && ({ idea })}
+                    {...(resourceToDelete == "comment") && ({ commentId: commentToEditId })}
                     user={auth.user}
 
                 />

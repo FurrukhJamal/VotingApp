@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime)
 
-function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDeleteIdeaActivated }) {
+function SingleIdea({ setResourceToDelete, isAdmin, auth, idea, setEditIdeaButtonActivated, setDeleteResourceActivated }) {
 
     console.log("Auth in singleIdea component", auth)
 
@@ -18,7 +18,8 @@ function SingleIdea({ isAdmin, auth, idea, setEditIdeaButtonActivated, setDelete
 
     function handleDeleteIdea(e) {
         e.preventDefault()
-        setDeleteIdeaActivated(prev => !prev)
+        setDeleteResourceActivated(prev => !prev)
+        setResourceToDelete("idea")
     }
 
 
