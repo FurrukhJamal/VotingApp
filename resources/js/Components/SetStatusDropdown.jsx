@@ -16,7 +16,7 @@ function SetStatusDropdown({ idea }) {
     const { post, patch, setData, data, errors, processing, reset } = useForm({
         status: idea.status.name,
         ideaId: idea.id,
-
+        statusUpdateComment: "",
         notifyAllVoters: false
     })
 
@@ -174,7 +174,12 @@ function SetStatusDropdown({ idea }) {
 
 
                         <div className="mt-4 w-full flex justify-center">
-                            <textarea placeholder="Share your thoughts" className="w-full mx-3 bg-gray-200 resize-none border-none rounded-xl" rows='4'>
+                            <textarea
+                                placeholder="Status Update Comment(Optional)"
+                                className="w-full mx-3 bg-gray-200 resize-none border-none rounded-xl"
+                                rows='4'
+                                value={data.statusUpdateComment}
+                                onChange={(e) => setData("statusUpdateComment", e.target.value)}>
 
                             </textarea>
                         </div>

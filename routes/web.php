@@ -88,7 +88,7 @@ Route::get("/statusfilter/closed/{filter?}", [IdeaController::class, "statusFilt
 //Search
 Route::get("/search", [IdeaController::class, "search"])->name("search");
 
-
+//StatusUpdate/Idea
 Route::patch("/setstatus", [IdeaController::class, "update"])->middleware("auth")->name("idea.update.status");
 
 

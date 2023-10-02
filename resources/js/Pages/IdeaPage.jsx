@@ -179,7 +179,8 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                                 return (
                                     <div
                                         key={comment.id}
-                                        className={`commentContainer ${comment.ifAuthorIsAdmin && "is-admin"}`}>
+                                        className={`commentContainer ${comment.ifAuthorIsAdmin && "is-admin"}`}
+                                    >
                                         <Comment
                                             idea={idea}
                                             comment={comment}

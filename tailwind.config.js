@@ -17,6 +17,7 @@ export default {
         "bg-sky-600",
         "bg-green-200",
         "bg-green-100",
+        "bg-yellow-500"
     ],
 
     theme: {

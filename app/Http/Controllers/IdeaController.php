@@ -202,12 +202,34 @@ class IdeaController extends Controller
             $idea->update($validated);
             session()->flash("message", "Idea Updated Successfully!");
         } else {
+            //its a status update from admin
+            if (!$request->user()->isAdmin()) {
+                abort(Response::HTTP_FORBIDDEN);
+            }
             $validated = $request->validate([
                 "status" => "required",
             ]);
 
-
             $newStatus = Status::where("name", $request["status"])->first();
+
+            //logic to add a custom comment or a default comment from admin when status is updated
+            if ($request["statusUpdateComment"]) {
+
+                Comment::create([
+                    "user_id" => $request->user()->id,
+                    "idea_id" => $idea->id,
+                    "body" => $request["statusUpdateComment"],
+                    "status_update_comment" => true
+                ]);
+            } else {
+                Comment::create([
+                    "user_id" => $request->user()->id,
+                    "idea_id" => $idea->id,
+                    "body" => "status changed from {$idea->status->name} to {$newStatus->name}",
+                    "status_update_comment" => true
+                ]);
+            }
+
 
             $idea->update(["status_id" => $newStatus->id]);
             session()->flash("message", "Status Updated Successfully!");

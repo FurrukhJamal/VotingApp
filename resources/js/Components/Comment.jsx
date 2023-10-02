@@ -48,9 +48,9 @@ function Comment({ setResourceToDelete, setDeleteResourceActivated, setCommentTo
 
                 <div className="mx-4 w-full">
                     {
-                        // isAdmin && (
-                        //     <h1 className='text-xl font-semibold'>A random title </h1>
-                        // )
+                        (comment?.status_update_comment == 1) && (
+                            <h1 className='text-xl font-semibold'>Status Updated</h1>
+                        )
                     }
                     {/* <Link href="#" className="hover:underline">
                         <h1 className='text-xl font-semibold'>A random title </h1>
