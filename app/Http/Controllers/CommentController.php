@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Idea;
+use App\Notifications\CommentAdded;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,13 +43,15 @@ class CommentController extends Controller
 
         $ideaId = $validated["idea"]["id"];
         $idea = Idea::find($ideaId);
-        Comment::create([
+        $newComment = Comment::create([
             "body" => $validated["comment"],
             "user_id" => $user->id,
             "idea_id" => $idea->id
         ]);
 
         session()->flash("message", "Comment Added Successfully");
+        // sending a mail notification to the author of idea
+        $idea->user->notify(new CommentAdded($newComment));
     }
 
     /**
