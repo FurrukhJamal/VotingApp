@@ -24,7 +24,7 @@ header div img {
     /* background-color: yellow; */
     display: flex;
     align-items: center;
-
+    margin-right: 5%;
 }
 
 .navLogRegContainer div {

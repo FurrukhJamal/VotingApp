@@ -5,7 +5,6 @@ import { Link, useForm, usePage } from '@inertiajs/react'
 function CommentReply({ idea, user }) {
     const [togglePostComment, setTogglePostComment] = useState(false)
     const commentSection = useRef()
-    const { flash } = usePage().props
     const { data, setData, errors, processing, post, reset } = useForm({
         "comment": "",
         "idea": idea
@@ -18,20 +17,6 @@ function CommentReply({ idea, user }) {
         }
     }, [togglePostComment])
 
-    useEffect(() => {
-        if (flash.message === "Comment Added Successfully") {
-            //if comment was added scroll to the added commment
-            let newComment = document.querySelector(".commentContainer:last-child")
-            newComment.scrollIntoView({ behavior: "smooth" })
-
-            //found what I want to add the class to by dev tools
-            newComment.firstChild.firstChild.classList.add("bg-green-100")
-            setTimeout(() => {
-                //remove the class after 6 secs
-                newComment.firstChild.firstChild.classList.remove("bg-green-100")
-            }, 6000)
-        }
-    }, [flash])
 
     function toggleCommentBox() {
         setTogglePostComment(prev => !prev)

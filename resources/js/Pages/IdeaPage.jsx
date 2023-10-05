@@ -48,7 +48,22 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
             //then remove the notification message after appx 2 secs
             setTimeout(() => setShowNotification(false), 4000)
         }
+
+        if (flash.message === "Comment Added Successfully" || flash.message === "Status Updated Successfully!") {
+            //if comment was added scroll to the added commment
+            let newComment = document.querySelector(".commentContainer:last-child")
+            newComment.scrollIntoView({ behavior: "smooth" })
+
+            //found what I want to add the class to by dev tools
+            newComment.firstChild.firstChild.classList.add("bg-green-100")
+            setTimeout(() => {
+                //remove the class after 6 secs
+                newComment.firstChild.firstChild.classList.remove("bg-green-100")
+            }, 6000)
+        }
     }, [flash])
+
+
 
     async function handleVoteSubmit(e, idea) {
         console.log("vote button clicked")
