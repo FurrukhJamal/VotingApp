@@ -48,6 +48,7 @@
     border: 7px solid white;
     box-shadow: 4px 4px 15px rgba(36, 37, 38, 0.08);
     left: -96px;
+    /* background-color: var(--background-color-option, blue); */
     background-color: blue;
     opacity: 1;
 }

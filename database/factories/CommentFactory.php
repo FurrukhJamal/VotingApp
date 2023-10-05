@@ -21,7 +21,8 @@ class CommentFactory extends Factory
         return [
             "user_id" => User::factory(),
             "idea_id" => Idea::factory(),
-            "body" => fake()->paragraph()
+            "body" => fake()->paragraph(),
+            // "status_update_comment" => fake()->randomElement(["Open", "Considering", "In Progress", "Implemented", "Closed"])
         ];
     }
 }

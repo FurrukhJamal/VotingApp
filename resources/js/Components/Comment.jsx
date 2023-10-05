@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from '@inertiajs/react'
 import Dropdown from './Dropdown'
 import PrimaryButton from './PrimaryButton'
@@ -7,7 +7,39 @@ import relativeTime from "dayjs/plugin/relativeTime"
 
 dayjs.extend(relativeTime)
 
-function Comment({ setResourceToDelete, setDeleteResourceActivated, setCommentToEditId, setCommentToEdit, isAdmin, idea, comment, setEditCommentButtonActivated }) {
+function Comment({ setAdminPostBadgeStyleVariable, setResourceToDelete, setDeleteResourceActivated, setCommentToEditId, setCommentToEdit, isAdmin, idea, comment, setEditCommentButtonActivated }) {
+
+    // useEffect(() => {
+    //     //setting the appropriate admin badge colors for status change comments 
+    //     if (comment.status_update_comment == "Open") {
+    //         setAdminPostBadgeStyleVariable({
+    //             "--background-color-option": "#e5e7eb"  //gray-200
+    //         })
+    //     }
+    //     else if (comment.status_update_comment == "Considering") {
+    //         setAdminPostBadgeStyleVariable({
+    //             "--background-color-option": "#eab308"  //yellow-500
+    //         })
+    //     }
+    //     else if (comment.status_update_comment == "In Progress") {
+    //         setAdminPostBadgeStyleVariable({
+    //             "--background-color-option": "#0284c7"  //sky-600
+    //         })
+    //     }
+    //     else if (comment.status_update_comment == "Implemented") {
+    //         setAdminPostBadgeStyleVariable({
+    //             "--background-color-option": "#bbf7d0"  //green-200
+    //         })
+    //     }
+    //     else if (comment.status_update_comment == "Closed") {
+    //         setAdminPostBadgeStyleVariable({
+    //             "--background-color-option": "#ef4444"  //red-500
+    //         })
+    //     }
+
+    // }, [])
+
+
 
     function handleEditCommentClicked(e) {
         e.preventDefault()

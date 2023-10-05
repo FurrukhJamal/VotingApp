@@ -34,10 +34,13 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
     const [commentToEdit, setCommentToEdit] = useState({})
     const [commentToEditId, setCommentToEditId] = useState("")
 
+    //To show appropriate colors for status changed comments by admin 
+    const [adminPostBadgeStyleVariable, setAdminPostBadgeStyleVariable] = useState({})
 
     console.log("A single idea in IdeaPage: ", idea)
     console.log("auth in single idea page: ", auth)
     console.log("categories in single Page: ", categories)
+
 
     useEffect(() => {
         if (flash?.message) {
@@ -119,6 +122,10 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
         window.history.back()
     }
 
+
+
+
+
     return (
         <>
 
@@ -180,6 +187,7 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                                     <div
                                         key={comment.id}
                                         className={`commentContainer ${comment.ifAuthorIsAdmin && "is-admin"}`}
+                                        {...comment.status_update_comment && ({ style: adminPostBadgeStyleVariable })}
                                     >
                                         <Comment
                                             idea={idea}
@@ -190,6 +198,8 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
                                             setCommentToEditId={setCommentToEditId}
                                             setDeleteResourceActivated={setDeleteResourceActivated}
                                             setResourceToDelete={setResourceToDelete}
+                                            setAdminPostBadgeStyleVariable={setAdminPostBadgeStyleVariable}
+
                                         />
                                     </div>
                                 )
