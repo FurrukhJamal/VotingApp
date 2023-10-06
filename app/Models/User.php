@@ -96,4 +96,28 @@ class User extends Authenticatable
     {
         return $this->getAvatar();
     }
+
+    public function setHasNotifications()
+    {
+        $this->has_notifications = true;
+        $this->save();
+    }
+
+    public function setHasNoNotifications()
+    {
+        $this->has_notifications = false;
+        $this->save();
+    }
+
+    public function addOneMoreNotification()
+    {
+        $this->numNotification++;
+        $this->save();
+    }
+
+    public function resetNumberOfNotifications()
+    {
+        $this->numNotification = 0;
+        $this->save();
+    }
 }

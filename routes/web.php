@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IdeaController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Foundation\Application;
@@ -108,6 +109,14 @@ Route::post("/addcomment", [CommentController::class, "store"])->middleware("aut
 Route::post("/updatecomment", [CommentController::class, "update"])->middleware("auth")->name("comment.update");
 //Delete Comment
 Route::post("/deletecomment/{comment}", [CommentController::class, "destroy"])->middleware("auth")->name("comment.destroy");
+
+//Notifications Checked
+Route::post("/notifications/some/random/link/to/obfuscate/the/end/point", [NotificationController::class, "notificationsChecked"])
+    ->middleware("auth")->name("notifications.checked");
+//Mark Notifications as read
+Route::post("/notifications/some/randome/link/to/hide/real/endpoint", [NotificationController::class, "markNotificationsAsRead"])->middleware("auth")->name("notifications.markread");
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

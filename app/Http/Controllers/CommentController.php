@@ -50,8 +50,13 @@ class CommentController extends Controller
         ]);
 
         session()->flash("message", "Comment Added Successfully");
+
         // sending a mail notification to the author of idea
         $idea->user->notify(new CommentAdded($newComment));
+        //saving in db that the author of idea has new notifications
+        $idea->user->setHasNotifications();
+        //incrementing his number of unseen notifications
+        $idea->user->addOneMoreNotification();
     }
 
     /**

@@ -28,7 +28,7 @@ class CommentAdded extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -51,7 +51,14 @@ class CommentAdded extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            "comment_id" => $this->comment->id,
+            "comment_body" => $this->comment->body,
+            "user_avatar" => $this->comment->user->getAvatar(),
+            "user_name" => $this->comment->user->name,
+            "idea_id" => $this->comment->idea->id,
+            "idea_slug" => $this->comment->idea->slug,
+            "idea_title" => $this->comment->idea->title
+
         ];
     }
 }

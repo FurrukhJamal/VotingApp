@@ -48,7 +48,8 @@ export default {
 
             spacing: {
                 22: "5.5rem",      // 22 divided by 4
-                128: "32rem"
+                128: "32rem",
+                76: "19rem"
             },
             width: {
                 "2full": "200%",

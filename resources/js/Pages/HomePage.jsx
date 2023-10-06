@@ -15,6 +15,7 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
 
   const [showNotification, setShowNotification] = useState(false)
 
+  // const [notifications, setNotifications] = useState(null)
 
   console.log("ideas are: ", ideas)
   // console.log("auth in Homepage.jsx", auth)
@@ -73,6 +74,32 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
     console.log("HOMEPAGE.jsx HAS RENDERED")
   })
 
+
+  // useEffect(() => {
+  //   //getting notifications
+  //   async function getNotifications() {
+  //     let path = window.location.origin + "/api/getnotifications"
+  //     let response = await fetch(path, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Accept": "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //         "user": auth.user
+  //       })
+  //     })
+  //     let result = await response.json()
+  //     return result
+  //   }
+  //   (async () => {
+  //     let result = await getNotifications()
+  //     console.log("RESULT NOTIFICATION:", result)
+  //     setNotifications({ result })
+
+  //   })()
+  // }, [])
+
   return (
     <AppContext.Provider value={{ userIdeaSelected, selectedCategory, setSelectedCategory, topVotedSelected }}>
       <Head title="Voting App" />
@@ -82,7 +109,8 @@ function HomePage({ auth, ideas, categories, avatar, statusCounts, isAdmin }) {
         categories={categories}
         avatar={avatar}
         statusCounts={statusCounts}
-        isAdmin={isAdmin} />
+        isAdmin={isAdmin}
+      />
 
       {/* Notification message div */}
       {showNotification && (

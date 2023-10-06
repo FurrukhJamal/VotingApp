@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IdeaController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,3 +30,7 @@ Route::post("/vote", [VoteController::class, "store"])->middleware(["api"])->nam
 
 //deleteing a vote
 Route::post("/deletevote", [VoteController::class, "destroy"])->middleware(["api"])->name("vote.destroy");
+
+
+//get users notification
+Route::post("/getnotifications", [NotificationController::class, "getNotifications"])->middleware("api")->name("notifications.comments");

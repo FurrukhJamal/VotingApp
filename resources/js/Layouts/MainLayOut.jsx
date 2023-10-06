@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Guest from './GuestLayout'
 import MainNav from '@/Components/MainNav'
 import AddIdea from '@/Components/AddIdea'
@@ -12,6 +12,15 @@ export default function MainLayOut({ user, categories, avatar, children }) {
     console.log("user in MainLayOut", user)
     console.log("categories in MainLayOut:", categories)
     console.log("avatar in MainLayOut:", avatar)
+    // const [userForNav, setUserForNav] = useState(null)
+    // const [avatarForNav, setAvatarForNav] = useState(null)
+
+    // useEffect(() => {
+    //     setUserForNav(user)
+    //     setAvatarForNav(avatar)
+    // }, [user, avatar])
+
+
     return (
         <>
             <MainNav user={user} avatar={avatar} />
