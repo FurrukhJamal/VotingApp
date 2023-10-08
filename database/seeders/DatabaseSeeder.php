@@ -30,6 +30,11 @@ class DatabaseSeeder extends Seeder
             "email" => "furrukhjamal@yahoo.com"
         ]);
 
+        User::factory()->create([
+            "name" => "Furrukh Jamal",
+            "email" => "admin@email.com"
+        ]);
+
         User::factory(9)->create();
 
 
@@ -56,7 +61,7 @@ class DatabaseSeeder extends Seeder
         }
 
         for ($i = 1; $i <= 10; $i++) {
-            for ($j = 1; $j <= 100; $j++) {
+            for ($j = 1; $j <= 160; $j++) {
                 if ($j % 2 == 0) {
                     Vote::factory()->create([
                         "user_id" => $i,
