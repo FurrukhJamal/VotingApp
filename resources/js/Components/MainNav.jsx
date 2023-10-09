@@ -25,6 +25,7 @@ function MainNav(props) {
     useEffect(() => {
         //getting notifications
         console.log("useeffect of mainNAv")
+        let timeoutId
         async function getNotifications() {
             let path = window.location.origin + "/api/getnotifications"
             let response = await fetch(path, {
@@ -41,7 +42,7 @@ function MainNav(props) {
             return result
         }
         if (props.user) {
-            (async () => {
+            timeoutId = setTimeout(async () => {
                 let result = await getNotifications()
                 console.log("RESULT NOTIFICATION IN MAIN NAV:", result)
                 setNotifications(prev => ([...result.notifications]))
@@ -52,14 +53,14 @@ function MainNav(props) {
                 }
 
 
-            })()
+            }, 1500)
 
 
         }
 
+        return () => clearTimeout(timeoutId)
 
-
-    }, [])
+    }, [props.user])
 
 
 
@@ -148,7 +149,7 @@ function MainNav(props) {
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                                         </svg>
 
-                                        {(notifications.length > 0 && !hasUserCheckedHisNotifications) ? (
+                                        {(numberOfNotifications > 0 && !hasUserCheckedHisNotifications) ? (
                                             <div className="-top-1 -right-1 border-2 flex items-center justify-center absolute rounded-full bg-red-500 text-white text-xs w-6 h-6">
                                                 {numberOfNotifications > 6 ? "6+" : numberOfNotifications}
                                             </div>
