@@ -1,5 +1,5 @@
 # Voting App
-Making a simple idea voting app to relearn Laravel, and practice using Laravel Inertia JS React stack. I remember watching @drehimself tutorial, and thought of redoing his app using React and Laravel
+Making a simple idea voting app to relearn Laravel, and practice using Laravel Inertia JS React stack. I remember watching [@drehimself](https://github.com/drehimself) tutorial, and thought of redoing his app using React and Laravel
 
 # Installation
 
