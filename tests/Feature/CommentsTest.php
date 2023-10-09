@@ -7,8 +7,11 @@ use App\Models\Comment;
 use App\Models\Idea;
 use App\Models\Status;
 use App\Models\User;
+use App\Notifications\CommentAdded;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 use Tests\TestCase;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -44,11 +47,24 @@ class CommentsTest extends TestCase
         $comment = "this is a comment to an idea";
         $this->assertDatabaseCount("comments", 0);
 
+        //for notifications
+        FacadesNotification::fake();
+        FacadesNotification::assertNothingSent();
+
         $response = $this->actingAs($user)
             ->post(route("comment.store"), ["comment" => $comment, "idea" => $idea]);
 
 
         $response->assertSuccessful();
+
+        //notification was send to
+        FacadesNotification::assertSentTo($idea->user, CommentAdded::class);
+
+        //check the notification table
+        // $this->assertDatabaseCount("notifications", 1);
+
+        FacadesNotification::assertCount(1);
+
 
         $this->assertDatabaseCount("comments", 1)
             ->assertDatabaseHas("comments", ["body" => $comment]);

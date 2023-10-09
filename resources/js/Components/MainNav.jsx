@@ -53,9 +53,15 @@ function MainNav(props) {
 
 
             })()
+
+
         }
 
+
+
     }, [])
+
+
 
 
     function handleBellIconClick() {

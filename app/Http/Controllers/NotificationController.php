@@ -13,6 +13,8 @@ class NotificationController extends Controller
     {
         // dd($request->user()) //if its a inertia request but have to make manual request here
         $data = $request->json()->all();
+
+        // dd($request->all());
         $user = User::find($data["user"]["id"]);
         if (!$user) {
             abort(Response::HTTP_FORBIDDEN);
