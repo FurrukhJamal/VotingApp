@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import "../../css/index.css"
 import MainLayOut from '@/Layouts/MainLayOut'
-import { Link, router, usePage } from '@inertiajs/react'
+import { Head, Link, router, usePage } from '@inertiajs/react'
 import NavigationBar from '@/Components/NavigationBar'
 import SingleIdea from '@/Components/SingleIdea'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -143,7 +143,7 @@ function IdeaPage({ auth, idea, categories, avatar, statusCounts, isAdmin }) {
 
     return (
         <>
-
+            <Head title={`Idea : ${idea.title}`} />
             <MainLayOut avatar={avatar} user={auth.user} categories={categories}>
                 <NavigationBar statusCounts={statusCounts}></NavigationBar>
                 <div className="mt-3 hover:underline items-center flex">
