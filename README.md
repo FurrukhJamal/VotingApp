@@ -17,4 +17,4 @@ Making a simple idea voting app to relearn Laravel, and practice using Laravel I
 
 # A Working Demo Video
 
-[title](https://youtu.be/h60RG91WANk?feature=shared)
+[Demo Video](https://youtu.be/h60RG91WANk?feature=shared)
