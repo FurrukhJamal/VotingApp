@@ -16,4 +16,6 @@ Making a simple idea voting app to relearn Laravel, and practice using Laravel I
 
 
 # A Working Demo Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/h60RG91WANk" frameborder="0" allowfullscreen></iframe>
+
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/h60RG91WANk/0.jpg)](https://www.youtube.com/watch?v=h60RG91WANk)
